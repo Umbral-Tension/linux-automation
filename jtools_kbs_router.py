@@ -16,9 +16,10 @@ args = parser.parse_args()
 
 
 # Set system volume
-if args.volume:
+if args.volume or args.volume == 0:
     if 0 <= args.volume <= 100:
         os.system(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
+        print(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
     else:
         raise ValueError
 
