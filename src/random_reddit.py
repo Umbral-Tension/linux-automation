@@ -1,3 +1,4 @@
+#!/bin/python3
 import pandas as pd
 import os
 import sys
@@ -7,8 +8,8 @@ from jtools.jconsole import test
     Accepts "SFW" and "NSFW" as the first argument to include only one or the other. Default includes both. """
 
 BASE_DIR = os.path.dirname(__file__)
-VISITED_SUBS_FILE = os.path.join(BASE_DIR, 'resources/visited_subreddits.csv')
-UNVISITED_SUBS_FILE = os.path.join(BASE_DIR, 'resources/unvisited_subreddits.csv')
+VISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/Desktop/git repos/linux-automation/resources/visited_subreddits.csv')
+UNVISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/Desktop/git repos/linux-automation/resources/unvisited_subreddits.csv')
 
 # make pandas objects
 unvisited = pd.read_csv(UNVISITED_SUBS_FILE)
@@ -23,7 +24,7 @@ samp = pool.sample(5)
 names = list(samp['real_name'])
 
 # build and run firefox terminal command
-firefox = '"C:/Program Files/Mozilla Firefox/firefox.exe"'
+firefox = 'firefox'
 for x in names:
     sub_url = f'https://www.reddit.com/r/{x}'
     firefox += ' ' + sub_url
