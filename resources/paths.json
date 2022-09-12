@@ -1,0 +1,134 @@
+{
+    "amazon": [
+        "http:\/\/amazon.com",
+        ""
+    ],
+    "artstation": [
+        "http:\/\/artstation.com",
+        ""
+    ],
+    "audacity": [
+        "C:\/Program Files (x86)\/Audacity\/audacity.exe",
+        "ahk_exe audacity.exe"
+    ],
+    "audiobookbay": [
+        "http://audiobookbay.me/",
+        ""
+    ],
+    "calculator": [
+        "C:\/Program Files (x86)\/SpeedCrunch\/speedcrunch.exe",
+        "calculator"
+    ],
+    "chrome": [
+        "C:\/Program Files (x86)\/Google\/Chrome\/Application\/chrome.exe",
+        "ahk_exe chrome.exe"
+    ],
+    "deemix": [
+        "C:\/Program Files\/deemix-gui\/deemix-gui.exe",
+        "ahk_exe deemix-gui.exe"
+    ],
+    "deezer": [
+        "C:\/Program Files\/WindowsApps\/Deezer.62021768415AF_5.30.280.0_x86__q7m17pa7q8kj0\/app\/Deezer.exe",
+        "ahk_exe Deezer.exe"
+    ],
+    "dopamine": [
+        "C:\/Users\/Jeremy\/AppData\/Roaming\/Microsoft\/Windows\/Start Menu\/Programs\/Dopamine.lnk",
+        "ahk_exe dopamine.exe"
+    ],
+    "euler": [
+        "https:\/\/projecteuler.net\/archives",
+        ""
+    ],
+    "evernote": [
+        "C:\/Program Files (x86)\/Evernote\/Evernote.exe",
+        "Evernote"
+    ],
+    "everything": [
+        "C:\/Program Files\/everything\/everything.exe",
+        "Everything"
+    ],
+    "explorer": [
+        "C:\/Windows\/explorer.exe",
+        "OneNote"
+    ],
+    "firefox": [
+        "C:\/Program Files\/Mozilla Firefox\/firefox.exe",
+        "Mozilla Firefox"
+    ],
+    "github": [
+        "https:\/\/github.com\/Umbral-Tension?tab=repositories",
+        ""
+    ],
+    "gmail": [
+        "http:\/\/gmail.com",
+        ""
+    ],
+    "help": [
+        "C:\/Program Files\/AutoHotkey\/v2\/AutoHotkey.chm",
+        "AutoHotkey v2 Help"
+    ],
+    "intellij": [
+        "C:\/Program Files\/JetBrains\/IntelliJ IDEA Community Edition 2019.1\/bin\/idea64.exe",
+        "ahk_exe idea64.exe"
+    ],
+    "lichess": [
+        "http:\/\/lichess.org",
+        ""
+    ],
+    "localhost": [
+        "http:\/\/localhost:8080",
+        ""
+    ],
+    "musicbee": [
+        "C:\/Program Files (x86)\/MusicBee\/MusicBee.exe",
+        "MusicBee"
+    ],
+    "onenote": [
+        "C:\/Users\/jeremy\/Desktop\/git repositories\/persistent-ahk-script\/src\/resources\/OneNote for Windows 10 - Shortcut.lnk",
+        "‎- OneNote for Windows 10"
+    ],
+    "pycharm": [
+        "C:\/Program Files\/JetBrains\/PyCharm Community Edition 2022.2\/bin\/pycharm64.exe",
+        "ahk_exe pycharm64.exe"
+    ],
+    "python": [
+        "C:\/Program Files\/python38\/python.exe",
+        ""
+    ],
+    "random": [
+        "http:\/\/reddit.com\/r\/random",
+        ""
+    ],
+    "reddit": [
+        "http:\/\/reddit.com",
+        ""
+    ],
+    "redditsave": [
+        "https:\/\/redditsave.com",
+        ""
+    ],
+    "spotify": [
+        "C:\/Users\/Jeremy\/AppData\/Roaming\/Spotify\/Spotify.exe",
+        "Spotify"
+    ],
+    "terminal": [
+        "wt",
+        "ahk_exe WindowsTerminal.exe"
+    ],
+    "veracrypt": [
+        "C:\/Program Files\/VeraCrypt\/VeraCrypt-x86.exe",
+        "VeraCrypt"
+    ],
+    "vscode": [
+        "C:\/Program Files\/Microsoft VS Code\/code.exe",
+        "Visual Studio Code"
+    ],
+    "windowspy": [
+        "C:\/Program Files\/AutoHotkey\/UX\/WindowSpy.ahk",
+        "Window Spy"
+    ],
+    "youtube": [
+        "http:\/\/youtube.com",
+        ""
+    ]
+}
