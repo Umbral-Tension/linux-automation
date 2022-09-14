@@ -12,8 +12,8 @@
         ""
     ],
     "calculator": [
-        "/bin/jtools_calc.py",
-        "calculator"
+        "gnome-terminal -- ipython3 -i /bin/jtools_calc.py",
+        ""
     ],
     "euler": [
         "https:\/\/projecteuler.net\/archives",
@@ -21,11 +21,11 @@
     ],
     "fsearch": [
         "fsearch",
-        "fsearch"
+        "wm_class_"
     ],
     "firefox": [
-        "firefox",
-        "Mozilla Firefox"
+        "bash firefox",
+        "wm_class_Navigator.firefox"
     ],
     "github": [
         "https:\/\/github.com\/Umbral-Tension?tab=repositories",
@@ -37,7 +37,7 @@
     ],
     "joplin": [
         "/home/jeremy/.joplin/Joplin.AppImage",
-        ""
+        "wm_class_joplin.Joplin"
     ],
     "lichess": [
         "http:\/\/lichess.org",
@@ -57,7 +57,7 @@
     ],
     "rhythmbox": [
         "rhythmbox",
-        ""
+        "wm_class_rhythmbox.Rhythmbox"
     ],
     "reddit": [
         "http:\/\/reddit.com",
@@ -69,15 +69,15 @@
     ],
     "spotify": [
         "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify",
-        "Spotify"
+        "wm_class_spotify.Spotify"
     ],
     "terminal": [
         "gnome-terminal",
-        ""
+        "wm_class_gnome-terminal-server.Gnome-terminal"
     ],
     "vscode": [
         "code",
-        "Visual Studio Code"
+        "wm_class_code.Code"
     ],
     "youtube": [
         "http:\/\/youtube.com",

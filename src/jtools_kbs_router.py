@@ -5,6 +5,7 @@
 import os
 import argparse
 import sys
+import window_manager
 
 
 
@@ -26,7 +27,7 @@ if args.volume or args.volume == 0:
 
 # Open/Switch-to application
 if args.open:
-    os.system(args.open)
+    window_manager.open(args.open)
     
 if len(sys.argv) < 2:
     os.system('gnome-calculator')
