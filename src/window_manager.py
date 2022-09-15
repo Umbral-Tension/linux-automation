@@ -10,7 +10,9 @@ with open(os.path.join(basedir, '/home/jeremy/Desktop/git repos/linux-automation
 
 
 def open(program_name, *args):
-    """"Open a program/website or switch to it if it already exists. 
+    """"
+    Open a program/website or switch to it if it already exists. 
+    
     @param program_name: one of the programs named in resources/paths.json
     """
     program_name = str.lower(program_name)
@@ -21,7 +23,7 @@ def open(program_name, *args):
         path = ''
         window_title = ''
 
-    # Activate the program window if it's already 
+    # Activate the program window if it's already running
     if win_activate(window_title):
         return
     
@@ -38,11 +40,13 @@ def open(program_name, *args):
     
 
     # program opening
-    os.system(cmd)
+    os.system(cmd)#+args)
 
 
 def win_list():
-    """Get info on all currently open windows"""
+    """
+    Get info on all currently open windows
+    """
     ls = []
     retCode, output = _run_wmctrl(["-lpx"])
     for line in output.split('\n'):
@@ -51,7 +55,8 @@ def win_list():
     return ls
 
 def win_exists(title):
-    """return True if window exists in the 1st workspace. 
+    """
+    Return True if window exists in the 1st workspace. 
     
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
@@ -75,7 +80,8 @@ def win_exists(title):
 
 def win_activate(title):
     """
-    Activate the specified window
+    Activate the specified window. Returns True if window exists.
+
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """
@@ -93,6 +99,7 @@ def win_activate(title):
 def win_close(title):
     """
     Close the specified window gracefully
+
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """

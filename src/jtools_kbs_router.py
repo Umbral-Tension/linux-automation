@@ -29,6 +29,3 @@ if args.volume or args.volume == 0:
 if args.open:
     window_manager.open(args.open)
     
-if len(sys.argv) < 2:
-    os.system('gnome-calculator')
-
