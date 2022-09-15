@@ -1,86 +1,102 @@
 {
-    "amazon": [
-        "http:\/\/amazon.com",
-        ""
-    ],
-    "artstation": [
-        "http:\/\/artstation.com",
-        ""
-    ],
-    "audiobookbay": [
-        "http://audiobookbay.me/",
-        ""
-    ],
-    "calculator": [
-        "gnome-terminal -- ipython3 -i /bin/jtools_calc.py",
-        ""
-    ],
-    "euler": [
-        "https:\/\/projecteuler.net\/archives",
-        ""
-    ],
-    "fsearch": [
-        "fsearch",
-        "wm_class_"
-    ],
-    "firefox": [
-        "bash firefox",
-        "wm_class_Navigator.firefox"
-    ],
-    "github": [
-        "https:\/\/github.com\/Umbral-Tension?tab=repositories",
-        ""
-    ],
-    "gmail": [
-        "http:\/\/gmail.com",
-        ""
-    ],
-    "joplin": [
-        "/home/jeremy/.joplin/Joplin.AppImage",
-        "wm_class_joplin.Joplin"
-    ],
-    "lichess": [
-        "http:\/\/lichess.org",
-        ""
-    ],
-    "localhost": [
-        "http:\/\/localhost:8080",
-        ""
-    ],
-    "python": [
-        "python3",
-        ""
-    ],
-    "random": [
-        "http:\/\/reddit.com\/r\/random",
-        ""
-    ],
-    "rhythmbox": [
-        "rhythmbox",
-        "wm_class_rhythmbox.Rhythmbox"
-    ],
-    "reddit": [
-        "http:\/\/reddit.com",
-        ""
-    ],
-    "redditsave": [
-        "https:\/\/redditsave.com",
-        ""
-    ],
-    "spotify": [
-        "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify",
-        "wm_class_spotify.Spotify"
-    ],
-    "terminal": [
-        "gnome-terminal",
-        "wm_class_gnome-terminal-server.Gnome-terminal"
-    ],
-    "vscode": [
-        "code",
-        "wm_class_code.Code"
-    ],
-    "youtube": [
-        "http:\/\/youtube.com",
-        ""
-    ]
+    "amazon": {
+        "exec_cmd": "http://amazon.com",
+        "window_title": ""
+    },
+    "artstation": {
+        "exec_cmd": "http://artstation.com",
+        "window_title": ""
+    },
+    "audiobookbay": {
+        "exec_cmd": "http://audiobookbay.me/",
+        "window_title": ""
+    },
+    "calculator": {
+        "exec_cmd": "gnome-terminal -- ipython3 -i /bin/jtools_calc.py",
+        "window_title": ""
+    },
+    "euler": {
+        "exec_cmd": "https://projecteuler.net/archives",
+        "window_title": ""
+    },
+    "fsearch": {
+        "exec_cmd": "/usr/local/bin/fsearch",
+        "window_title": "wm_class_"
+    },
+    "firefox": {
+        "exec_cmd": "/usr/bin/firefox",
+        "window_title": "wm_class_Navigator.firefox"
+    },
+    "github": {
+        "exec_cmd": "https://github.com/Umbral-Tension?tab=repositories",
+        "window_title": ""
+    },
+    "gmail": {
+        "exec_cmd": "http://gmail.com",
+        "window_title": ""
+    },
+    "joplin": {
+        "exec_cmd": "/home/jeremy/.joplin/Joplin.AppImage",
+        "window_title": "wm_class_joplin.Joplin"
+    },
+    "lichess": {
+        "exec_cmd": "http://lichess.org",
+        "window_title": ""
+    },
+    "localhost": {
+        "exec_cmd": "http://localhost:8080",
+        "window_title": ""
+    },
+    "python": {
+        "exec_cmd": "/usr/bin/python3",
+        "window_title": ""
+    },
+    "random": {
+        "exec_cmd": "http://reddit.com/r/random",
+        "window_title": ""
+    },
+    "rhythmbox": {
+        "exec_cmd": "/usr/bin/rhythmbox",
+        "window_title": "wm_class_rhythmbox.Rhythmbox"
+    },
+    "reddit": {
+        "exec_cmd": "http://reddit.com",
+        "window_title": ""
+    },
+    "redditsave": {
+        "exec_cmd": "https://redditsave.com",
+        "window_title": ""
+    },
+    "spotify": {
+        "exec_cmd": "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify",
+        "window_title": "wm_class_spotify.Spotify"
+    },
+    "terminal": {
+        "exec_cmd": "/usr/bin/gnome-terminal",
+        "window_title": "wm_class_gnome-terminal-server.Gnome-terminal"
+    },
+    "vscode": {
+        "exec_cmd": "/usr/bin/code",
+        "window_title": "wm_class_code.Code"
+    },
+    "vscode_edit": {
+        "exec_cmd": "/usr/bin/code /home/jeremy/Desktop/git-repos/linux-automation",
+        "window_title": ""
+    },
+    "youtube": {
+        "exec_cmd": "http://youtube.com",
+        "window_title": ""
+    },
+    "r": {
+        "exec_cmd": "~/.local/bin/jtools_random_reddit.py",
+        "window_title": ""
+    },
+    "rnsfw": {
+        "exec_cmd": "~/.local/bin/jtools_random_reddit.py nsfw",
+        "window_title": ""
+    },
+    "rsfw": {
+        "exec_cmd": "~/.local/bin/jtools_random_reddit.py sfw",
+        "window_title": ""
+    }
 }

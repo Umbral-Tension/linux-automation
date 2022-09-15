@@ -122,7 +122,7 @@ fi
 ############### Jeremy's Additions ############
 
 # Keyd 
-alias rekeyd='sudo cp /home/jeremy/Desktop/git\ repos/linux-automation/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
+alias rekeyd='sudo cp /home/jeremy/Desktop/git-repos/linux-automation/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
 alias keyderr='sudo journalctl -eu keyd'
 
 

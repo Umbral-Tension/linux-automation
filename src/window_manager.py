@@ -5,43 +5,41 @@ import subprocess
 from jtools.jconsole import test
 
 basedir = os.path.dirname(__file__)
-with open(os.path.join(basedir, '/home/jeremy/Desktop/git repos/linux-automation/resources/paths.json')) as fp:
+with open(os.path.join(basedir, '/home/jeremy/Desktop/git-repos/linux-automation/resources/paths.json')) as fp:
     paths = json.load(fp)
 
 
-def open(program_name, *args):
+def open(name, *args):
     """"
     Open a program/website or switch to it if it already exists. 
-    
-    @param program_name: one of the programs named in resources/paths.json
+
+    @param name: one of the programs or websites named in resources/paths.json
     """
-    program_name = str.lower(program_name)
+    name = name.casefold()
     try:
-        path = paths[program_name][0]
-        window_title = paths[program_name][1]
+        exec_cmd = paths[name]['exec_cmd']
+        window_title = paths[name]['window_title']
     except KeyError:
-        path = ''
-        window_title = ''
+        os.system(f'zenity --warning --text="{name} not found in the file paths.json" --title="window_manager.py"')
+        return
 
     # Activate the program window if it's already running
     if win_activate(window_title):
         return
     
-    cmd = ''
-    browser = paths['firefox'][0]
-    # random subreddit opener
-    if program_name in ['r', 'rnsfw', 'rsfw']:
-        cmd = f'jtools_random_reddit.py {program_name[1:]}'
-    # Simple website opening
-    elif path.startswith('http'):
-        os.system(f'{browser} {path}')
-    else:
-        cmd = path
-    
-
-    # program opening
-    os.system(cmd)#+args)
-
+    # Single website opening
+    if exec_cmd.casefold().startswith('http'):
+        browser = paths['firefox']['exec_cmd']
+        exec_cmd = f'{browser} {exec_cmd}'
+    import shlex
+    ls = shlex.split(exec_cmd)
+    test(ls)
+    p = os.system(exec_cmd + ' &')
+    # run exec_cmd
+    # with subprocess.Popen([exec_cmd], stdout=subprocess.PIPE) as p:
+    #     output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
+    #     returncode = p.returncode
+    # test(type(output), output, returncode)
 
 def win_list():
     """
@@ -77,7 +75,6 @@ def win_exists(title):
                 return True
     return False
     
-
 def win_activate(title):
     """
     Activate the specified window. Returns True if window exists.
@@ -112,7 +109,6 @@ def win_close(title):
         args += ["-x"]
     args += ['-c', title]
     _run_wmctrl(args)
-
 
 def _run_wmctrl(args):
     try:
