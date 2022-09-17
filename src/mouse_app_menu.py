@@ -2,7 +2,7 @@
 
 import sys
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QCommandLinkButton, QBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QCommandLinkButton, QBoxLayout, QWidget, QDesktopWidget
 from functools import partial
 import window_manager
 from jtools.jconsole import test
@@ -46,6 +46,15 @@ class MainWindow(QMainWindow):
         self.button_container = QWidget()
         self.button_container.setLayout(button_layout)
         self.setCentralWidget(self.button_container)
+
+
+        screen_geometry = QDesktopWidget().screenGeometry()
+        x = int(screen_geometry.width() / 2 - self.width() / 2)
+        y = int(screen_geometry.height() / 2 - self.height() )
+        self.move(x, y)
+        
+        
+
 
     def button_pressed(self, name):
         if name.casefold() not in ['exit', 'spacer']:
