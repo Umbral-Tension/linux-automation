@@ -32,9 +32,9 @@ def open(name, *args):
         browser = paths['firefox']['exec_cmd']
         exec_cmd = f'{browser} {exec_cmd}'
     import shlex
-    ls = shlex.split(exec_cmd)
-    test(ls)
+    ls = shlex.split(exec_cmd).append('&')
     p = os.system(exec_cmd + ' &')
+    
     # run exec_cmd
     # with subprocess.Popen([exec_cmd], stdout=subprocess.PIPE) as p:
     #     output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
