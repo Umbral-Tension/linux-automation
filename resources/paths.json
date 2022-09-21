@@ -88,15 +88,15 @@
         "window_title": ""
     },
     "r": {
-        "exec_cmd": "~/.local/bin/jtools_random_reddit.py",
+        "exec_cmd": "jtools_random_reddit",
         "window_title": ""
     },
     "rnsfw": {
-        "exec_cmd": "~/.local/bin/jtools_random_reddit.py nsfw",
+        "exec_cmd": "jtools_random_reddit nsfw",
         "window_title": ""
     },
     "rsfw": {
-        "exec_cmd": "~/.local/bin/jtools_random_reddit.py sfw",
+        "exec_cmd": "jtools_random_reddit sfw",
         "window_title": ""
     }
 }
