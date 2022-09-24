@@ -3,6 +3,7 @@ import json
 import time
 import subprocess
 from jtools.jconsole import test
+from time import sleep
 
 basedir = os.path.dirname(__file__)
 with open(os.path.join(basedir, '/home/jeremy/Desktop/git-repos/linux-automation/resources/paths.json')) as fp:
@@ -75,6 +76,17 @@ def win_exists(title):
                 return True
     return False
     
+def win_wait(title, refresh_rate=0.1):
+    """
+    Wait until the specified window exists. 
+
+    @param title: window title to match against (as case-insensitive substring match). 
+    For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
+    @param refresh_rate number of seconds between calls to win_exists and thus "wmctrl -l". Default is 0.1
+    """    
+    while not win_exists(title):
+        sleep(refresh_rate)
+
 def win_activate(title):
     """
     Activate the specified window. Returns True if window exists.

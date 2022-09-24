@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
 
         # make launcher buttons
         self.programs = [
-            'Firefox', 'Joplin', 'Rhythmbox', 'Spotify',  
+            'Firefox', 'Obsidian', 'Rhythmbox', 'Spotify',  
         ]
         self.websites = [
             'AudiobookBay', 'Artstation', 'Github', 'Gmail', 'Lichess', 'R', 'RNSFW', 'RSFW', 'Reddit', 'RedditSave', 'Youtube'

@@ -98,5 +98,9 @@
     "rsfw": {
         "exec_cmd": "jtools_random_reddit sfw",
         "window_title": ""
+    },
+    "obsidian": {
+        "exec_cmd": "/home/jeremy/programs/obsidian/Obsidian-0.15.9.AppImage",
+        "window_title": "wm_class_obsidian.obsidian"
     }
 }
