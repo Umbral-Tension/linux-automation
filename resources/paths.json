@@ -8,7 +8,7 @@
         "window_title": ""
     },
     "audiobookbay": {
-        "exec_cmd": "http://audiobookbay.me/",
+        "exec_cmd": "http://audiobookbay.fi/",
         "window_title": ""
     },
     "calculator": {
@@ -49,6 +49,10 @@
     },
     "python": {
         "exec_cmd": "/usr/bin/python3",
+        "window_title": ""
+    },
+    "proton":{
+        "exec_cmd": "https://mail.proton.me",
         "window_title": ""
     },
     "random": {
