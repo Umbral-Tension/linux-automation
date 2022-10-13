@@ -5,8 +5,6 @@ import os
 from os import path as opath
 from fuzzywuzzy import fuzz
 from window_manager import win_list
-from jtools.jconsole import zen
-
 
 def set_tier(tier):
     if int(tier) not in [1, 2]:
