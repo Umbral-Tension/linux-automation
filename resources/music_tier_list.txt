@@ -1,9 +1,54 @@
+tier 1 (no match): Frank Ocean - Crack Rock (album Version)
+tier 1 (no match): Tinctures 3 - Bad News
+tier 1 (no match): Tinctures 3 - Care 4 U
+tier 1 (no match): Tinctures 3 - Open Your Heart
+tier 1 (no match): Tinctures 3 - Waltz For Hulot
+tier 1: /home/jeremy/@media/music/Abby Sage/Fears of Yours & Mine/01. Smoke Break.flac
+tier 1: /home/jeremy/@media/music/AdriAnne Lenker/Hours Were the Birds/01. Hours Were The Birds.flac
+tier 1: /home/jeremy/@media/music/Andy Shauf/Daytrotter Sessions/02. Twist Your Ankle.mp3
 tier 1: /home/jeremy/@media/music/Blah Blah Blah/This Is for the Time/05. Sermon In Love.flac
+tier 1: /home/jeremy/@media/music/Blanko Basnet/Blanko Basnet/04. Calumny.flac
+tier 1: /home/jeremy/@media/music/Daniel Caesar/Pilgrim's Paradise/03. Paradise (feat. Badbadnotgood & Sean Leon).mp3
+tier 1: /home/jeremy/@media/music/Dear And The Headlights/Small Steps, Heavy Hooves/13. Midwestern Dirt.flac
+tier 1: /home/jeremy/@media/music/Friko/Get Numb To It!/01. Get Numb To It!.flac
+tier 1: /home/jeremy/@media/music/Grizzly Bear/Veckatimest/11. I Live With You.mp3
 tier 1: /home/jeremy/@media/music/Guantanamo Bay Surf Club/Guantanamo Bay Surf Club/03. Escargot Blues.flac
+tier 1: /home/jeremy/@media/music/Gus Dapperton/You Think You're a Comic!/01. Prune, You Talk Funny.flac
+tier 1: /home/jeremy/@media/music/Habe/Brother/01. Fear Of Love.flac
+tier 1: /home/jeremy/@media/music/Hazy Year/No Txpxs Allowed/01. Early Thinkin.flac
+tier 1: /home/jeremy/@media/music/Jessie Ware/Tough Love/06. Kind Of...sometimes...maybe.flac
+tier 1: /home/jeremy/@media/music/Joesef/Joe/01. Joe.flac
+tier 1: /home/jeremy/@media/music/King Krule/Man Alive!/12. Underclass.flac
+tier 1: /home/jeremy/@media/music/MGMT/Congratulations/09. Congratulations.flac
+tier 1: /home/jeremy/@media/music/Mind Shrine/Mind Shrine - EP/06. Times Were Strange.flac
+tier 1: /home/jeremy/@media/music/Mustard Service/C'est la Vie/01. Need.flac
 tier 1: /home/jeremy/@media/music/NONEWFRIENDS/The Hook/01. The Hook.flac
+tier 1: /home/jeremy/@media/music/Orion Sun/A Collection of Fleeting Moments and Daydreams/01. Orion.mp3
+tier 1: /home/jeremy/@media/music/Otta/after it all blew over/02. Small Hours.flac
+tier 1: /home/jeremy/@media/music/Puma Blue/Swum Baby/03. Lil Lude (dark Embrace).flac
+tier 1: /home/jeremy/@media/music/Puma Blue/Swum Baby/04. Untitled 2.flac
+tier 1: /home/jeremy/@media/music/Renny Conti/People Floating/07. Someone New.flac
+tier 1: /home/jeremy/@media/music/Scott James/Fun/09. Staring Contest.flac
+tier 1: /home/jeremy/@media/music/Slow Hollows/Actors/05. Two Seasons.flac
+tier 1: /home/jeremy/@media/music/Sondre Lerche/Patience/05. Are We Alone Now.flac
+tier 1: /home/jeremy/@media/music/Strawberry Milk Cult/Strawberry Milk Cult/07. Mf Gloom.flac
+tier 1: /home/jeremy/@media/music/Tinctures 3/L'Homme/090. Hard To Leave.tancred.tancred.mp3
+tier 1: /home/jeremy/@media/music/Tinctures 3/L'Homme/103. Little Memory.mp3
+tier 1: /home/jeremy/@media/music/Tinctures 3/La Femme/13. No Mind, Never Matter.anima!.be Here Now.mp3
 tier 1: /home/jeremy/@media/music/Tinctures 3/La Femme/14. Junior June.redline Graffiti.the Drill - Ep.mp3
+tier 1: /home/jeremy/@media/music/Tinctures/Deadly Brew/08. Sometimes.mp3
+tier 1: /home/jeremy/@media/music/Tyler Cole/We're in Love & the World Is Ending/01. Sidney Poitier.flac
+tier 1: /home/jeremy/@media/music/Vacations/Changes/05. Club Social.flac
 tier 2 (no match): Smino - Maraca
+tier 2: /home/jeremy/@media/music/Alvvays/Alvvays/07. Dives.flac
+tier 2: /home/jeremy/@media/music/Fleet Foxes/Fleet Foxes/08. Your Protector.flac
 tier 2: /home/jeremy/@media/music/Joey Pecoraro/Music for Happiness/02. Don't Be A Fool.flac
+tier 2: /home/jeremy/@media/music/Mac Ayres/Drive Slow/05. Should We Take The Van .flac
 tier 2: /home/jeremy/@media/music/Max Pope/Gone to Count Sheep/01. Gone To Count Sheep.flac
+tier 2: /home/jeremy/@media/music/Modest Mouse/We Were Dead Before The Ship Even Sank/02. Dashboard.flac
+tier 2: /home/jeremy/@media/music/Queen/Greatest Hits/16. We Will Rock You (remastered 2011).flac
 tier 2: /home/jeremy/@media/music/Ra Ra Riot/Beta Love/02. Binary Mind.flac
+tier 2: /home/jeremy/@media/music/Sales/Forever & Ever/05. White Jeans.flac
+tier 2: /home/jeremy/@media/music/Slow Hollows/Actors/01. Actress.flac
+tier 2: /home/jeremy/@media/music/Tinctures 3/L'Homme/007. Ode To Dom.babeheaven.moving On Ode To Dom.mp3
 tier 2: /home/jeremy/@media/music/Villagers/The Art Of Pretending To Swim/01. Again.flac

@@ -47,6 +47,10 @@
         "exec_cmd": "http://localhost:8080",
         "window_title": ""
     },
+    "mouseappmenu":{
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/mouse_app_menu.py",
+        "window_title": ""
+    },
     "python": {
         "exec_cmd": "/usr/bin/python3",
         "window_title": ""

@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--volume', type=int, help='set system audio volume with pactl utility')
 parser.add_argument('--open', type=str, help='open or switch to an application')
 parser.add_argument('--tier', type=str, help='run the music tier script with this value')
+parser.add_argument('--mousemenu', type=str, help='run the mini GUI mouse app menu')
 args = parser.parse_args()
 
 

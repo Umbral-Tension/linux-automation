@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#Note that dconf utility only shows keys for which the user
+#has made some change. Therefore its probably safe to dump and
+#load full directories like /org/.../keybindings instead of having 
+#to do each key individually to avoid messing up system set keys. 
+
+basedir=$(dirname "$(readlink -f "$0")")
+
+#dconf dirs to save (must end in slash)
+dconf_dirs=("/org/cinnamon/desktop/keybindings/")
+#dconf keys to save (must NOT end in slash)
+dconf_keys=("/org/cinnamon/hotcorner-layout")
+
+mydirs="${basedir}/resources/dconf/dirs"
+mykeys="${basedir}/resources/dconf/keys"
+mkdir -p "$mydirs" "$mykeys"
+
+for mydir in ${dconf_dirs[@]}; do 
+    dconf dump "$mydir" > "$mydirs"/"${mydir//'/'/-}"
+done
+
+for mykey in ${dconf_keys[@]}; do 
+    dconf read "$mykey" > "$mykeys"/"${mykey//'/'/-}"
+done
