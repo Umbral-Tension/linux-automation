@@ -88,7 +88,7 @@
         "window_title": "wm_class_code.Code"
     },
     "vscode_edit": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/Desktop/git-repos/linux-automation",
+        "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/linux-automation",
         "window_title": ""
     },
     "youtube": {

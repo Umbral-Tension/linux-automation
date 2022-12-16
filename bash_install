@@ -10,4 +10,4 @@ basedir=$(dirname "$(readlink -f "$0")")
 dconf_keybindings=/org/cinnamon/desktop/keybindings/
 dconf_hotcorners=/org/cinnamon/hotcorner-layout/
 
-dconf load /org/cinnamon/desktop/keybindings/ < "${basedir}/resources/dconf keybindings dump"
+#dconf load /org/cinnamon/desktop/keybindings/ < "${basedir}/resources/dconf keybindings dump"

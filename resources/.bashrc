@@ -43,7 +43,6 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -88,7 +87,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -122,11 +121,11 @@ fi
 ############### Jeremy's Additions ############
 
 # Keyd 
-alias rekeyd='sudo cp /home/jeremy/Desktop/git-repos/linux-automation/resources/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
+alias rekeyd='sudo cp /home/jeremy/@data/git-repos/linux-automation/resources/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
 alias keyderr='sudo journalctl -eu keyd'
 
 # cd to usual git repo directory 
-alias gogit='cd ~/Desktop/git-repos'
+alias gogit='cd ~/@data/git-repos'
 
 # ignore case when usin tab completion
 bind "set completion-ignore-case on"

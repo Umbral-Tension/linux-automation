@@ -12,8 +12,8 @@ dconf_dirs=("/org/cinnamon/desktop/keybindings/")
 #dconf keys to save (must NOT end in slash)
 dconf_keys=("/org/cinnamon/hotcorner-layout")
 
-mydirs="${basedir}/resources/dconf/dirs"
-mykeys="${basedir}/resources/dconf/keys"
+mydirs="${basedir}/../resources/dconf/dirs"
+mykeys="${basedir}/../resources/dconf/keys"
 mkdir -p "$mydirs" "$mykeys"
 
 for mydir in ${dconf_dirs[@]}; do 
