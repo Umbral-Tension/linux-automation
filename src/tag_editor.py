@@ -142,6 +142,7 @@ def format_standard(music_directories):
         os.system('xed "tag_editor - problem files.txt"')
         
 if __name__ == '__main__':
+
     format_standard(get_music_directories())
     exit_app('Finished')
 

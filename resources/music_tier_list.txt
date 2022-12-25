@@ -9,6 +9,7 @@ tier 1 (no match): Tinctures 3 - Waltz For Hulot
 tier 1: Abby Sage/Fears of Yours & Mine/01. Smoke Break.flac
 tier 1: AdriAnne Lenker/Hours Were the Birds/01. Hours Were The Birds.flac
 tier 1: Andy Shauf/Daytrotter Sessions/02. Twist Your Ankle.mp3
+tier 1: As Tall As Lions/As Tall As Lions/10. Maybe I'm Just Tired.flac
 tier 1: Blah Blah Blah/This Is for the Time/05. Sermon In Love.flac
 tier 1: Blanko Basnet/Blanko Basnet/04. Calumny.flac
 tier 1: Daisy/HUBBA BUBBA/01. Hubba Bubba.flac
@@ -36,6 +37,7 @@ tier 1: NONEWFRIENDS/The Hook/01. The Hook.flac
 tier 1: Orion Sun/A Collection of Fleeting Moments and Daydreams/01. Orion.mp3
 tier 1: Otta/after it all blew over/02. Small Hours.flac
 tier 1: Pinstripe Sunny/Bossa Loser/02. Toilet Boy.flac
+tier 1: Pinstripe Sunny/Bossa Loser/07. Blearyeyed.flac
 tier 1: Planttvibes/A Summer in My Dreams/05. Lost At Sea.flac
 tier 1: potsu/ivy league/01. Sunny.flac
 tier 1: Puma Blue/Swum Baby/03. Lil Lude (dark Embrace).flac
@@ -65,8 +67,10 @@ tier 2 (no match): Smino - Maraca
 tier 2: Alvvays/Alvvays/06. The Agency Group.flac
 tier 2: Alvvays/Alvvays/07. Dives.flac
 tier 2: Andrew Lloyd Webber/The Phantom Of The Opera (Original Motion Picture Soundtrack)/11. Wishing You Were Somehow Here Again.flac
+tier 2: Devendra Banhart/Refuge/09. Horn In Deep Night.flac
 tier 2: Fleet Foxes/Fleet Foxes/08. Your Protector.flac
 tier 2: Joey Pecoraro/Music for Happiness/02. Don't Be A Fool.flac
+tier 2: Julien Baker/Sprained Ankle/07. Rejoice.flac
 tier 2: Mac Ayres/Drive Slow/05. Should We Take The Van .flac
 tier 2: Max Pope/Gone to Count Sheep/01. Gone To Count Sheep.flac
 tier 2: Modest Mouse/We Were Dead Before The Ship Even Sank/02. Dashboard.flac
