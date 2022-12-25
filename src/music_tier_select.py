@@ -11,9 +11,9 @@ def set_tier(tier):
         os.system('zenity --warning --text "invalid value for tier"')
         exit()
     dbfile = opath.join(opath.dirname(__file__), '../resources/music_tier_list.txt')
-    my_artists = [x for x in os.scandir('/home/jeremy/@media/music') if x.is_dir]
-    def get_output():
-        # Get currently playing song from window title of Rhythmbox
+    my_artists = [x for x in os.scandir('/home/jeremy/@data/music') if x.is_dir]
+    def match_song():
+        """Try to match the song info in the window title of Rhythmbox to a file in my music directory"""
         rbox = [x for x in win_list() if x['wm_class'] == 'rhythmbox.Rhythmbox']
         if rbox:
             # This parsing of the title string assumes no artist will have a hyphen in their name. 
@@ -28,6 +28,7 @@ def set_tier(tier):
                             track = f[f.find('.'):].casefold().strip('.flac').strip('.mp3').strip()
                             if fuzz.ratio(song.casefold(), track) > 80:
                                 output = f'tier {tier}: {opath.join(path, f)}\n'
+                                output = output.replace('/home/jeremy/@data/music/', '')
         else:
             os.system('zenity --warning --title "music tier script" --text "No Rhythmbox window found. \n\nCannot get song information."')
             exit()
@@ -39,14 +40,16 @@ def set_tier(tier):
     except FileNotFoundError:
             ls = []
 
-    ls.append(get_output())
+    ls.append(match_song())
     # remove duplictaes & sort
     ls = set(ls) 
     ls = sorted(list(ls), key=str.casefold)
 
     with open(dbfile, 'w') as f:
         f.writelines(ls)
-
+    # create/update a copy of the file for ObsidianMD vault
+    with open('/home/jeremy/@data/jvault/Memory 2/M2 Miscellaneous/Music Tier List.md', 'w') as f:
+        f.writelines(ls)
 
         
 

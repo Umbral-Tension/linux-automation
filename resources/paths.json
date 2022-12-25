@@ -91,24 +91,28 @@
         "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/linux-automation",
         "window_title": ""
     },
+    "vscode_py_experimentation": {
+        "exec_cmd": "/usr/bin/code /home/jeremy/@data/experimentation.py",
+        "window_title": ""
+    },
     "youtube": {
         "exec_cmd": "http://youtube.com",
         "window_title": ""
     },
     "r": {
-        "exec_cmd": "jtools_random_reddit",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py",
         "window_title": ""
     },
     "rnsfw": {
-        "exec_cmd": "jtools_random_reddit nsfw",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py nsfw",
         "window_title": ""
     },
     "rsfw": {
-        "exec_cmd": "jtools_random_reddit sfw",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py sfw",
         "window_title": ""
     },
     "obsidian": {
-        "exec_cmd": "/home/jeremy/programs/obsidian/Obsidian-1.0.0.AppImage",
+        "exec_cmd": "flatpak run md.obsidian.Obsidian",
         "window_title": "wm_class_obsidian.obsidian"
     }
 }

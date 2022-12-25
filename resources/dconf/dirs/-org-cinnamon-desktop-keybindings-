@@ -1,195 +1,102 @@
 [/]
 custom-list=['custom20', 'custom21', 'custom22', 'custom23', 'custom24', 'custom25', 'custom26', 'custom27', 'custom28', 'custom29', 'custom30', 'custom31', 'custom32', 'custom33', 'custom34', 'custom35', 'custom36', 'custom37', 'custom38', 'custom39']
 
-[custom-keybindings/custom1]
-binding=['<Alt>3', '<Alt>KP_3']
-command='jtools_keyboard_shortcut_router --open terminal'
-name='terminal'
-
-[custom-keybindings/custom10]
-binding=['<Primary>KP_7']
-command='jtools_keyboard_shortcut_router --volume 70'
-name='volume 70'
-
-[custom-keybindings/custom11]
-binding=['<Primary>KP_8']
-command='jtools_keyboard_shortcut_router --volume 80'
-name='volume 80'
-
-[custom-keybindings/custom12]
-binding=['<Primary>KP_9']
-command='jtools_keyboard_shortcut_router --volume 100'
-name='volume 100'
-
-[custom-keybindings/custom13]
-binding=['<Alt>KP_Add']
-command='jtools_keyboard_shortcut_router --open fsearch'
-name='fsearch'
-
-[custom-keybindings/custom14]
+[custom-keybindings/custom20]
 binding=['<Alt>1', '<Alt>KP_1']
 command='rhythmbox'
 name='rythmbox'
 
-[custom-keybindings/custom15]
-binding=['<Alt>4', '<Alt>KP_4']
-command='jtools_keyboard_shortcut_router --open calculator'
-name='calculator (ipython interactive)'
-
-[custom-keybindings/custom16]
-binding=['<Alt>5', '<Alt>KP_5']
-command='jtools_keyboard_shortcut_router --open vscode'
-name='vscode'
-
-[custom-keybindings/custom17]
-binding=['<Primary><Alt>5', '<Primary><Alt>KP_5']
-command='jtools_keyboard_shortcut_router --open vscode_edit'
-name='vscode_edit'
-
-[custom-keybindings/custom18]
-binding=['<Primary><Shift>KP_End']
-command='jtools_keyboard_shortcut_router --tier 1'
-name='tier 1'
-
-[custom-keybindings/custom19]
-binding=['<Alt>Return', '<Alt>KP_Enter']
-command='jtools_keyboard_shortcut_router --open firefox'
-name='firefox'
-
-[custom-keybindings/custom2]
-binding=['<Alt>2', '<Alt>KP_2']
-command='jtools_keyboard_shortcut_router --open obsidian'
-name='obsidian'
-
-[custom-keybindings/custom20]
+[custom-keybindings/custom21]
 binding=['<Alt>Return', '<Alt>KP_Enter']
 command='jrouter --open firefox'
 name='firefox'
 
-[custom-keybindings/custom21]
+[custom-keybindings/custom22]
 binding=['<Alt>3', '<Alt>KP_3']
 command='jrouter --open terminal'
 name='terminal'
 
-[custom-keybindings/custom22]
-binding=['<Primary>KP_7']
-command='jrouter --volume 70'
-name='volume 70'
-
 [custom-keybindings/custom23]
-binding=['<Primary>KP_8']
-command='jrouter --volume 80'
-name='volume 80'
-
-[custom-keybindings/custom24]
-binding=['<Primary>KP_9']
-command='jrouter --volume 100'
-name='volume 100'
-
-[custom-keybindings/custom25]
 binding=['<Alt>KP_Add']
 command='jrouter --open fsearch'
 name='fsearch'
 
-[custom-keybindings/custom26]
-binding=['<Alt>1', '<Alt>KP_1']
-command='rhythmbox'
-name='rythmbox'
-
-[custom-keybindings/custom27]
+[custom-keybindings/custom24]
 binding=['<Alt>4', '<Alt>KP_4']
 command='jrouter --open calculator'
 name='calculator (ipython interactive)'
 
-[custom-keybindings/custom28]
+[custom-keybindings/custom25]
 binding=['<Alt>5', '<Alt>KP_5']
 command='jrouter --open vscode'
 name='vscode'
 
-[custom-keybindings/custom29]
+[custom-keybindings/custom26]
 binding=['<Primary><Alt>5', '<Primary><Alt>KP_5']
 command='jrouter --open vscode_edit'
 name='vscode_edit'
 
-[custom-keybindings/custom3]
-binding=['<Primary>KP_0']
-command='jtools_keyboard_shortcut_router --volume 5'
-name='volume 0'
-
-[custom-keybindings/custom30]
+[custom-keybindings/custom27]
 binding=['<Primary><Shift>KP_End']
 command='jrouter --tier 1'
 name='tier 1'
 
-[custom-keybindings/custom31]
+[custom-keybindings/custom28]
 binding=['<Primary><Shift>KP_Down']
 command='jrouter --tier 2'
 name='tier 2'
 
-[custom-keybindings/custom32]
+[custom-keybindings/custom29]
 binding=['<Alt>2', '<Alt>KP_2']
 command='jrouter --open obsidian'
 name='obsidian'
 
-[custom-keybindings/custom33]
+[custom-keybindings/custom30]
 binding=['<Primary>KP_0']
 command='jrouter --volume 5'
 name='volume 0'
 
-[custom-keybindings/custom34]
+[custom-keybindings/custom31]
 binding=['<Primary>KP_1']
 command='jrouter --volume 10'
 name='volume 10'
 
-[custom-keybindings/custom35]
+[custom-keybindings/custom32]
 binding=['<Primary>KP_2']
 command='jrouter --volume 20'
 name='volume 20'
 
-[custom-keybindings/custom36]
+[custom-keybindings/custom33]
 binding=['<Primary>KP_3']
 command='jrouter --volume 30'
 name='volume 30'
 
-[custom-keybindings/custom37]
+[custom-keybindings/custom34]
 binding=['<Primary>KP_4']
 command='jrouter --volume 40'
 name='volume 40'
 
-[custom-keybindings/custom38]
+[custom-keybindings/custom35]
 binding=['<Primary>KP_5']
 command='jrouter --volume 50'
 name='volume 50'
 
-[custom-keybindings/custom39]
+[custom-keybindings/custom36]
 binding=['<Primary>KP_6']
 command='jrouter --volume 60'
 name='volume 60'
 
-[custom-keybindings/custom4]
-binding=['<Primary>KP_1']
-command='jtools_keyboard_shortcut_router --volume 10'
-name='volume 10'
+[custom-keybindings/custom37]
+binding=['<Primary>KP_7']
+command='jrouter --volume 70'
+name='volume 70'
 
-[custom-keybindings/custom6]
-binding=['<Primary>KP_3']
-command='jtools_keyboard_shortcut_router --volume 30'
-name='volume 30'
+[custom-keybindings/custom38]
+binding=['<Primary>KP_8']
+command='jrouter --volume 80'
+name='volume 80'
 
-[custom-keybindings/custom7]
-binding=['<Primary>KP_4']
-command='jtools_keyboard_shortcut_router --volume 40'
-name='volume 40'
-
-[custom-keybindings/custom8]
-binding=['<Primary>KP_5']
-command='jtools_keyboard_shortcut_router --volume 50'
-name='volume 50'
-
-[custom-keybindings/custom9]
-binding=['<Primary>KP_6']
-command='jtools_keyboard_shortcut_router --volume 60'
-name='volume 60'
-
-[media-keys]
-search=['XF86Search', '<Super>f']
+[custom-keybindings/custom39]
+binding=['<Primary>KP_9']
+command='jrouter --volume 100'
+name='volume 100'
