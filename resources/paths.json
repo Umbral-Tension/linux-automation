@@ -49,7 +49,7 @@
     },
     "mouseappmenu":{
         "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/mouse_app_menu.py",
-        "window_title": ""
+        "window_title": "mouse_app_menu.py"
     },
     "python": {
         "exec_cmd": "/usr/bin/python3",

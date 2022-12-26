@@ -33,6 +33,7 @@ This is a suite of scripts that
 * Cinnamon (and possible other desktop environments that use dconf)
 	* keyboard shutcuts
 	* taskbar
+	* make symlinks in `~/.local/share/applications` to the .desktop files in `@data/AppImages`
 * bash
 	* aliases
 	* auto-completion tweaks
@@ -41,10 +42,10 @@ This is a suite of scripts that
 	* add context menu scripts to appropriate directory
 * PYTHONPATH
     add jtools so it can be easily used and updated. 
-  
+
   
 
-## Things it does:
+## Things it implements:
 
 * keyboard_shortcut_router.py
 	* Provides a single point of entry to access these scripts. Things like the window manager can be invoked like `python keyboard_shortcut_router.py --open Firefox`. Mostly to be used by a desktop environment's keyboard shortcut manager. This avoids having to make bin entries for each script here. 
