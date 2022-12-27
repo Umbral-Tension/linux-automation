@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gnome-terminal -- python3 /home/jeremy/@data/git-repos/linux-automation/src/tag_editor.py "$@"
+

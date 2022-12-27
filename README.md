@@ -39,7 +39,7 @@ This is a suite of scripts that
 	* auto-completion tweaks
 * Keyd
 * Nemo
-	* add context menu scripts to appropriate directory
+	* add context menu scripts to ~/.local/share/nemo/scripts
 * PYTHONPATH
     add jtools so it can be easily used and updated. 
 

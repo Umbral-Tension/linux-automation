@@ -25,10 +25,10 @@
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 
 # Directories to backup. 
-# These MUST NOT end with a slash or rsync will copy their contents rather than the directories themselves.
-src1="/home/jeremy/Desktop/rsynctest/music_test_library/Alex Burey"
-src2="/home/jeremy/Desktop/rsynctest/music_test_library/Alohaha"
-src3="/home/jeremy/Desktop/rsynctest/music_test_library/Alvvays"
+# These MUST NOT end with a slash or rsync will copy their contents rather than the directories AND their contents.
+src1="/home/jeremy/@data"
+src2="/home/jeremy/Desktop"
+src3="/home/jeremy/Downloads"
 
 # Directory to put backups into
 backups="/media/jeremy/extHDD_jdata/rsync-backups"
