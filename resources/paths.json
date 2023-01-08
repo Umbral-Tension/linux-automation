@@ -87,12 +87,12 @@
         "exec_cmd": "/usr/bin/code",
         "window_title": "wm_class_code.Code"
     },
-    "vscode_edit": {
+    "vscode_linux-automation": {
         "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/linux-automation",
         "window_title": ""
     },
-    "vscode_py_experimentation": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/@data/experimentation.py",
+    "vscode_experiments": {
+        "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/experiments",
         "window_title": ""
     },
     "youtube": {

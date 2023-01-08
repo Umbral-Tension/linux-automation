@@ -57,7 +57,11 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # Default prompt
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # Prompt with newlines and arrows
+    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\n\[\033[01;34m\]┖───▶\[\033[00m\]\$ '
+    
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -117,17 +121,25 @@ if ! shopt -oq posix; then
 fi
 
 ############### Jeremy's Additions ############
-
+# update bashrc from the copy in linux-automation repo
+alias rebash='cp ~/@data/git-repos/linux-automation/resources/.bashrc ~/.bashrc'
 # Keyd 
-alias rekeyd='sudo cp /home/jeremy/@data/git-repos/linux-automation/resources/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
+alias rekeyd='sudo cp ~/@data/git-repos/linux-automation/resources/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
 alias keyderr='sudo journalctl -eu keyd'
 
-# cd to usual git repo directory 
+# cd to common directories usual git repo directory 
 alias gogit='cd ~/@data/git-repos'
+alias godat='cd ~/@data'
 
 # Tree 
 alias tree2='tree -L 2'
 alias tree3='tree -L 3'
+
+# print exit status of last command
+alias ??='echo $?'
+
+# quickly run bash experimentation script
+alias be='~/@data/bash-experiments'
 
 # ignore case when usin tab completion
 bind "set completion-ignore-case on"
