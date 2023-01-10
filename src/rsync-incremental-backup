@@ -31,7 +31,7 @@ src2="/home/jeremy/Desktop"
 src3="/home/jeremy/Downloads"
 
 # Directory to put backups into
-backups="/media/jeremy/extHDD_jdata/rsync-backups"
+backups="/media/jeremy/external_jdata/rsync-backups"
 
 # paths to the new backup being created and the current latest backup
 current="$backups/current"
