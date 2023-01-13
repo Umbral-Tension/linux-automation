@@ -34,7 +34,7 @@ src3="/home/jeremy/Downloads"
 backups="/media/jeremy/external_jdata/rsync-backups"
 
 # paths to the new backup being created and the current latest backup
-current="$backups/current"
+current="$backups/current"  
 if [[ -e "$current" ]]; then
     newbackup="$backups/${TIMESTAMP}_(Incremental)"
 else
