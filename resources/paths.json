@@ -11,8 +11,8 @@
         "exec_cmd": "http://audiobookbay.fi/",
         "window_title": ""
     },
-    "calculator": {
-        "exec_cmd": "gnome-terminal -- ipython3 -i /bin/jtools_calc.py",
+    "jipython": {
+        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/@data/git-repos/linux-automation/src/jipython.py",
         "window_title": ""
     },
     "euler": {
