@@ -132,6 +132,7 @@ alias gogit='cd ~/@data/git-repos'
 alias godat='cd ~/@data'
 
 # Tree 
+alias tree1='tree -L 1'
 alias tree2='tree -L 2'
 alias tree3='tree -L 3'
 

@@ -37,6 +37,7 @@ tier 1: Mustard Service/C'est la Vie/04. Hijo De Papá.flac
 tier 1: NONEWFRIENDS/The Hook/01. The Hook.flac
 tier 1: Orion Sun/A Collection of Fleeting Moments and Daydreams/01. Orion.mp3
 tier 1: Otta/after it all blew over/02. Small Hours.flac
+tier 1: Phum Viphurit/Manchild/03. The Art Of Detaching One's Heart.flac
 tier 1: Pinstripe Sunny/Bossa Loser/02. Toilet Boy.flac
 tier 1: Pinstripe Sunny/Bossa Loser/07. Blearyeyed.flac
 tier 1: Planttvibes/A Summer in My Dreams/05. Lost At Sea.flac
@@ -64,6 +65,7 @@ tier 1: Vacations/Changes/05. Club Social.flac
 tier 1: You, Me, & Everyone We Know/Dogged/03. I'd Rather Be Sleeping.flac
 tier 1: You, Me, & Everyone We Know/Dogged/04. Eat My Hands.flac
 tier 1: Zack Villere/2 Songs/02. Slow Down.flac
+tier 2 (no match): Cigarettes After Sex - K.
 tier 2 (no match): Smino - Maraca
 tier 2: Alvvays/Alvvays/06. The Agency Group.flac
 tier 2: Alvvays/Alvvays/07. Dives.flac
