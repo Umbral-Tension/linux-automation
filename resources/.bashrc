@@ -59,8 +59,9 @@ fi
 if [ "$color_prompt" = yes ]; then
     # Default prompt
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    # Prompt with newlines and arrows
-    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;33m\]\u@\h\[\033[00m\]:\[\033[01;32m\]\w\n┖───▶\[\033[00m\]\$ '
+    
+    # custom prrompt with newlines and arrows
+    PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;32m\]\w\n┖───▶\[\033[00m\]\$ '
     
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '

@@ -9,8 +9,9 @@
 #     in SRC rsync finds its match in the latest backup and, if it  hasn't changed, hardlinks to it. The hardlinking allows
 #     for many incremental backups to be made with little more storage than is required for a single full backup. 
 #         * The first time the script is run "current" doesn't exist, so rsync ignores the --link-dest option and does a full 
-#         copy of SRC to DEST, i.e. "a full backup". Therefore if a full backup is desired the user can just delete the 
-#         symlink "current" and run the script. Full and icnremental backups are labeled as such in their directory name.  
+#         copy of SRC to DEST, i.e. "a full backup". Full and icnremental backups are labeled as such in their directory name.  
+#         * Because rsync ignores non-existent --link-dest, accidentally or intenntionally deleting current symlink  or its 
+#         target just results in a new full backup being created.                
 #     
 #     * --delete Allows file deletions in SRC to be reflected in DEST. That is, if a file in SRC is deleted, the next time rsync 
 #     runs it will delete that file in DEST. 
@@ -18,31 +19,58 @@
 # * Note: If one of SRC does not exist, rsync still exits with code 0. The backup will not be marked failed, and the non-existent
 #   SRC directory will not appear in that or subsequent backups, but it will still exist in previous backups. 
 # * Note: After a failed backup current points to the latest backup that succeeded. Subsequent backups may be run with no consequence.
-# * Credit to Samuel Hewitt for the basic outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
+# * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
 
+# Option Handling
+die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
+needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
+OPTSTRING="f-:"
+while getopts "$OPTSTRING" OPT; do
+    # support long options: https://stackoverflow.com/a/28466267/519360
+    if [ "$OPT" = "-" ]; then       # long option: reformulate OPT and OPTARG
+        OPT="${OPTARG%%=*}"         # extract long option name
+        OPTARG="${OPTARG#$OPT}"     # extract long option argument (may be empty)
+        OPTARG="${OPTARG#=}"        # if long option argument, remove assigning `=`
+    fi
+    case "$OPT" in
+        full )              do_full=true ;;
+        exclude-large )     exclude_large=true ;;
+        ??* )               die "Illegal option --$OPT" ;;  # bad long option
+        ? )                 exit 2 ;;  # bad short option (error reported via getopts)
+    esac
+done
+shift $((OPTIND-1)) # remove parsed options and args from $@ list
+# End Option Handling
 
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 
 # Directories to backup. 
 # These MUST NOT end with a slash or rsync will copy their contents rather than the directories AND their contents.
-src1="/home/jeremy/@data"
-src2="/home/jeremy/Desktop"
-src3="/home/jeremy/Downloads"
+src=(   "/home/jeremy/@data"
+        "/home/jeremy/Desktop"
+        "/home/jeremy/Downloads" )
 
 # Directory to put backups into
 backups="/media/jeremy/external_jdata/rsync-backups"
 
 # paths to the new backup being created and the current latest backup
 current="$backups/current"  
-if [[ -e "$current" ]]; then
-    newbackup="$backups/${TIMESTAMP}_(Incremental)"
-else
+if ! [[ -e "$current" ]] || [[ "$do_full" == true ]]; then {
     newbackup="$backups/${TIMESTAMP}_(Full)"
+}
+else
+    newbackup="$backups/${TIMESTAMP}_(Incremental)"
 fi
 
-# create new backup using rsync. Send stdout and stderr to file. 
-rsync -avPh --delete --log-file="$backups/temp rsync log" --link-dest="$current" "$src1" "$src2" "$src3" "$newbackup" 2>&1 | tee "$backups/temp rsync stdout + stderr"
+# Build and run an rsync command to create a new backup. Send stdout and stderr to file.
+rs_opts=( -avPh --delete "--log-file=$backups/temp rsync log" )
+! [[ "$do_full" == true ]] && rs_opts+=( --link-dest="$current" )
+exclusions=()
+[[ $exclude_large == true ]] && exclusions+=( "--max-size=10gb" )
+[[ "${#exclusions[@]}" != 0 ]] && rs_opts+=( "$exclusions" )
+
+rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2>&1 | tee "$backups/temp rsync stdout + stderr"
 rsyncexit="$?"
 
 # gather logging info 
