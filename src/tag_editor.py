@@ -1,10 +1,12 @@
 #!/bin/python3
-from mutagen import easyid3
-from mutagen import flac
+from mutagen.easyid3 import EasyID3
+from mutagen.flac import FLAC
+from mutagen.id3 import ID3, COMM
 import os
 import os.path as opath
 import sys
 import string
+from datetime import datetime
 from jtools.jconsole import *
 
 
@@ -43,9 +45,9 @@ def make_mutagen(songfile):
     """
     ext = opath.splitext(songfile)[1][1:]
     if ext.lower() == 'mp3':
-        return easyid3.EasyID3(songfile.path)
+        return EasyID3(songfile.path)
     if ext.lower() == 'flac':
-        return flac.FLAC(songfile.path)
+        return FLAC(songfile.path)
     else:
         if ext.lower() not in ['jpg', 'jpeg', 'png', 'db', 'ini']:
             append_problem_file(songfile.path, 'problematic file type')
@@ -105,6 +107,54 @@ def rename_file(mut, song):
         append_problem_file(song.path, 'OSError on rename')
 
 
+def add_date_added(songfile):
+    """Add a custom "date added" tag if it doesn't already exist. Used to track when songs were added to my collection.
+
+    For flac files the key of the created tag is "jtag-date-added" 
+    For mp3 files the key is "COMM:jtag-date-added:eng"
+    """
+    FLAC_KEY = u'jtag-date-added'
+    ID3_KEY = u'COMM:jtag-date-added:eng'
+    ext = opath.splitext(songfile)[1].casefold()
+    if ext == '.flac':
+        mut = FLAC(songfile.path)
+        # return if the file already has a dateadded tag to avoid overwriting it with the current date. 
+        if FLAC_KEY not in mut.keys():
+            mut[FLAC_KEY] = str(datetime.now())
+            mut.save()
+    elif ext == '.mp3':
+        mut = ID3(songfile.path)
+        # return if the file already has a dateadded tag to avoid overwriting it with the current date. 
+        if ID3_KEY not in mut.keys():
+            mut.add(COMM(desc=u'jtag-date-added', lang='eng', text=str(datetime.now())))
+            mut.save()
+
+
+def get_jtag(jtag_key, songfile=None, mut=None):
+    """return the value of one of my personal custom tags.
+    
+    Need this function to provide an easy way to access my custom tags in ID3 files, since they're 
+    outside the limited set of tags that EasyID3 exposes in its dict like interface. 
+    """
+    ID3_CONV = {u'jtag-date-added':u'COMM:jtag-date-added:eng'}
+
+    if not songfile and not mut:
+        return None
+    # make mutagen if only a filepath is given        
+    if songfile and mut is None: 
+        ext = opath.splitext(songfile)[1].casefold()
+        if ext == '.flac':
+            mut = FLAC(songfile.path)
+        elif ext == '.mp3':
+            mut = ID3(songfile.path)
+        else:
+            return None
+
+    if isinstance(mut, ID3):
+        return mut[ID3_CONV[jtag_key]]
+    else:
+        return mut[jtag_key][0]
+
 
 def format_standard(music_directories):
     songs = []
@@ -118,6 +168,12 @@ def format_standard(music_directories):
         if counter >= milestones[0]:
             percentage = round(milestones.pop(0)/len(songs)*100)
             print('\t' + yellow(percentage) + yellow('%'))
+
+        # Process custom tags 
+        # These require an ID3 mutagen to manipulate rather than an EasyID3. 
+        add_date_added(song)
+        
+        # Process common tags with EasyID3 mutagens
         try:
             mymutagen = make_mutagen(song)
         except ProblemFileType:
