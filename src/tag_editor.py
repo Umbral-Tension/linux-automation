@@ -6,7 +6,6 @@ import os.path as opath
 import sys
 import string
 from jtools.jconsole import *
-from jtools.jdir import jdir
 
 
 
@@ -23,11 +22,10 @@ def get_music_directories():
     if len(sys.argv) > 1:
         music_dirs = sys.argv[1:]
         for x in music_dirs:
-            if opath.exists(x) and opath.isdir(x):
-                print(yellow('Formatting music tags in the directory: ') + x)
-            else: 
+            if not (opath.exists(x) and opath.isdir(x)):
                 music_dirs.remove(x)
-            return music_dirs
+        print('Formatting music tags in these directories:\n\t' + yellow('\n\t'.join([opath.abspath(relpath) for relpath in music_dirs])))
+        return music_dirs
     else:
         music_dirs = input('Enter path to a directory that contains a structure like: Artist/Album/files: ')
         if opath.exists(music_dirs) and opath.isdir(music_dirs):
@@ -44,7 +42,7 @@ def make_mutagen(songfile):
     parameters:
     songfile (os.DirEntry) - file object for which to find the filetype
     """
-    ext = jdir.get_file_ext(songfile.path)
+    ext = opath.splitext(songfile)[1][1:]
     if ext.lower() == 'mp3':
         return easyid3.EasyID3(songfile.path)
     if ext.lower() == 'flac':
@@ -96,8 +94,9 @@ def rename_file(mut, song):
     if len(mut['title']) == 0:
         return
     try:
-        newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}.{jdir.get_file_ext(song.path)}'
-        newname = jdir.norm(newname).replace('/', '').replace('\\', '')
+        newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(song)[1]}'
+        # replace slashes with dashes so they're not interpreted as part of a path. 
+        newname = newname.replace('/', '-').replace('\\', '-') 
 
         newpath = song.path.replace(song.name, newname)
         os.rename(song.path, newpath)
