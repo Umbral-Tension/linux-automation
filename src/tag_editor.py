@@ -32,7 +32,6 @@ def get_music_directories():
             return music_dirs
         else:
             print(yellow('That path is invalid'))
-            print()
             return get_music_directories()
 
 
@@ -138,11 +137,14 @@ def format_standard(music_directories):
         counter += 1
     # Call user's attention to problems if they exist. 
     if os.path.exists('tag_editor - problem files.txt'):
-        os.system('xed "tag_editor - problem files.txt"')
+        print(red('Problem files exist.'))
+        retcode = os.system('xed "tag_editor - problem files.txt"')
+        if retcode != 0:
+            print(red('Failed to auto-open the error log in a text editor.'))
         
 if __name__ == '__main__':
 
     format_standard(get_music_directories())
-    exit_app('Finished')
+    exit_app('----------\nFinished')
 
 
