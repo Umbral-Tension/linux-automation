@@ -128,9 +128,11 @@ alias rebash='cp ~/@data/git-repos/linux-automation/resources/.bashrc ~/.bashrc'
 alias rekeyd='sudo cp ~/@data/git-repos/linux-automation/resources/my_keyboard.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
 alias keyderr='sudo journalctl -eu keyd'
 
-# cd to common directories usual git repo directory 
+# cd to common directories  
 alias gogit='cd ~/@data/git-repos'
 alias godat='cd ~/@data'
+alias gomus='cd ~/@data/music'
+alias goext='cd /media/jeremy/external_jdata'
 
 # Tree 
 alias tree1='tree -L 1'
