@@ -121,7 +121,11 @@ def rename_file(mut, songpath):
         newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(songpath)[1]}'
         # replace slashes with dashes so they're not interpreted as part of a path. 
         newname = newname.replace('/', '-').replace('\\', '-') 
-        
+        # remove meaningful characters to placate bitch ass filesystems 
+        illegal = '><:"|?*'
+        for x in illegal:
+            newname = newname.replace(x, '_')
+
         # Uncomment this to print filename changes if that's a concern. (like for processing large numbers of files ) 
         # if oldname != newname:
         #     print(f'\nfilename changed for path: {songpath}\nold: {oldname}\nnew: {newname}\n')
