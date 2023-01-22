@@ -36,7 +36,7 @@ def get_music_directories():
     else:
         music_dirs = input('Enter path to a directory that contains a structure like: Artist/Album/files: ')
         if opath.exists(music_dirs) and opath.isdir(music_dirs):
-            return music_dirs
+            return [music_dirs]
         else:
             print(yellow('That path is invalid'))
             return get_music_directories()
@@ -89,9 +89,9 @@ def format_track_number(mut, songpath):
     mut.save()
 
 
-def titlecase(mut, songpath):
+def format_title(mut, songpath):
     """
-    Titlecase the track title. 
+    Titlecase the track title and remove things like "album version". 
     
     @param mut: mutagen object (FLAC, EasyID3, ID3)
     @param songpath: path to audio file
@@ -99,7 +99,11 @@ def titlecase(mut, songpath):
     if len(mut['title']) == 0:
         append_problem_file(songpath, 'empty tag: title')
         return
-    mut['title'] = string.capwords(mut['title'][0])
+    title = mut['title'][0]
+    title = title.casefold().replace('(album version)','').replace('album version', '')
+    title = string.capwords(title)
+    title = title.strip()
+    mut['title'] = title
     mut.save()
 
 
@@ -113,11 +117,16 @@ def rename_file(mut, songpath):
     if len(mut['title']) == 0:
         return
     try:
+        oldname = opath.basename(songpath)
         newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(songpath)[1]}'
         # replace slashes with dashes so they're not interpreted as part of a path. 
         newname = newname.replace('/', '-').replace('\\', '-') 
-
-        newpath = songpath.replace(opath.basename(songpath), newname)
+        
+        # Uncomment this to print filename changes if that's a concern. (like for processing large numbers of files ) 
+        # if oldname != newname:
+        #     print(f'\nfilename changed for path: {songpath}\nold: {oldname}\nnew: {newname}\n')
+        
+        newpath = songpath.replace(oldname, newname)
         os.rename(songpath, newpath)
     except FileExistsError:
         append_problem_file(songpath, 'Cannot rename file; file already exists')
@@ -171,6 +180,8 @@ def get_jtag(jtag_key, mut=None, songpath=None):
 
 
 def format_standard(music_directories):
+    if isinstance(music_directories, str):
+        music_directories = [music_directories]
     songs = []
     for d in music_directories:    
         for path, dirs, files in os.walk(d):
@@ -205,7 +216,7 @@ def format_standard(music_directories):
             continue
 
         # renaming invalidates the mutagen object so it must be the last function called.
-        functions = [format_track_number, titlecase, rename_file]
+        functions = [format_track_number, format_title, rename_file]
         for func in functions:
             try:
                 func(mymutagen, songpath)
