@@ -37,7 +37,7 @@ def get_music_directories():
             return get_music_directories()
 
 
-def make_mutagen(songfile):
+def make_mutagen(songfile, use_ID3=False):
     """ Make a mutagen object based on the song's filetype.
 
     parameters:
@@ -45,6 +45,8 @@ def make_mutagen(songfile):
     """
     ext = opath.splitext(songfile)[1][1:]
     if ext.lower() == 'mp3':
+        if use_ID3:
+            return ID3(songfile.path)
         return EasyID3(songfile.path)
     if ext.lower() == 'flac':
         return FLAC(songfile.path)
@@ -107,7 +109,7 @@ def rename_file(mut, song):
         append_problem_file(song.path, 'OSError on rename')
 
 
-def add_date_added(songfile):
+def add_date_added(mut, song):
     """Add a custom "date added" tag if it doesn't already exist. Used to track when songs were added to my collection.
 
     For flac files the key of the created tag is "jtag-date-added" 
@@ -115,19 +117,15 @@ def add_date_added(songfile):
     """
     FLAC_KEY = u'jtag-date-added'
     ID3_KEY = u'COMM:jtag-date-added:eng'
-    ext = opath.splitext(songfile)[1].casefold()
-    if ext == '.flac':
-        mut = FLAC(songfile.path)
+    if isinstance(mut, FLAC):
         # return if the file already has a dateadded tag to avoid overwriting it with the current date. 
         if FLAC_KEY not in mut.keys():
             mut[FLAC_KEY] = str(datetime.now())
-            mut.save()
-    elif ext == '.mp3':
-        mut = ID3(songfile.path)
-        # return if the file already has a dateadded tag to avoid overwriting it with the current date. 
+    if isinstance(mut, ID3):
         if ID3_KEY not in mut.keys():
             mut.add(COMM(desc=u'jtag-date-added', lang='eng', text=str(datetime.now())))
-            mut.save()
+    mut.save()
+
 
 
 def get_jtag(jtag_key, songfile=None, mut=None):
@@ -142,13 +140,7 @@ def get_jtag(jtag_key, songfile=None, mut=None):
         return None
     # make mutagen if only a filepath is given        
     if songfile and mut is None: 
-        ext = opath.splitext(songfile)[1].casefold()
-        if ext == '.flac':
-            mut = FLAC(songfile.path)
-        elif ext == '.mp3':
-            mut = ID3(songfile.path)
-        else:
-            return None
+        mut = make_mutagen(songfile)
 
     if isinstance(mut, ID3):
         return mut[ID3_CONV[jtag_key]]
@@ -171,7 +163,14 @@ def format_standard(music_directories):
 
         # Process custom tags 
         # These require an ID3 mutagen to manipulate rather than an EasyID3. 
-        add_date_added(song)
+        try:
+            mut = make_mutagen(song, use_ID3=True)
+        except ProblemFileType:
+            continue
+        except Exception as e:
+            append_problem_file(song.path, str(e))
+            continue
+        add_date_added(mut, song)
         
         # Process common tags with EasyID3 mutagens
         try:
@@ -199,7 +198,6 @@ def format_standard(music_directories):
             print(red('Failed to auto-open the error log in a text editor.'))
         
 if __name__ == '__main__':
-
     format_standard(get_music_directories())
     exit_app('----------\nFinished')
 
