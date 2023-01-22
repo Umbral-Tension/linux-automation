@@ -23,9 +23,11 @@ def append_problem_file(filepath, problemtype):
 def get_music_directories():
     if len(sys.argv) > 1:
         music_dirs = sys.argv[1:]
-        for x in music_dirs:
-            if not (opath.exists(x) and opath.isdir(x)):
-                music_dirs.remove(x)
+        bad_paths = [x for x in music_dirs if not (opath.exists(x) and opath.isdir(x))]
+        [music_dirs.remove(x) for x in bad_paths]
+        if len(bad_paths) != 0:
+            print('Ignoring non-directory and non-existent paths:\n\t' + yellow('\n\t'.join([opath.abspath(relpath) for relpath in bad_paths])))
+        
         print('Formatting music tags in these directories:\n\t' + yellow('\n\t'.join([opath.abspath(relpath) for relpath in music_dirs])))
         return music_dirs
     else:
