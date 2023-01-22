@@ -39,29 +39,29 @@ def get_music_directories():
             return get_music_directories()
 
 
-def make_mutagen(songfile, use_ID3=False):
+def make_mutagen(songpath, use_ID3=False):
     """ Make a mutagen object based on the song's filetype.
 
     parameters:
     songfile (os.DirEntry) - file object for which to find the filetype
     """
-    ext = opath.splitext(songfile)[1][1:]
+    ext = opath.splitext(songpath)[1][1:]
     if ext.lower() == 'mp3':
         if use_ID3:
-            return ID3(songfile.path)
-        return EasyID3(songfile.path)
+            return ID3(songpath)
+        return EasyID3(songpath)
     if ext.lower() == 'flac':
-        return FLAC(songfile.path)
+        return FLAC(songpath)
     else:
         if ext.lower() not in ['jpg', 'jpeg', 'png', 'db', 'ini']:
-            append_problem_file(songfile.path, 'problematic file type')
+            append_problem_file(songpath, 'problematic file type')
         raise ProblemFileType
 
 
-def format_track_number(mut, song):
+def format_track_number(mut, songpath):
     track = mut['tracknumber'][0]
     if len(track) == 0:
-        append_problem_file(song.path, 'empty tag: tracknumber')
+        append_problem_file(songpath, 'empty tag: tracknumber')
     for seperater in ['\\', '/', '-']:
         if seperater in track:
             track = track[0:track.index(seperater)]
@@ -71,17 +71,17 @@ def format_track_number(mut, song):
     mut.save()
 
 
-def titlecase(mut, song):
+def titlecase(mut, songpath):
     if len(mut['title']) == 0:
-        append_problem_file(song.path, 'empty tag: title')
+        append_problem_file(songpath, 'empty tag: title')
         return
     mut['title'] = string.capwords(mut['title'][0])
     mut.save()
 
 
-def set_single_artist(mut, song):
+def set_single_artist(mut, songpath):
     if len(mut['artist']) == 0:
-        append_problem_file(song.path, 'empty tag: artist')
+        append_problem_file(songpath, 'empty tag: artist')
         return
     artiststr = mut['artist'][0]
     artiststr = artiststr.split(';')[0]
@@ -89,29 +89,29 @@ def set_single_artist(mut, song):
     mut.save()
 
 
-def remove_unwanted_tags(mut, song):
+def remove_unwanted_tags(mut, songpath):
     for tag in ['albumartist', 'discnumber', 'composer']:
         mut[tag] = []
     mut.save()
 
 
-def rename_file(mut, song):
+def rename_file(mut, songpath):
     if len(mut['title']) == 0:
         return
     try:
-        newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(song)[1]}'
+        newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(songpath)[1]}'
         # replace slashes with dashes so they're not interpreted as part of a path. 
         newname = newname.replace('/', '-').replace('\\', '-') 
 
-        newpath = song.path.replace(song.name, newname)
-        os.rename(song.path, newpath)
+        newpath = songpath.replace(opath.basename(songpath), newname)
+        os.rename(songpath, newpath)
     except FileExistsError:
-        append_problem_file(song.path, 'Cannot rename file; file already exists')
+        append_problem_file(songpath, 'Cannot rename file; file already exists')
     except OSError:
-        append_problem_file(song.path, 'OSError on rename')
+        append_problem_file(songpath, 'OSError on rename')
 
 
-def add_date_added(mut, song):
+def add_date_added(mut, songpath):
     """Add a custom "date added" tag if it doesn't already exist. Used to track when songs were added to my collection.
 
     For flac files the key of the created tag is "jtag-date-added" 
@@ -130,7 +130,7 @@ def add_date_added(mut, song):
 
 
 
-def get_jtag(jtag_key, songfile=None, mut=None):
+def get_jtag(jtag_key, songpath=None, mut=None):
     """return the value of one of my personal custom tags.
     
     Need this function to provide an easy way to access my custom tags in ID3 files, since they're 
@@ -138,11 +138,11 @@ def get_jtag(jtag_key, songfile=None, mut=None):
     """
     ID3_CONV = {u'jtag-date-added':u'COMM:jtag-date-added:eng'}
 
-    if not songfile and not mut:
+    if not songpath and not mut:
         return None
     # make mutagen if only a filepath is given        
-    if songfile and mut is None: 
-        mut = make_mutagen(songfile)
+    if songpath and mut is None: 
+        mut = make_mutagen(songpath)
 
     if isinstance(mut, ID3):
         return mut[ID3_CONV[jtag_key]]
@@ -154,42 +154,43 @@ def format_standard(music_directories):
     songs = []
     for d in music_directories:    
         for path, dirs, files in os.walk(d):
-            songs += [x for x in os.scandir(path) if x.is_file()]
+            songs += [x.path for x in os.scandir(path) if x.is_file()]
     counter = 1
-    milestones = [int(.25*x*len(songs)) for x in range(1,5)]
-    print('Processing ' + yellow(len(songs)) + ' files.')
-    for song in songs:
+    numsongs = len(songs)
+    milestones = [int(.25*x*numsongs) for x in range(1,5)]
+    print('Processing ' + yellow(numsongs) + ' files.')
+    for songpath in songs:
         if counter >= milestones[0]:
-            percentage = round(milestones.pop(0)/len(songs)*100)
+            percentage = round(milestones.pop(0)/numsongs*100)
             print('\t' + yellow(percentage) + yellow('%'))
 
-        # Process custom tags 
+        # Process uncommon tags 
         # These require an ID3 mutagen to manipulate rather than an EasyID3. 
         try:
-            mut = make_mutagen(song, use_ID3=True)
+            mut = make_mutagen(songpath, use_ID3=True)
         except ProblemFileType:
             continue
         except Exception as e:
-            append_problem_file(song.path, str(e))
+            append_problem_file(songpath, str(e))
             continue
-        add_date_added(mut, song)
+        add_date_added(mut, songpath)
         
         # Process common tags with EasyID3 mutagens
         try:
-            mymutagen = make_mutagen(song)
+            mymutagen = make_mutagen(songpath)
         except ProblemFileType:
             continue
         except Exception as e:
-            append_problem_file(song.path, str(e))
+            append_problem_file(songpath, str(e))
             continue
 
-        # renaming invalidates the mutagen object and the song DirEntry so it must be the last function called.
+        # renaming invalidates the mutagen object so it must be the last function called.
         functions = [format_track_number, titlecase, set_single_artist, remove_unwanted_tags, rename_file]
         for func in functions:
             try:
-                func(mymutagen, song)
+                func(mymutagen, songpath)
             except Exception as e:
-                append_problem_file(song.path, str(e))
+                append_problem_file(songpath, str(e))
                 continue
         counter += 1
     # Call user's attention to problems if they exist. 
