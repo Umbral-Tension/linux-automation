@@ -21,6 +21,9 @@ def append_problem_file(filepath, problemtype):
 
 
 def get_music_directories():
+    """
+    Collect directories to process from cmd line args or user. 
+    """
     if len(sys.argv) > 1:
         music_dirs = sys.argv[1:]
         bad_paths = [x for x in music_dirs if not (opath.exists(x) and opath.isdir(x))]
@@ -40,10 +43,11 @@ def get_music_directories():
 
 
 def make_mutagen(songpath, use_ID3=False):
-    """ Make a mutagen object based on the song's filetype.
+    """ 
+    Return a mutagen object (FLAC or EasyID3) based on the song's filetype.
 
-    parameters:
-    songfile (os.DirEntry) - file object for which to find the filetype
+    @param songpath: path to audio file. 
+    @param use_ID3: use ID3 mutagen class instead of EasyID3
     """
     ext = opath.splitext(songpath)[1][1:]
     if ext.lower() == 'mp3':
@@ -59,19 +63,39 @@ def make_mutagen(songpath, use_ID3=False):
 
 
 def format_track_number(mut, songpath):
+    """ 
+    Change tracks formated as '3/10' to '03'. Adds 0 padding to track numbers.
+    
+    limitation: To determine the number of '0's to add as padding, this func checks the number of files that are in the same directory as songpath.
+    This strategy assumes all files in the same directory are of the same album. If that isn't true the padding will be innacurate, though the
+    track number itself will still be accurate. 
+
+    @param mut: mutagen object (FLAC, EasyID3, ID3)
+    @param songpath: path to audio file
+    """
     track = mut['tracknumber'][0]
     if len(track) == 0:
         append_problem_file(songpath, 'empty tag: tracknumber')
-    for seperater in ['\\', '/', '-']:
+    for seperater in ['\\', '/', '-', ':']:
         if seperater in track:
             track = track[0:track.index(seperater)]
-    if len(track) == 1:
-        track = '0' + track
-    mut['tracknumber'] = track
+    
+    numtracks = len([x for x in os.listdir(opath.dirname(songpath)) if opath.splitext(x)[1].casefold() in ['.mp3', '.flac']])
+    len_track, len_total = len(track), len(str(numtracks))    
+    padding = (len_total - len_track) * '0'
+    if padding == '' and len_track == 1 and len_total == 1:
+        padding = '0'
+    mut['tracknumber'] = padding + track
     mut.save()
 
 
 def titlecase(mut, songpath):
+    """
+    Titlecase the track title. 
+    
+    @param mut: mutagen object (FLAC, EasyID3, ID3)
+    @param songpath: path to audio file
+    """    
     if len(mut['title']) == 0:
         append_problem_file(songpath, 'empty tag: title')
         return
@@ -79,23 +103,13 @@ def titlecase(mut, songpath):
     mut.save()
 
 
-def set_single_artist(mut, songpath):
-    if len(mut['artist']) == 0:
-        append_problem_file(songpath, 'empty tag: artist')
-        return
-    artiststr = mut['artist'][0]
-    artiststr = artiststr.split(';')[0]
-    mut['artist'] = artiststr
-    mut.save()
-
-
-def remove_unwanted_tags(mut, songpath):
-    for tag in ['albumartist', 'discnumber', 'composer']:
-        mut[tag] = []
-    mut.save()
-
-
 def rename_file(mut, songpath):
+    """
+    Rename file with format '{track}. {title}.{extension}'. 
+    
+    @param mut: mutagen object (FLAC, EasyID3, ID3)
+    @param songpath: path to audio file
+    """
     if len(mut['title']) == 0:
         return
     try:
@@ -116,6 +130,9 @@ def add_date_added(mut, songpath):
 
     For flac files the key of the created tag is "jtag-date-added" 
     For mp3 files the key is "COMM:jtag-date-added:eng"
+    
+    @param mut: mutagen object (FLAC, EasyID3, ID3)
+    @param songpath: path to audio file
     """
     FLAC_KEY = u'jtag-date-added'
     ID3_KEY = u'COMM:jtag-date-added:eng'
@@ -130,11 +147,14 @@ def add_date_added(mut, songpath):
 
 
 
-def get_jtag(jtag_key, songpath=None, mut=None):
+def get_jtag(jtag_key, mut=None, songpath=None):
     """return the value of one of my personal custom tags.
     
     Need this function to provide an easy way to access my custom tags in ID3 files, since they're 
     outside the limited set of tags that EasyID3 exposes in its dict like interface. 
+    
+    @param mut: mutagen object (FLAC, EasyID3, ID3)
+    @param songpath: path to audio file
     """
     ID3_CONV = {u'jtag-date-added':u'COMM:jtag-date-added:eng'}
 
@@ -185,7 +205,7 @@ def format_standard(music_directories):
             continue
 
         # renaming invalidates the mutagen object so it must be the last function called.
-        functions = [format_track_number, titlecase, set_single_artist, remove_unwanted_tags, rename_file]
+        functions = [format_track_number, titlecase, rename_file]
         for func in functions:
             try:
                 func(mymutagen, songpath)

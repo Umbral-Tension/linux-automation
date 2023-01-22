@@ -28,6 +28,7 @@ tier 1: Jessie Ware/Tough Love/06. Kind Of...sometimes...maybe.flac
 tier 1: Joesef/Joe/01. Joe.flac
 tier 1: Joss Stone/Mind Body & Soul/07. Security.flac
 tier 1: Joy Again/Joy Again/02. Another Song About Ghosts.flac
+tier 1: Joy Crookes/Skin/07. Unlearn You.flac
 tier 1: Juice/Boy Story/05. Do You Really Feel .flac
 tier 1: King Krule/Man Alive!/12. Underclass.flac
 tier 1: Land of Talk/Applause Cheer Boo Hiss/02. Sea Foam.flac
