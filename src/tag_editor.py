@@ -8,6 +8,7 @@ import sys
 import string
 from datetime import datetime
 from jtools.jconsole import *
+from jtools import jstring
 
 
 
@@ -101,7 +102,7 @@ def format_title(mut, songpath):
         return
     title = mut['title'][0]
     title = title.casefold().replace('(album version)','').replace('album version', '')
-    title = string.capwords(title)
+    title = jstring.advanced_titlecase(title)
     title = title.strip()
     mut['title'] = title
     mut.save()
