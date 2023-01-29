@@ -45,11 +45,15 @@ def set_tier(tier):
     ls = set(ls) 
     ls = sorted(list(ls), key=str.casefold)
 
-    with open(dbfile, 'w') as f:
-        f.writelines(ls)
-    # create/update a copy of the file for ObsidianMD vault
-    with open('/home/jeremy/@data/jvault/Memory 2/M2 Miscellaneous/Music Tier List.md', 'w') as f:
-        f.writelines(ls)
+    try:
+        with open(dbfile, 'w') as f:
+            f.writelines(ls)
+        # create/update a copy of the file for ObsidianMD vault
+        with open('/home/jeremy/@data/jvault/Memory 2/M2 Miscellaneous/Music Tier List.md', 'w') as f:
+            f.writelines(ls)
+        os.system(f'zenity --notification --text="Succesfully set to tier {tier}"')
+    except: 
+        os.system('zenity --warning --text="failed to set tier"')
 
         
 

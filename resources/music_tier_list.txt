@@ -9,15 +9,22 @@ tier 1 (no match): Tinctures 3 - To the Moon
 tier 1 (no match): Tinctures 3 - Waltz For Hulot
 tier 1: Abby Sage/Fears of Yours & Mine/01. Smoke Break.flac
 tier 1: AdriAnne Lenker/Hours Were the Birds/01. Hours Were The Birds.flac
+tier 1: AdriAnne Lenker/songs/09. Not A Lot, Just Forever.flac
 tier 1: Andy Shauf/Daytrotter Sessions/02. Twist Your Ankle.mp3
+tier 1: Andy Shauf/The Neon Skyline/03. Clove Cigarette.flac
+tier 1: Ari Roar/Patch Me Up/01. Dove.flac
 tier 1: As Tall As Lions/As Tall As Lions/10. Maybe I'm Just Tired.flac
 tier 1: Blah Blah Blah/This Is for the Time/05. Sermon In Love.flac
+tier 1: Blake Ruby/SPACE!!/06. Apologies.flac
 tier 1: Blanko Basnet/Blanko Basnet/04. Calumny.flac
+tier 1: Caroline Smith/Half About Being a Woman/09. Child Of Moving On.flac
 tier 1: Chon/Grow/09. Splash.flac
 tier 1: Daisy/HUBBA BUBBA/01. Hubba Bubba.flac
 tier 1: Daniel Caesar/Pilgrim's Paradise/03. Paradise (feat. Badbadnotgood & Sean Leon).mp3
+tier 1: Darwin Deez/Double Down/01. Last Cigarette.flac
 tier 1: Darwin Deez/Double Down/02. The Mess She Made.flac
 tier 1: Dear And The Headlights/Small Steps, Heavy Hooves/13. Midwestern Dirt.flac
+tier 1: Family Reunion/Different/03. Letter.flac
 tier 1: Friko/Get Numb To It!/01. Get Numb To It!.flac
 tier 1: Grizzly Bear/Veckatimest/11. I Live With You.mp3
 tier 1: Guantanamo Bay Surf Club/Guantanamo Bay Surf Club/03. Escargot Blues.flac
@@ -30,6 +37,7 @@ tier 1: Joss Stone/Mind Body & Soul/07. Security.flac
 tier 1: Joy Again/Joy Again/02. Another Song About Ghosts.flac
 tier 1: Joy Crookes/Skin/07. Unlearn You.flac
 tier 1: Juice/Boy Story/05. Do You Really Feel .flac
+tier 1: Julien Baker/Sprained Ankle/02. Sprained Ankle.flac
 tier 1: King Krule/Man Alive!/12. Underclass.flac
 tier 1: Land of Talk/Applause Cheer Boo Hiss/02. Sea Foam.flac
 tier 1: MGMT/Congratulations/09. Congratulations.flac
@@ -37,6 +45,8 @@ tier 1: Mind Shrine/Mind Shrine - EP/06. Times Were Strange.flac
 tier 1: Mosie/Ice Cream/02. Tough As Nails.flac
 tier 1: Mustard Service/C'est la Vie/01. Need.flac
 tier 1: Mustard Service/C'est la Vie/04. Hijo De Papá.flac
+tier 1: My Chemical Romance/Three Cheers For Sweet Revenge/09. Thank You For The Venom.flac
+tier 1: NONEWFRIENDS/Love Me/01. Love Me.flac
 tier 1: NONEWFRIENDS/The Hook/01. The Hook.flac
 tier 1: Orion Sun/A Collection of Fleeting Moments and Daydreams/01. Orion.mp3
 tier 1: Otta/after it all blew over/02. Small Hours.flac
@@ -47,9 +57,12 @@ tier 1: Planttvibes/A Summer in My Dreams/05. Lost At Sea.flac
 tier 1: potsu/ivy league/01. Sunny.flac
 tier 1: Puma Blue/Swum Baby/03. Lil Lude (dark Embrace).flac
 tier 1: Puma Blue/Swum Baby/04. Untitled 2.flac
+tier 1: Ra Ra Riot/The Orchard/03. Too Dramatic.flac
 tier 1: Renny Conti/People Floating/07. Someone New.flac
 tier 1: Scott James/Fun/09. Staring Contest.flac
+tier 1: Slothrust/The Pact/10. On My Mind.flac
 tier 1: Slow Hollows/Actors/05. Two Seasons.flac
+tier 1: Someone/Why Love/06. Nobody Knows.flac
 tier 1: Sondre Lerche/Patience/05. Are We Alone Now.flac
 tier 1: Stello/Triplet No. 3_ Fountain/02. The Day And The Night.flac
 tier 1: Stephen Day/Undergrad Romance and the Moses in Me/06. Autumn's Song.flac
@@ -74,6 +87,7 @@ tier 2: Alvvays/Alvvays/06. The Agency Group.flac
 tier 2: Alvvays/Alvvays/07. Dives.flac
 tier 2: Andrew Lloyd Webber/The Phantom Of The Opera (Original Motion Picture Soundtrack)/11. Wishing You Were Somehow Here Again.flac
 tier 2: Devendra Banhart/Refuge/09. Horn In Deep Night.flac
+tier 2: Easy Life/Spaceships Mixtape/06. Jealousy.flac
 tier 2: Fleet Foxes/Fleet Foxes/08. Your Protector.flac
 tier 2: Joey Pecoraro/Music for Happiness/02. Don't Be A Fool.flac
 tier 2: Julien Baker/Sprained Ankle/07. Rejoice.flac
@@ -84,5 +98,7 @@ tier 2: Queen/Greatest Hits/16. We Will Rock You (remastered 2011).flac
 tier 2: Ra Ra Riot/Beta Love/02. Binary Mind.flac
 tier 2: Sales/Forever & Ever/05. White Jeans.flac
 tier 2: Slow Hollows/Actors/01. Actress.flac
+tier 2: Swings/Sugarwater/08. Fever.flac
 tier 2: Tinctures 3/L'Homme/007. Ode To Dom.babeheaven.moving On Ode To Dom.mp3
 tier 2: Villagers/The Art Of Pretending To Swim/01. Again.flac
+tier 2: Wild Painting/Emotions/03. Waves.flac
