@@ -12,7 +12,7 @@
         "window_title": ""
     },
     "jipython": {
-        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/@data/git-repos/linux-automation/src/jipython.py",
+        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/jipython.py",
         "window_title": ""
     },
     "euler": {
@@ -48,7 +48,7 @@
         "window_title": ""
     },
     "mouseappmenu":{
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/mouse_app_menu.py",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/mouse_app_menu.py",
         "window_title": "mouse_app_menu.py"
     },
     "python": {
@@ -100,15 +100,15 @@
         "window_title": ""
     },
     "r": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py",
         "window_title": ""
     },
     "rnsfw": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py nsfw",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py nsfw",
         "window_title": ""
     },
     "rsfw": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/random_reddit.py sfw",
+        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py sfw",
         "window_title": ""
     },
     "obsidian": {

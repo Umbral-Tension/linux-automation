@@ -6,7 +6,7 @@ from jtools.jconsole import test
 from time import sleep
 
 basedir = os.path.dirname(__file__)
-with open(os.path.join(basedir, '../resources/paths.json')) as fp:
+with open(os.path.join(basedir, '../../resources/paths.json')) as fp:
     paths = json.load(fp)
 
 

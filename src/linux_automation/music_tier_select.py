@@ -10,7 +10,7 @@ def set_tier(tier):
     if int(tier) not in [1, 2]:
         os.system('zenity --warning --text "invalid value for tier"')
         exit()
-    dbfile = opath.join(opath.dirname(__file__), '../resources/music_tier_list.txt')
+    dbfile = opath.join(opath.dirname(__file__), '../../resources/music_tier_list.txt')
     my_artists = [x for x in os.scandir('/home/jeremy/@data/music') if x.is_dir]
     def match_song():
         """Try to match the song info in the window title of Rhythmbox to a file in my music directory"""
