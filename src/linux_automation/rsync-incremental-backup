@@ -73,11 +73,14 @@ exclusions=()
 rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2>&1 | tee "$backups/temp rsync stdout + stderr"
 rsyncexit="$?"
 
+echo -e "\n\nrsync process finished with exit code: $rsyncexit.\nrunning diff ..."
+
 # gather logging info 
 # prepare a diff file with the first part of paths truncated up to the timestamp
 mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
 diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout + stderr" \
     "$newbackup" $(realpath "$current") | sort > "$mydiff"
+echo -e "\nfinished diff ($?)"
 sed -i -e "s:$backups/::g" "$mydiff"
 mv "$backups/temp rsync stdout + stderr" "$newbackup/rsync stdout + stderr"
 mv "$backups/temp rsync log" "$newbackup/rsync log"
@@ -88,10 +91,10 @@ if [ "$rsyncexit" = 0 ]; then
     rm -f "$current"
     # make current link to the newest backup
     ln -s "$newbackup" "$current"
-    echo "Backup successful. Logs placed in $newbackup"
+    echo -e "\nBackup successful. Logs placed in $newbackup"
 else
     # Rename directory if failed
     mv $newbackup $backups/failed-$TIMESTAMP
-    echo "Backup failed. Logs placed in $newbackup"
+    echo -e "\nBackup failed. Logs placed in $newbackup"
 fi
 
