@@ -22,6 +22,9 @@
 # * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
 
 # Option Handling
+echo -e "//////////////////////////////////////////////////////////\n//////////////////////////////////////////////////////////"
+echo -e "////////// Jeremy's incremental rsync backup  ////////////\n\n"
+
 die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
@@ -97,4 +100,3 @@ else
     mv $newbackup $backups/failed-$TIMESTAMP
     echo -e "\nBackup failed. Logs placed in $newbackup"
 fi
-
