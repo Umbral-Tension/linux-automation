@@ -19,6 +19,7 @@ This is a suite of scripts that
 * Transmission
 * Soulseek
 * FSearch
+* tree
 * python modules 
 	* ipython 
 	* PyQt5, pandas, mutagen, colorama, progress 
