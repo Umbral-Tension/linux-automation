@@ -55,7 +55,7 @@ src=(   "/home/jeremy/@data"
         "/home/jeremy/Downloads" )
 
 # Directory to put backups into
-backups="/media/jeremy/external_jdata/rsync-backups"
+backups="/media/jeremy/external_jdata/rsync_backups"
 
 # paths to the new backup being created and the current latest backup
 current="$backups/current"  
@@ -80,11 +80,14 @@ echo -e "\n\nrsync process finished with exit code: $rsyncexit.\nrunning diff ..
 
 # gather logging info 
 # prepare a diff file with the first part of paths truncated up to the timestamp
+if ! [[ "$do_full" == true ]]; then {
 mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
 diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout + stderr" \
     "$newbackup" $(realpath "$current") | sort > "$mydiff"
 echo -e "\nfinished diff ($?)"
 sed -i -e "s:$backups/::g" "$mydiff"
+}
+fi
 mv "$backups/temp rsync stdout + stderr" "$newbackup/rsync stdout + stderr"
 mv "$backups/temp rsync log" "$newbackup/rsync log"
 

@@ -49,7 +49,7 @@ def build_census():
 
     # make dir to hold new census
     timestamp = str(datetime.now())
-    timestamp = timestamp[:timestamp.rfind('.')]
+    timestamp = timestamp[:timestamp.rfind('.')] # remove decimal seconds
     new = f'{census_directory}/pc_census {timestamp}'
     os.makedirs(new)
     
