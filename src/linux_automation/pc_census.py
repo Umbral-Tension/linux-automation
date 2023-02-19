@@ -108,26 +108,6 @@ def build_census():
                 print(red(x))
                 f.write(f'\t{x}\n')
 
-    # copy newest and oldest census and warnings to Obsidian vault. 
-    try:
-        obsidian = '/home/jeremy/@data/jvault/Memory 2/pc file census'
-        try:
-            shutil.rmtree(f'{obsidian}/current')
-            shutil.rmtree(f'{obsidian}/oldest')
-        except FileNotFoundError:
-            pass
-        shutil.copytree(new, f'{obsidian}/current', dirs_exist_ok=True)
-        shutil.copytree(f'{census_directory}/{newest_30[0]}', f'{obsidian}/oldest', dirs_exist_ok=True)
-        if opath.exists(warnings_file):
-            with open(warnings_file, 'r') as f:
-                lines = f.readlines()
-            with open(f'{obsidian}/warnings.md', 'a') as f:
-                f.writelines(lines)
-            
-    except IndexError:
-        pass
-
-
 
 
 if __name__ == '__main__':
