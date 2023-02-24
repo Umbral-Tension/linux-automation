@@ -21,10 +21,10 @@
 # * Note: After a failed backup current points to the latest backup that succeeded. Subsequent backups may be run with no consequence.
 # * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
 
-# Option Handling
 echo -e "//////////////////////////////////////////////////////////\n//////////////////////////////////////////////////////////"
 echo -e "////////// Jeremy's incremental rsync backup  ////////////\n\n"
 
+# Option Handling
 die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
 needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
 
@@ -73,22 +73,26 @@ exclusions=()
 [[ $exclude_large == true ]] && exclusions+=( "--max-size=10gb" )
 [[ "${#exclusions[@]}" != 0 ]] && rs_opts+=( "$exclusions" )
 
-rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2>&1 | tee "$backups/temp rsync stdout + stderr"
+rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" 1> "$backups/temp rsync stdout"
 rsyncexit="$?"
+cat "$backups/temp rsync stdout"
 
-echo -e "\n\nrsync process finished with exit code: $rsyncexit.\nrunning diff ..."
+
+echo -e "\n...\n...\n////////// Jeremy's incremental rsync backup  ////////////...\n"
+echo -e "rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
 
 # gather logging info 
 # prepare a diff file with the first part of paths truncated up to the timestamp
 if ! [[ "$do_full" == true ]]; then {
-mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
-diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout + stderr" \
-    "$newbackup" $(realpath "$current") | sort > "$mydiff"
-echo -e "\nfinished diff ($?)"
-sed -i -e "s:$backups/::g" "$mydiff"
+    mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
+    diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout + stderr" \
+        "$newbackup" $(realpath "$current") | sort > "$mydiff"
+    echo -e "\nfinished diff ($?)"
+    sed -i -e "s:$backups/::g" "$mydiff"
 }
 fi
-mv "$backups/temp rsync stdout + stderr" "$newbackup/rsync stdout + stderr"
+mv "$backups/temp rsync stderr" "$newbackup/rsync stderr"
+mv "$backups/temp rsync stdout" "$newbackup/rsync stdout"
 mv "$backups/temp rsync log" "$newbackup/rsync log"
 
 # check exit status to see if backup failed
@@ -100,6 +104,6 @@ if [ "$rsyncexit" = 0 ]; then
     echo -e "\nBackup successful. Logs placed in $newbackup"
 else
     # Rename directory if failed
-    mv $newbackup $backups/failed-$TIMESTAMP
-    echo -e "\nBackup failed. Logs placed in $newbackup"
+    mv $newbackup "$backups/failed-$TIMESTAMP"
+    echo -e "\nBackup failed. Logs placed in $backups/failed-$TIMESTAMP"
 fi

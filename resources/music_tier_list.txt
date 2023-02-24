@@ -62,6 +62,7 @@ tier 1: Planttvibes/A Summer in My Dreams/05. Lost At Sea.flac
 tier 1: potsu/ivy league/01. Sunny.flac
 tier 1: Puma Blue/Swum Baby/03. Lil Lude (dark Embrace).flac
 tier 1: Puma Blue/Swum Baby/04. Untitled 2.flac
+tier 1: Puma Blue/Swum Baby/05. Want Me.flac
 tier 1: Ra Ra Riot/The Orchard/03. Too Dramatic.flac
 tier 1: Renny Conti/People Floating/07. Someone New.flac
 tier 1: Renny Conti/People Floating/09. July Of '15.flac
