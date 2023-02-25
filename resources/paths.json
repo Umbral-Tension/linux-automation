@@ -19,10 +19,6 @@
         "exec_cmd": "https://projecteuler.net/archives",
         "window_title": ""
     },
-    "fsearch": {
-        "exec_cmd": "/usr/local/bin/fsearch",
-        "window_title": "wm_class_"
-    },
     "firefox": {
         "exec_cmd": "/usr/bin/firefox",
         "window_title": "wm_class_Navigator.firefox"
@@ -34,10 +30,6 @@
     "gmail": {
         "exec_cmd": "http://gmail.com",
         "window_title": ""
-    },
-    "joplin": {
-        "exec_cmd": "/home/jeremy/.joplin/Joplin.AppImage",
-        "window_title": "wm_class_joplin.Joplin"
     },
     "lichess": {
         "exec_cmd": "http://lichess.org",

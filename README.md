@@ -2,7 +2,7 @@
 # Linux Automation
 This is a suite of scripts that
 1. Provides convenience functionalities to make daily computing more convenient. 
-2. attempts to automate the process of installing and configuring most of the software I would put on any fresh Linux installation (Debian) to make it usable to me. 
+2. attempts to automate the process of installing and configuring most of the software I would put on any fresh Linux installation to make it usable to me. 
 
 
     
@@ -18,7 +18,6 @@ This is a suite of scripts that
 * Veracrypt
 * Transmission
 * Soulseek
-* FSearch
 * tree
 * python modules 
 	* ipython 
@@ -46,7 +45,7 @@ This is a suite of scripts that
 
   
 
-## Things it implements:
+## Things it implements itself:
 
 * keyboard_shortcut_router.py
 	* Provides a single point of entry to access these scripts. Things like the window manager can be invoked like `python keyboard_shortcut_router.py --open Firefox`. Mostly to be used by a desktop environment's keyboard shortcut manager. This avoids having to make bin entries for each script here. 
