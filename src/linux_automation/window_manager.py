@@ -182,8 +182,11 @@ def _run_wmctrl(args):
 
 if __name__ == '__main__':
 
-    while True:
-        for x in ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se']:
-            win_snap('jdesk', x)
-            from time import sleep
-            sleep(2)
+    # while True:
+    #     for x in ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se']:
+    #         win_snap('jdesk', x)
+    #         from time import sleep
+    #         sleep(2)
+
+    test(win_list()) 
+
