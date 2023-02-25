@@ -27,4 +27,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"
+
 . "$HOME/.cargo/env"

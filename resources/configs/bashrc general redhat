@@ -1,0 +1,38 @@
+
+############### Jeremy's Additions ############
+
+# custom prompt
+PS1='\n\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;32m\]\w\n┖───▶\[\033[00m\]\$ '
+
+# update bashrc from the copy in linux-automation repo
+alias rebash='cp ~/@data/git-repos/linux-automation/resources/.bashrc ~/.bashrc'
+
+# Keyd 
+alias rekeyd='sudo cp ~/@data/git-repos/linux-automation/resources/configs/my_keyd.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
+alias keyderr='sudo journalctl -eu keyd'
+
+# cd to common directories  
+alias gogit='cd ~/@data/git-repos'
+alias godat='cd ~/@data'
+alias gomus='cd ~/@data/music'
+
+# make ll show all files and append type symbol to end of names
+alias ll='ls -alF'
+
+# Tree 
+alias tree1='tree -L 1'
+alias tree2='tree -L 2'
+alias tree3='tree -L 3'
+
+# print exit status of last command
+alias ??='echo $?'
+
+# quickly run bash experimentation script
+alias be='~/@data/bash-experiments'
+
+# ignore case when usin tab completion
+bind "set completion-ignore-case on"
+
+# Display a list of the matching files
+bind "set show-all-if-ambiguous on"
+
