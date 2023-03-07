@@ -109,4 +109,4 @@ name='vscode_experiments'
 [custom-keybindings/custom41]
 binding=['<Alt>9', '<Alt>KP_9']
 command='jrouter --open mouseappmenu'
-name='vscode_experiments'
+name='mouseappmenu'
