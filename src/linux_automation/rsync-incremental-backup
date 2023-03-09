@@ -49,10 +49,12 @@ shift $((OPTIND-1)) # remove parsed options and args from $@ list
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 
 # Directories to backup. 
-# These MUST NOT end with a slash or rsync will copy their contents rather than the directories AND their contents.
+# These MUST NOT end with a slash or rsync will copy their contents rather than the directory AND its contents.
 src=(   "/home/jeremy/@data"
         "/home/jeremy/Desktop"
-        "/home/jeremy/Downloads" )
+        "/home/jeremy/Downloads"
+        "/home/jeremy/AppImages"
+        "/home/jeremy/.local" )
 
 # Directory to put backups into
 backups="/media/jeremy/external_jdata/rsync_backups"
