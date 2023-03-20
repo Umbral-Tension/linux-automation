@@ -131,3 +131,8 @@ name='tier 1'
 binding='<Primary><Shift>KP_2'
 command='jrouter --tier 2'
 name='tier 2'
+
+[custom-keybindings/custom50]
+binding='<Primary><Alt>T'
+command='gnome-terminal'
+name='terminal'

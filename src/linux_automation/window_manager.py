@@ -6,13 +6,12 @@ import os
 import json
 import time
 import subprocess
-from jtools.jconsole import test
+from jtools.jconsole import test, zen
 from time import sleep
 
 basedir = os.path.dirname(__file__)
 with open(os.path.join(basedir, '../../resources/paths.json')) as fp:
     paths = json.load(fp)
-
 
 def open(name, *args):
     """"
@@ -31,20 +30,13 @@ def open(name, *args):
     # Activate the program window if it's already running
     if win_activate(window_title):
         return
-    
+
     # Single website opening
     if exec_cmd.casefold().startswith('http'):
         browser = paths['firefox']['exec_cmd']
         exec_cmd = f'{browser} {exec_cmd}'
-    import shlex
-    ls = shlex.split(exec_cmd).append('&')
-    p = os.system(exec_cmd + ' &')
     
-    # run exec_cmd
-    # with subprocess.Popen([exec_cmd], stdout=subprocess.PIPE) as p:
-    #     output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
-    #     returncode = p.returncode
-    # test(type(output), output, returncode)
+    os.system(exec_cmd + ' &')
 
 def win_list():
     """
@@ -52,11 +44,12 @@ def win_list():
     """
     ls = []
     output = _run_wmctrl(["-lpx"])
-    for line in output.split('\n'):
-        # This str.split() strategy takes advantage of the window title being the only part of the output of "wmctrl -l" that might contain 
-        # spaces or other whitespace characters. It also depends on title being at the end of the line. 
-        info = line.split(maxsplit=5)
-        ls.append({'window_id': info[0], 'desktop_num': info[1], 'pid': info[2], 'wm_class': info[3], 'title': info[5]})
+    if output:        
+        for line in output.split('\n'):
+            # This str.split() strategy takes advantage of the window title being the only part of the output of "wmctrl -l" that might contain 
+            # spaces or other whitespace characters. It also depends on title being at the end of the line. 
+            info = line.split(maxsplit=5)
+            ls.append({'window_id': info[0], 'desktop_num': info[1], 'pid': info[2], 'wm_class': info[3], 'title': info[5]})
     return ls
 
 def win_exists(title):

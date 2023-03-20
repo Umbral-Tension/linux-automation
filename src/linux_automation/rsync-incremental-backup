@@ -57,7 +57,7 @@ src=(   "/home/jeremy/@data"
         "/home/jeremy/.local" )
 
 # Directory to put backups into
-backups="/media/jeremy/external_jdata/rsync_backups"
+backups="/run/media/jeremy/external_jdata/rsync_backups"
 
 # paths to the new backup being created and the current latest backup
 current="$backups/current"  
@@ -75,7 +75,7 @@ exclusions=()
 [[ $exclude_large == true ]] && exclusions+=( "--max-size=10gb" )
 [[ "${#exclusions[@]}" != 0 ]] && rs_opts+=( "$exclusions" )
 
-rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" 1> "$backups/temp rsync stdout"
+rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
 rsyncexit="$?"
 cat "$backups/temp rsync stdout"
 

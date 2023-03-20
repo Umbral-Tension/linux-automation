@@ -13,6 +13,7 @@ tier 1: AdriAnne Lenker/songs/09. Not A Lot, Just Forever.flac
 tier 1: Alvvays/Alvvays/02. Archie, Marry Me.flac
 tier 1: Andy Shauf/Daytrotter Sessions/02. Twist Your Ankle.mp3
 tier 1: Andy Shauf/The Neon Skyline/03. Clove Cigarette.flac
+tier 1: Arctic Monkeys/Favourite Worst Nightmare/09. If You Were There, Beware.flac
 tier 1: Ari Roar/Patch Me Up/01. Dove.flac
 tier 1: As Tall As Lions/As Tall As Lions/10. Maybe I'm Just Tired.flac
 tier 1: Blah Blah Blah/This Is for the Time/05. Sermon In Love.flac
@@ -33,6 +34,7 @@ tier 1: Grizzly Bear/Veckatimest/11. I Live With You.mp3
 tier 1: Guantanamo Bay Surf Club/Guantanamo Bay Surf Club/03. Escargot Blues.flac
 tier 1: Gus Dapperton/You Think You're a Comic!/01. Prune, You Talk Funny.flac
 tier 1: Habe/Brother/01. Fear Of Love.flac
+tier 1: Hard Yes/Nice Not to Care/01. Nice Not To Care.flac
 tier 1: Hazy Year/No Txpxs Allowed/01. Early Thinkin.flac
 tier 1: Jessie Ware/Tough Love/06. Kind Of...sometimes...maybe.flac
 tier 1: Jodi/Karaoke/01. Remember.flac
@@ -41,10 +43,13 @@ tier 1: Joss Stone/Mind Body & Soul/07. Security.flac
 tier 1: Joy Again/Joy Again/02. Another Song About Ghosts.flac
 tier 1: Joy Crookes/Skin/07. Unlearn You.flac
 tier 1: Juice/Boy Story/05. Do You Really Feel .flac
+tier 1: Juice/you are simply magnificent/02. Peace Of Mind.flac
+tier 1: Juice/you are simply magnificent/03. Audrey Tell Me.flac
 tier 1: Julien Baker/Sprained Ankle/02. Sprained Ankle.flac
 tier 1: King Krule/Man Alive!/12. Underclass.flac
 tier 1: Land of Talk/Applause Cheer Boo Hiss/02. Sea Foam.flac
 tier 1: Matt Maltese/Krystal/01. Rom-com Gone Wrong.flac
+tier 1: Mean Lady/Love Now/04. Bop Bop.flac
 tier 1: MGMT/Congratulations/09. Congratulations.flac
 tier 1: Mind Shrine/Mind Shrine - EP/06. Times Were Strange.flac
 tier 1: Mosie/Ice Cream/02. Tough As Nails.flac
