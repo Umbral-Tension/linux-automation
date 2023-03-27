@@ -1,110 +1,137 @@
 {
     "amazon": {
         "exec_cmd": "http://amazon.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "artstation": {
         "exec_cmd": "http://artstation.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "audiobookbay": {
         "exec_cmd": "http://audiobookbay.fi/",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "jipython": {
         "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/jipython.py",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "euler": {
         "exec_cmd": "https://projecteuler.net/archives",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "firefox": {
         "exec_cmd": "/usr/bin/firefox",
-        "window_title": "wm_class_Navigator.firefox"
+        "window_title": "wm_class_Navigator.firefox",
+        "wayland_window_title": "wm_class_firefox"
     },
     "github": {
         "exec_cmd": "https://github.com/Umbral-Tension?tab=repositories",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "gmail": {
         "exec_cmd": "http://gmail.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "lichess": {
         "exec_cmd": "http://lichess.org",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "localhost": {
         "exec_cmd": "http://localhost:8080",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
-    "mouseappmenu":{
+    "mouseappmenu": {
         "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/mouse_app_menu.py",
-        "window_title": "mouse_app_menu.py"
+        "window_title": "mouse_app_menu.py",
+        "wayland_window_title": ""
     },
     "python": {
         "exec_cmd": "/usr/bin/python3",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
-    "proton":{
+    "proton": {
         "exec_cmd": "https://mail.proton.me",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "random": {
         "exec_cmd": "http://reddit.com/r/random",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "rhythmbox": {
         "exec_cmd": "/usr/bin/rhythmbox",
-        "window_title": "wm_class_rhythmbox.Rhythmbox"
+        "window_title": "wm_class_rhythmbox.Rhythmbox",
+        "wayland_window_title": "wm_class_rhythmbox"
     },
     "reddit": {
         "exec_cmd": "http://reddit.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "redditsave": {
         "exec_cmd": "https://redditsave.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "spotify": {
         "exec_cmd": "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify",
-        "window_title": "wm_class_spotify.Spotify"
+        "window_title": "wm_class_spotify.Spotify",
+        "wayland_window_title": "wm_class_spotify"
     },
     "terminal": {
         "exec_cmd": "/usr/bin/gnome-terminal",
-        "window_title": "wm_class_gnome-terminal-server.Gnome-terminal"
+        "window_title": "wm_class_gnome-terminal-server.Gnome-terminal",
+        "wayland_window_title": "wm_class_gnome-terminal-server"
     },
     "vscode": {
         "exec_cmd": "/usr/bin/code",
-        "window_title": "wm_class_code.Code"
+        "window_title": "wm_class_code.Code",
+        "wayland_window_title": "wm_class_code"
     },
     "vscode_linux-automation": {
         "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/linux-automation",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "vscode_experiments": {
         "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/experiments",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "youtube": {
         "exec_cmd": "http://youtube.com",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "r": {
         "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "rnsfw": {
         "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py nsfw",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": "Visual Studio Code"
     },
     "rsfw": {
         "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py sfw",
-        "window_title": ""
+        "window_title": "",
+        "wayland_window_title": ""
     },
     "obsidian": {
         "exec_cmd": "flatpak run md.obsidian.Obsidian",
-        "window_title": "wm_class_obsidian.obsidian"
+        "window_title": "wm_class_obsidian.obsidian",
+        "wayland_window_title": "wm_class_obsidian"
     }
 }

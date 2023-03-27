@@ -74,22 +74,38 @@ def win_exists(title):
     match). For case-insensitive exact match based on "window manager class"
     prepend title with "wm_class_"
     """
-    if title == '':
+    if win_id(title):
+        return True
+    else:
         return False
+    
+def win_id(title):
+    """return the id of the window with this title if it exists, else None
+
+    This func may be easily used as a drop in replacement for "win_exist". 
+
+    @param title: window title to match against (as case-insensitive substring match). 
+    For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
+    """
+    # '' would otherwise match paths.json entries that have no value for the 
+    # title key, which is not desirable. 
+    if title == '': 
+        return None
     ls = win_list()
     for x in ls:
-        if x['desktop_num'] != '0': # only consider windows on first workspace
+        if not x['in_current_workspace']: # only consider windows on first workspace
             continue
         if title.startswith('wm_class_'):
             newtitle = title.replace('wm_class_', '').casefold()
             match = x['wm_class'].casefold() 
             if newtitle == match:
-                return True
+                return x['id']
         else:
             if title.casefold() in x['title'].casefold():
-                return True
-    return False
-    
+                return x['id']
+    return None
+
+
 def win_wait(title, refresh_rate=0.1):
     """
     Wait until the specified window exists. 
@@ -108,14 +124,9 @@ def win_activate(title):
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """
-    if not win_exists(title): # this line stops matches from other workspaces from activating
-        return False
+    id = win_id(title)
     
-    args = []
-    if title.startswith('wm_class_'):
-        title = title.replace('wm_class_', '')
-        args += ["-x"]
-    args += ['-a', title]
+    args = methods['Activate'] + [str(id)]
     _run_wmctrl(args)
     return True
 
@@ -200,5 +211,5 @@ if __name__ == '__main__':
     #         sleep(2)
     
     
-    win_list()
-
+    #win_list()
+    print(win_activate('jeremy'))
