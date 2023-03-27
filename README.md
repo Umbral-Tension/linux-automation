@@ -1,19 +1,30 @@
 
 # Linux Automation
 This is a suite of scripts that
-1. Provides convenience functionalities to make daily computing more convenient. 
+1. Provides convenience functionalities to make daily computing nicer. 
 2. attempts to automate the process of installing and configuring most of the software I would put on any fresh Linux installation to make it usable to me. 
 
 
     
-## 3rd party software it installs:
+## **3rd party software it installs:**
 
-- Dependencies
-	- Zenity
-	- tree
-	- python modules 
-		- ipython 
-		- PyQt5, pandas, mutagen, colorama, progress 
+### Dependencies
+- Zenity
+- tree
+- python modules 
+	- ipython 
+	- PyQt5, pandas, mutagen, colorama, progress 
+-GNOME extensions
+	- Window Calls
+
+### Non-dependencies
+-GNOME extensions
+	- Alphabetical App Grid
+	- AppIndicator and KStatusNotifierItem Support
+	- Dash To Panel
+	- Media Controls
+	- NoAnnoyance v2
+	- User Themes
 - Keyd
 - git
 - Spotify Adblocker
@@ -28,7 +39,7 @@ This is a suite of scripts that
   
   
 
-## Things it configures:
+## **Things it configures:**
 
 - SSH
 	- create rsa and ed25519 keys and add them to the ssh agent 
@@ -48,7 +59,7 @@ This is a suite of scripts that
 
   
 
-## Things it implements itself:
+## **Things it implements itself:**
 
 - keyboard_shortcut_router.py
 	- Provides a single point of entry to access these scripts. Things like the window manager can be invoked like `python keyboard_shortcut_router.py --open Firefox`. Mostly to be used by a desktop environment's keyboard shortcut manager. This avoids having to make bin entries for each script here. 
