@@ -8,6 +8,12 @@ This is a suite of scripts that
     
 ## 3rd party software it installs:
 
+- Dependencies
+	- Zenity
+	- tree
+	- python modules 
+		- ipython 
+		- PyQt5, pandas, mutagen, colorama, progress 
 - Keyd
 - git
 - Spotify Adblocker
@@ -19,10 +25,6 @@ This is a suite of scripts that
 - Veracrypt
 - Transmission
 - Soulseek
-- tree
-- python modules 
-	- ipython 
-	- PyQt5, pandas, mutagen, colorama, progress 
   
   
 
