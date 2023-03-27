@@ -11,7 +11,7 @@ import json
 import time
 import subprocess
 import shlex
-from jtools.jconsole import test, zen
+from jtools.jconsole import test, ptest, zen
 from time import sleep
 
 
@@ -54,22 +54,25 @@ def win_list():
     """
     Get info on all currently open windows
     """
-    ls = []
-    output = _run_wmctrl(methods['List'])
+    
+    output = _run_wmctrl(methods['List'])[2:-3]    
+    ls = json.loads(output)
     if output:        
-        output = output[2:-3]
-        import json
-        a = json.loads(output)
-        test(a)
+        for x in range(len(ls)):
+            args = methods['GetTitle'] + [ls[x]['id']]
+            title = _run_wmctrl(args)[2:-3]
+            ls[x]['title'] = title
+    test(ls)
+        
     return ls
 
 def win_exists(title):
     """
     Return True if window exists in the 1st workspace. 
     
-    @param title: window title to match against (as case-insensitive substring\
-        match). For case-insensitive exact match based on \
-        "window manager class" prepend title with "wm_class_"
+    @param title: window title to match against (as case-insensitive substring
+    match). For case-insensitive exact match based on "window manager class"
+    prepend title with "wm_class_"
     """
     if title == '':
         return False
@@ -178,6 +181,7 @@ def win_snap(title, position: str):
 # base gdbus call to the "Windows Calls" extension. Split into a list for the Popen function. 
 gdbus = shlex.split('gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows')
 def _run_wmctrl(args):
+    args = [str(x) for x in args]
     try:
         with subprocess.Popen(gdbus + args, stdout=subprocess.PIPE) as p:
             output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
