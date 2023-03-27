@@ -5,7 +5,7 @@
 import os
 import argparse
 import sys
-import window_manager
+import app_launcher
 import music_tier_select
 
 
@@ -28,7 +28,7 @@ if args.volume or args.volume == 0:
 
 # Open/Switch-to application
 if args.open:
-    window_manager.open(args.open)
+    app_launcher.open(args.open)
     
 if args.tier:
     music_tier_select.set_tier(args.tier)

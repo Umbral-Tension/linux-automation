@@ -4,8 +4,11 @@ my music into tier 1 and 2 music. tier 1 = really good, tier 2 = okay. Uses winc
 import os 
 from os import path as opath
 from fuzzywuzzy import fuzz
-from window_manager import win_list
-
+display_server = os.environ['XDG_SESSION_TYPE'].casefold() # wayland or x11
+if display_server == 'wayland':
+    from window_manager.wm_wayland import win_list
+else:
+    from window_manager.wm_xorg import win_list
 def set_tier(tier):
     if int(tier) not in [1, 2]:
         os.system('zenity --warning --text "invalid value for tier"')
