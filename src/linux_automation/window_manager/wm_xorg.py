@@ -1,28 +1,16 @@
-"""" Module for manipulating windows and launching programs in a Gnome+Wayland\
-    environment.
-
-Uses the Gnome extension "Window Calls" as a backend to send dbus calls.\
-Multiple monitors are not explicitly supported but might work anyway. Only\
-operatoes on windows in the current workspace.  
+"""" Module for moving/resizing/listing windows and opening programs. Uses the linux wmctrl utility to accomplish this. 
+Multiple monitors/desktops are not explicitly supported but might work anyway. 
 """
 
 import os
 import json
 import time
 import subprocess
-import shlex
-from jtools.jconsole import test, ptest, zen
+from jtools.jconsole import test, zen
 from time import sleep
 
-
-# methods of the Gnome Extension "Window Calls"
-methods = {x: ['--method', f'org.gnome.Shell.Extensions.Windows.{x}'] for x in 
-           ['List', 'Details', 'GetTitle', 'Maximize', 'Minimize',
-            'Resize', 'MoveResize', 'Move',
-            'Unmaximize', 'Unminimize', 'Activate', 'Close',]}
-
 basedir = os.path.dirname(__file__)
-with open(os.path.join(basedir, '../../resources/paths.json')) as fp:
+with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
     paths = json.load(fp)
 
 def open(name, *args):
@@ -54,58 +42,39 @@ def win_list():
     """
     Get info on all currently open windows
     """
-    
-    output = _run_wmctrl(methods['List'])[2:-3]    
-    ls = json.loads(output)
+    ls = []
+    output = _run_wmctrl(["-lpx"])
     if output:        
-        for x in range(len(ls)):
-            args = methods['GetTitle'] + [ls[x]['id']]
-            title = _run_wmctrl(args)[2:-3]
-            ls[x]['title'] = title
-    test(ls)
-        
+        for line in output.split('\n'):
+            # This str.split() strategy takes advantage of the window title being the only part of the output of "wmctrl -l" that might contain 
+            # spaces or other whitespace characters. It also depends on title being at the end of the line. 
+            info = line.split(maxsplit=5)
+            ls.append({'window_id': info[0], 'desktop_num': info[1], 'pid': info[2], 'wm_class': info[3], 'title': info[5]})
     return ls
 
 def win_exists(title):
     """
     Return True if window exists in the 1st workspace. 
     
-    @param title: window title to match against (as case-insensitive substring
-    match). For case-insensitive exact match based on "window manager class"
-    prepend title with "wm_class_"
-    """
-    if win_id(title):
-        return True
-    else:
-        return False
-    
-def win_id(title):
-    """return the id of the window with this title if it exists, else None
-
-    This func may be easily used as a drop in replacement for "win_exist". 
-
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """
-    # '' would otherwise match paths.json entries that have no value for the 
-    # title key, which is not desirable. 
-    if title == '': 
-        return None
+    if title == '':
+        return False
     ls = win_list()
     for x in ls:
-        if not x['in_current_workspace']: # only consider windows on first workspace
+        if x['desktop_num'] != '0': # only consider windows on first workspace
             continue
         if title.startswith('wm_class_'):
             newtitle = title.replace('wm_class_', '').casefold()
             match = x['wm_class'].casefold() 
             if newtitle == match:
-                return x['id']
+                return True
         else:
             if title.casefold() in x['title'].casefold():
-                return x['id']
-    return None
-
-
+                return True
+    return False
+    
 def win_wait(title, refresh_rate=0.1):
     """
     Wait until the specified window exists. 
@@ -124,9 +93,14 @@ def win_activate(title):
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """
-    id = win_id(title)
+    if not win_exists(title): # this line stops matches from other workspaces from activating
+        return False
     
-    args = methods['Activate'] + [str(id)]
+    args = []
+    if title.startswith('wm_class_'):
+        title = title.replace('wm_class_', '')
+        args += ["-x"]
+    args += ['-a', title]
     _run_wmctrl(args)
     return True
 
@@ -189,15 +163,12 @@ def win_snap(title, position: str):
     _run_wmctrl(args)
     
 
-# base gdbus call to the "Windows Calls" extension. Split into a list for the Popen function. 
-gdbus = shlex.split('gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows')
 def _run_wmctrl(args):
-    args = [str(x) for x in args]
     try:
-        with subprocess.Popen(gdbus + args, stdout=subprocess.PIPE) as p:
+        with subprocess.Popen(["wmctrl"] + args, stdout=subprocess.PIPE) as p:
             output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
     except FileNotFoundError:
-        return 1, 'ERROR: gdbus not available'
+        return 1, 'ERROR: Please install wmctrl'
 
     return output
 
@@ -209,7 +180,6 @@ if __name__ == '__main__':
     #         win_snap('jdesk', x)
     #         from time import sleep
     #         sleep(2)
-    
-    
-    #win_list()
-    print(win_activate('jeremy'))
+
+    test(win_list()) 
+
