@@ -1,11 +1,11 @@
 #!/bin/python3
 
+import os
 import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QCommandLinkButton, QBoxLayout, QWidget, QDesktopWidget
 from functools import partial
-import window_manager
-from jtools.jconsole import test
+import app_launcher
 
 # TODO 
 # 2. REMOVE WINDOW BORDER
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
 
     def button_pressed(self, name):
         if name.casefold() not in ['exit', 'spacer']:
-            window_manager.open(name)
+            app_launcher.open(name)
         QApplication.closeAllWindows()
         
 

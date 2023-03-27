@@ -13,30 +13,6 @@ basedir = os.path.dirname(__file__)
 with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
     paths = json.load(fp)
 
-def open(name, *args):
-    """"
-    Open a program/website or switch to it if it already exists. 
-
-    @param name: one of the programs or websites named in resources/paths.json
-    """
-    name = name.casefold()
-    try:
-        exec_cmd = paths[name]['exec_cmd']
-        window_title = paths[name]['window_title']
-    except KeyError:
-        os.system(f'zenity --warning --text="{name} not found in the file paths.json" --title="window_manager.py"')
-        return
-
-    # Activate the program window if it's already running
-    if win_activate(window_title):
-        return
-
-    # Single website opening
-    if exec_cmd.casefold().startswith('http'):
-        browser = paths['firefox']['exec_cmd']
-        exec_cmd = f'{browser} {exec_cmd}'
-    
-    os.system(exec_cmd + ' &')
 
 def win_list():
     """

@@ -25,42 +25,18 @@ basedir = os.path.dirname(__file__)
 with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
     paths = json.load(fp)
 
-def open(name, *args):
-    """"
-    Open a program/website or switch to it if it already exists. 
-
-    @param name: one of the programs or websites named in resources/paths.json
-    """
-    name = name.casefold()
-    try:
-        exec_cmd = paths[name]['exec_cmd']
-        window_title = paths[name]['window_title']
-    except KeyError:
-        os.system(f'zenity --warning --text="{name} not found in the file paths.json" --title="window_manager.py"')
-        return
-
-    # Activate the program window if it's already running
-    if win_activate(window_title):
-        return
-
-    # Single website opening
-    if exec_cmd.casefold().startswith('http'):
-        browser = paths['firefox']['exec_cmd']
-        exec_cmd = f'{browser} {exec_cmd}'
-    
-    os.system(exec_cmd + ' &')
 
 def win_list():
     """
     Get info on all currently open windows
     """
     
-    output = _run_wmctrl(methods['List'])[2:-3]    
+    output = _run_gdbus(methods['List'])[2:-3]    
     ls = json.loads(output)
     if output:        
         for x in range(len(ls)):
             args = methods['GetTitle'] + [ls[x]['id']]
-            title = _run_wmctrl(args)[2:-3]
+            title = _run_gdbus(args)[2:-3]
             ls[x]['title'] = title
     return ls
 
@@ -126,7 +102,7 @@ def win_activate(title):
     if id_ is None:
         return
     args = methods['Activate'] + [id_]
-    _run_wmctrl(args)
+    _run_gdbus(args)
 
 def win_close(title):
     """
@@ -139,7 +115,7 @@ def win_close(title):
     if id_ is None:
         return
     args = methods['Close'] + [id_]
-    _run_wmctrl(args)
+    _run_gdbus(args)
 
 def get_gemoetry():
     """
@@ -178,13 +154,13 @@ def win_snap(title, position: str):
     #     title = title.replace('wm_class_', '')
     #     args += ["-x"]
     # args += ['-r', title, '-e', mvarg]
-    # _run_wmctrl(args)
+    # _run_gdbus(args)
     pass
     
 
 # base gdbus call to the "Windows Calls" extension. Split into a list for the Popen function. 
 gdbus = shlex.split('gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows')
-def _run_wmctrl(args):
+def _run_gdbus(args):
     args = [str(x) for x in args]
     try:
         with subprocess.Popen(gdbus + args, stdout=subprocess.PIPE) as p:
@@ -205,4 +181,3 @@ if __name__ == '__main__':
     
     
     test(win_list())
-    print(win_close('wm_class_firefox'))
