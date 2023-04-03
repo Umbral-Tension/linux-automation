@@ -56,8 +56,6 @@ def win_exists(title):
 def win_id(title):
     """return the id of the window with this title if it exists, else None
 
-    This func may be easily used as a drop in replacement for "win_exist". 
-
     @param title: window title to match against (as case-insensitive substring match). 
     For case-insensitive exact match based on "window manager class" prepend title with "wm_class_"
     """

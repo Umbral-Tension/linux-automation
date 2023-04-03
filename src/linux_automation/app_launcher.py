@@ -36,7 +36,7 @@ def open(name, *args):
         return
     
     # Activate the program window if it's already running
-    if wm.win_id(window_title):
+    if wm.win_exists(window_title):
         wm.win_activate(window_title)
         return
 
