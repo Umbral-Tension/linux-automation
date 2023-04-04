@@ -1,4 +1,4 @@
-"""" Module for manipulating windows and launching programs in a Gnome+Wayland\
+"""" Module for manipulating windows in a Gnome+Wayland\
     environment.
 
 Uses the Gnome extension "Window Calls" as a backend to send dbus calls.\

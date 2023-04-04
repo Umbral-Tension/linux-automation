@@ -1,5 +1,5 @@
 [/]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom20/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom21/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom22/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom23/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom24/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom25/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom26/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom27/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom28/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom29/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom30/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom31/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom32/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom33/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom34/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom35/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom36/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom37/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom38/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom39/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom40/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom41/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom42/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom43/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom44/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom45/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom46/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom47/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom48/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom49/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom50/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom51/']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom20/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom21/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom22/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom23/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom24/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom25/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom26/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom27/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom28/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom29/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom30/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom31/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom32/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom33/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom34/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom35/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom36/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom37/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom38/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom39/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom40/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom41/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom42/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom43/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom44/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom45/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom46/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom47/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom48/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom49/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom50/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom51/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom52/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom53/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom54/']
   
 
 [custom-keybindings/custom20]
@@ -131,8 +131,21 @@ name='tier 1'
 binding='<Primary><Shift>KP_2'
 command='jrouter --tier 2'
 name='tier 2'
-
+[custom-keybindings/custom51]
+binding='<Primary><Shift>KP_4'
+command='jrouter --vibe happy'
+name='happy'
 [custom-keybindings/custom50]
+binding='<Primary><Shift>KP_5'
+command='jrouter --vibe sad'
+name='sad'
+[custom-keybindings/custom52]
+binding='<Primary><Shift>KP_6'
+command='jrouter --vibe mindnumb'
+name='mindnumb'
+
+
+[custom-keybindings/custom53]
 binding='<Primary><Alt>T'
 command='gnome-terminal'
 name='terminal'

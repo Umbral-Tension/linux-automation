@@ -69,8 +69,8 @@ This is a suite of scripts that
 	- makes a small popup window containing buttons that launch favorite websites and apps. To be launched via hotcorner, or mouse button 4/5 for fast navigation to favorites without having to type anything. 
 - media_census.py
 	- record the titles of music/audiobooks/etc and record them Obsidian so that in the event of total data loss I can use the list to know what I had and begin to rebuild :/
-- music_tier_select.py
-	- aids a project whereby I want to categorize my music into tiers 1 and 2 so that If I want to listen to "just jams" I can set my music player to only play tier 1 stuff. 
+- music_classifier.py
+	- aids a project whereby I want to categorize my music into one of several vibes or tiers 1 and 2. So that I can set my music player to only play tier 1 stuff or only sad vibe stuff. 
 - random_reddit.py
 	- Keeps a db of subreddits and offers up several random ones at a time on demand as a means of exploring reddit. Keeps track of which have already been visited and doesn't offer those. 
 - tag_editor.py

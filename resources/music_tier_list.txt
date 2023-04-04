@@ -103,6 +103,7 @@ tier 2: Alvvays/Alvvays/07. Dives.flac
 tier 2: Andrew Lloyd Webber/The Phantom Of The Opera (Original Motion Picture Soundtrack)/11. Wishing You Were Somehow Here Again.flac
 tier 2: Devendra Banhart/Refuge/09. Horn In Deep Night.flac
 tier 2: Easy Life/Spaceships Mixtape/06. Jealousy.flac
+tier 2: Endlessoh/Endlessoh - Singles/09. Don't Dream When I'm High With You.mp3
 tier 2: Fleet Foxes/Fleet Foxes/08. Your Protector.flac
 tier 2: Foxing/Dealer/01. Weave.flac
 tier 2: Joey Pecoraro/Music for Happiness/02. Don't Be A Fool.flac
