@@ -8,8 +8,8 @@ from jtools.jconsole import test
     Accepts "SFW" and "NSFW" as the first argument to include only one or the other. Default includes both. """
 
 BASE_DIR = os.path.dirname(__file__)
-VISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/@data/git-repos/linux-automation/resources/visited_subreddits.csv')
-UNVISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/@data/git-repos/linux-automation/resources/unvisited_subreddits.csv')
+VISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/@data/git-repos/misc-db-files/visited_subreddits.csv')
+UNVISITED_SUBS_FILE = os.path.join(BASE_DIR, '/home/jeremy/@data/git-repos/misc-db-files/unvisited_subreddits.csv')
 
 # make pandas objects
 unvisited = pd.read_csv(UNVISITED_SUBS_FILE)
