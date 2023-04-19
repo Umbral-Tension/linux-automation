@@ -4,8 +4,8 @@ import shlex
 from shlex import split as lex
 from subprocess import Popen, PIPE, run
 import traceback
-
 from datetime import datetime
+from jtools.jconsole import test, ptest, zen
 
 
 class Installer:
@@ -15,6 +15,7 @@ class Installer:
         # paths
         self.home = os.environ['HOME']
         self.git_repos = opath.join(self.home, '@data/git-repos')
+        os.makedirs(self.git_repos, exist_ok=True)
         self.appdir = opath.dirname(__file__)
         self.appname = opath.basename(self.appdir)
         
@@ -39,6 +40,7 @@ class Installer:
                 sys.exit()
         
         # current step in the installatino process
+        self.steps = []
         self.currstep = ''
 
     def install(self, program):
@@ -48,37 +50,60 @@ class Installer:
     def step(self, description, print_now=True, nocolor=False):
         """update and print the current installation step."""
         self.currstep = description
+        self.steps.append([description])
         if print_now:
             if nocolor:
                 print(f'---->  {self.currstep}')
             else:
                 print(jc.bold(jc.yellow('---->  ')+f'{self.currstep}'))
 
-    def print_result(self, result, nocolor=False):
-        """pretty print the specified result of currstep
+    def result(self, result, action=None, nocolor=False, norecord=False):
+        """record and pretty print the specified result of the specified action
+        Action defaults to currstep. 
         
-        result may be specified with strings "ok/fail" or booleans. 
+        @param result: may be specified with the strings "ok/fail" or booleans. 
+        @param nocolor: don't use color escape sequences
+        @param norecord: Only print, don't record the result in self.steps
         """
-        result = {True:"OK", False:"FAIL", "ok": "OK", "fail": "FAIL"}[result]
+        result = self._parseresult(result)
+        if action is None:
+            action = self.currstep
+        if not norecord:
+            for x in self.steps:
+                if x[0] == action:
+                    x.append(result)
         if nocolor:
-            print(f'[{result}]:  {self.currstep}')
+            print(f'[{result}]:  {action}')
         else:
             if result == "OK":
                 result = jc.green(result)
             else: 
                 result = jc.red(result)
-            print(f'[{jc.bold(result)}]:  {self.currstep}')
+            print(f'[{jc.bold(result)}]:  {action}')
+    
 
+    def report(self):
+        """ print and return a list of all installation steps and their results."""
+
+        print(jc.bold(jc.yellow('\n////// Report /////')))
+        for x in self.steps:
+            self.result(x[1], x[0], norecord=True)
+        
 
     def log(self, result, action):
         """add line to log file like \"[result]:  [action]\"
         
-        result may be specified with strings "ok/fail" or booleans. 
+        @param result: may be specified with strings "ok/fail" or booleans. 
         """
-        result = {True:"OK", False:"FAIL", "ok": "OK", "fail": "FAIL"}[result]
+        result = self._parseresult(result)
         with open(self.install_log, 'a') as log:
             line = f"[{result}]:  {action}\n"
             log.writelines(line)
+
+    def _parseresult(self, result):
+        if isinstance(result, str):
+            result = result.casefold()
+        return {True:"OK", False:"FAIL", "ok": "OK", "fail": "FAIL"}[result]
 
 
     def chain(self, cmds, logall=False, ignore_exit_code=False, quiet=False):
@@ -134,7 +159,7 @@ if __name__ == '__main__':
         'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein',
     ])
     inst.log(outcome, inst.currstep)
-    inst.print_result(outcome, nocolor=True)
+    inst.result(outcome, nocolor=True)
 
     # get jconsole 
     inst.step('download jtools', nocolor=True)
@@ -145,16 +170,22 @@ if __name__ == '__main__':
         shutil.rmtree(f'{inst.appdir}/localjtools')
         import jconsole as jc
         outcome = True
-    inst.print_result(outcome, nocolor=True)
+    inst.result(outcome, nocolor=True)
     inst.log(outcome, inst.currstep)
    
     # gcc
     inst.step('get gcc')
     outcome = inst.chain([inst.install('gcc')])
     inst.log(outcome, inst.currstep)
-    inst.print_result(outcome)
+    inst.result(outcome)
 
-    # 1.4
+    # clone misc-db-files repo into git-repos/ 
+    inst.step('get mis-db-files repository')
+    outcome = inst.chain([
+        f'git clone git@github.com:umbral-tension/misc-db-files {inst.git_repos}/misc-db-files'
+    ])
+    inst.log(outcome, inst.currstep)
+    inst.result(outcome)
 
     # keyd
     inst.step('download and install keyd')
@@ -165,11 +196,21 @@ if __name__ == '__main__':
         'make',
         'sudo make install',
         'sudo systemctl enable keyd',
-        f'rm -rf {inst.appdir}/keyd',
         f'sudo cp {keyd_conf} /etc/keyd/default.conf',
         'sudo systemctl restart keyd',
         ])
     inst.log(outcome, inst.currstep)
-    inst.print_result(outcome)
+    inst.result(outcome)
     os.chdir(inst.appdir)
 
+
+    # cleanup
+    inst.step('cleanup')
+    outcome = inst.chain([
+        f'rm -rf {inst.appdir}/keyd',
+        f'rm -rf {inst.appdir}/jconsole.py'
+    ])
+    inst.log(outcome, inst.currstep)
+    inst.result(outcome)
+
+    inst.report()
