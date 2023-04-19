@@ -1,0 +1,5 @@
+[FAIL]:  (return code 1): sudo dnf install pip                                    
+	stderr:
+		Operation aborted.
+
+[FAIL]:  get python packages

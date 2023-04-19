@@ -114,9 +114,9 @@ if __name__ == '__main__':
     # 1.1 - 1.2
     inst.step('get python packages', nocolor=True)
     outcome = inst.chain([
-        'sudo dnf install pip',
-        'echo pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein',
-    ])
+        'sudo dnf -y install pip',
+        'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein',
+    ])#, print_realtime=True)
     inst.log(outcome, inst.currstep)
     inst.print_result(outcome, nocolor=True)
 
@@ -140,11 +140,13 @@ if __name__ == '__main__':
     inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.appdir}/keyd'])
     os.chdir(f'{inst.appdir}/keyd')
     outcome = inst.chain([
+        'sudo dnf -y install make',
         'make',
         'sudo make install',
         'sudo systemctl enable keyd',
         f'rm -rf {inst.appdir}/keyd',
-        f'sudo cp {keyd_conf} /etc/keyd/default.conf'
+        f'sudo cp {keyd_conf} /etc/keyd/default.conf',
+        'sudo systemctl restart keyd',
         ])
     inst.log(outcome, inst.currstep)
     inst.print_result(outcome)

@@ -1,0 +1,14 @@
+[OK]:  get python packages
+[OK]:  download jtools
+[FAIL]:  make
+	Traceback (most recent call last):
+  File "/home/jeremy/@data/git-repos/linux-automation/installer/install_script.py", line 80, in chain
+    with Popen(cmd, bufsize=1, stdout=PIPE, stderr=PIPE, text=True) as resp:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib64/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'make'
+
+[FAIL]:  download and install keyd
