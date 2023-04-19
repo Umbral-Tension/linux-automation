@@ -130,5 +130,5 @@ dmypy.json
 .pyre/
 
 #Jeremy additions
-src/linux-automation/installer/logs/
+src/linux-automation/installer/logs/*
 src/linux-automation/installer/jconsole.py
