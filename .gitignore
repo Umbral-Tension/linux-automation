@@ -132,3 +132,4 @@ dmypy.json
 #Jeremy additions
 installer/logs/
 installer/jconsole.py
+installer/@LATEST-LOG.txt

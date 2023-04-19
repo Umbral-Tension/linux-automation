@@ -1,1 +1,0 @@
-/home/jeremy/@data/git-repos/linux-automation/installer/logs/install log 2023-04-19 00:06:56.509301
