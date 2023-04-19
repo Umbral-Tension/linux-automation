@@ -1,6 +1,0 @@
-[OK]:  get python packages
-[FAIL]:  (return code 128): git clone https://github.com/umbral-tension/python-jtools /localjtools                                    
-	stderr:
-		fatal: could not create work tree dir '/localjtools': Permission denied
-
-[FAIL]:  download jtools

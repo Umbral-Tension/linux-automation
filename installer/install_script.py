@@ -17,6 +17,7 @@ class Installer:
         self.git_repos = opath.join(self.home, '@data/git-repos')
         self.appdir = opath.dirname(__file__)
         self.appname = opath.basename(self.appdir)
+        
         logname = f'install log {datetime.now()}'
         latestlog = opath.join(self.appdir, f'@LATEST-LOG.txt')
         try:
@@ -25,8 +26,24 @@ class Installer:
             pass
         self.install_log = opath.join(self.appdir, f'logs/{logname}')
         os.symlink(self.install_log, latestlog)
+        
+        try:
+            run(['apt'], capture_output=True)
+            self.package_manager = 'apt'
+        except FileNotFoundError:
+            try:
+                run(['dnf'], capture_output=True)
+                self.package_manager = 'dnf'
+            except FileNotFoundError:
+                print('No supported package manager found (apt, dnf). Exitting')
+                sys.exit()
+        
         # current step in the installatino process
         self.currstep = ''
+
+    def install(self, program):
+        """return either a dnf or apt install cmd depending on what is available"""
+        return f'sudo {self.package_manager} -y install {program}'
 
     def step(self, description, print_now=True, nocolor=False):
         """update and print the current installation step."""
@@ -35,7 +52,7 @@ class Installer:
             if nocolor:
                 print(f'---->  {self.currstep}')
             else:
-                print(jc.bold(jc.blue('---->  ')+f'{self.currstep}'))
+                print(jc.bold(jc.yellow('---->  ')+f'{self.currstep}'))
 
     def print_result(self, result, nocolor=False):
         """pretty print the specified result of currstep
@@ -64,13 +81,15 @@ class Installer:
             log.writelines(line)
 
 
-    def chain(self, cmds, logall=False, ignore_exit_code=False, print_realtime=False):
+    def chain(self, cmds, logall=False, ignore_exit_code=False, quiet=False):
         """run a series of commands in the shell, returning False immediately
          if one in the series exits with any non-zero value. 
         
+        @param cmds: list of strings, each of which is a single shell command,
+        such as "mv src dest".  
         @param logall: if True, log each command that is run, not just those, that fail.
         @param ignore_exit_code: don't return if one of cmds returns non-zero.
-        @param print_realtime: print stdout content as the subprocess makes it 
+        @param quiet: don't print stdout content as the subprocess makes it 
         available. 
         """
         
@@ -78,7 +97,7 @@ class Installer:
             try:
                 cmd = shlex.split(x)
                 with Popen(cmd, bufsize=1, stdout=PIPE, stderr=PIPE, text=True) as resp:
-                    if print_realtime:
+                    if not quiet:
                         for line in resp.stdout:
                             print(line, end='') # process line here
                     resp.wait()
@@ -93,8 +112,6 @@ class Installer:
                                     \n\tstderr:\n\t\t{errstr}')
                     
                         return False
-                if print_realtime:
-                    print()
             except:
                 estring = traceback.format_exc()
                 print(estring)
@@ -110,17 +127,16 @@ if __name__ == '__main__':
     print('///////   linux-automation installer    ///////\n')
     inst= Installer()
 
-
-    # 1.1 - 1.2
+    # pip and python modules
     inst.step('get python packages', nocolor=True)
     outcome = inst.chain([
-        'sudo dnf -y install pip',
+        inst.install('pip'),
         'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein',
-    ])#, print_realtime=True)
+    ])
     inst.log(outcome, inst.currstep)
     inst.print_result(outcome, nocolor=True)
 
-    # 1.3
+    # get jconsole 
     inst.step('download jtools', nocolor=True)
     chain = inst.chain([f'git clone https://github.com/umbral-tension/python-jtools {inst.appdir}/localjtools'])
     outcome = False
@@ -132,15 +148,20 @@ if __name__ == '__main__':
     inst.print_result(outcome, nocolor=True)
     inst.log(outcome, inst.currstep)
    
+    # gcc
+    inst.step('get gcc')
+    outcome = inst.chain([inst.install('gcc')])
+    inst.log(outcome, inst.currstep)
+    inst.print_result(outcome)
+
     # 1.4
 
-    # 2.1
+    # keyd
     inst.step('download and install keyd')
     keyd_conf = opath.realpath(inst.appdir + '/../resources/configs/my_keyd.conf')
     inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.appdir}/keyd'])
     os.chdir(f'{inst.appdir}/keyd')
     outcome = inst.chain([
-        'sudo dnf -y install make',
         'make',
         'sudo make install',
         'sudo systemctl enable keyd',

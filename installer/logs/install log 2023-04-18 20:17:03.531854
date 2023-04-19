@@ -1,7 +1,0 @@
-[FAIL]:  (return code 1): sudo dnf -y install pip                                    
-	stderr:
-		sudo: 3 incorrect password attempts
-
-[FAIL]:  get python packages
-[OK]:  download jtools
-[OK]:  download and install keyd

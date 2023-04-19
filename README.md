@@ -14,8 +14,9 @@ This is a suite of scripts that
 - python modules 
 	- ipython 
 	- PyQt5, pandas, mutagen, colorama, progress 
--GNOME extensions
+- GNOME extensions
 	- Window Calls
+- gcc
 
 ### Non-dependencies
 -GNOME extensions

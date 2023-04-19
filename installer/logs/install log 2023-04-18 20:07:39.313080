@@ -1,8 +1,0 @@
-[OK]:  get python packages
-[OK]:  download jtools
-[FAIL]:  (return code 2): make                                    
-	stderr:
-		/bin/sh: line 1: cc: command not found
-make: *** [Makefile:37: all] Error 127
-
-[FAIL]:  download and install keyd
