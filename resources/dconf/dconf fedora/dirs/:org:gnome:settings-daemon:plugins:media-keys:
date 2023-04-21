@@ -71,8 +71,8 @@ command='jrouter --open vscode'
 name='vscode'
 [custom-keybindings/custom36]
 binding='<Primary><Alt>5'
-command='jrouter --open vscode_linux-automation'
-name='vscode_linux-automation'
+command='jrouter --open vscode_jcomp'
+name='vscode_jcomp'
 [custom-keybindings/custom37]
 binding='<Primary><Shift><Alt>5'
 command='jrouter --open vscode_experiments'
@@ -110,8 +110,8 @@ command='jrouter --open vscode'
 name='vscode KP'
 [custom-keybindings/custom45]
 binding='<Primary><Alt>KP_5'
-command='jrouter --open vscode_linux-automation'
-name='vscode_linux-automation KP'
+command='jrouter --open vscode_jcomp'
+name='vscode_jcomp KP'
 [custom-keybindings/custom46]
 binding='<Primary><Shift><Alt>KP_5'
 command='jrouter --open vscode_experiments'

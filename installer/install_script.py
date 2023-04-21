@@ -149,7 +149,7 @@ class Installer:
 
 if __name__ == '__main__':
     print('\n\n///////////////////////////////////////////////')
-    print('///////   linux-automation installer    ///////\n')
+    print('///////   jcomp installer    ///////\n')
     inst= Installer()
 
     # pip and python modules
