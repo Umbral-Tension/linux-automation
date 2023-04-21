@@ -206,6 +206,25 @@ if __name__ == '__main__':
     inst.result(outcome)
     os.chdir(inst.installerdir)
 
+
+    
+    # bashrc, jrouter, dconf
+    inst.step('bashrc, jrouter, dconf')
+    with open(f'{inst.home}/.bashrc', 'a') as f:
+        f.writelines([f'. {inst.appdir}/resources/configs/bashrc fedora'])
+    try:
+        os.remove('/home/jeremy/bin/jrouter')
+    except FileNotFoundError:
+        pass
+    os.symlink(f'{inst.appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
+    os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    # outcome = inst.chain([
+    #     f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"'
+    # ])
+    # inst.log(outcome, inst.currstep)
+    # inst.result(outcome)
+    
+    
     # cleanup
     inst.step('cleanup')
     outcome = inst.chain([
@@ -214,20 +233,6 @@ if __name__ == '__main__':
     ])
     inst.log(outcome, inst.currstep)
     inst.result(outcome)
-
-    
-    # bashrc, jrouter, dconf
-    with open(f'{inst.home}/.bashrc', 'a') as f:
-        f.writelines([f'. {inst.appdir}/resources/configs/bashrc fedora'])
-    try:
-        os.remove('/home/jeremy/bin/jrouter')
-    except FileNotFoundError:
-        pass
-    os.symlink(f'{inst.appdir}/src/linux-automation/jrouter.py', '/home/jeremy/bin/jrouter')         
-    outcome = inst.chain([
-        'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:'
-    ])
-        
 
     # Show final report
     inst.report()
