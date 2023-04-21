@@ -5,7 +5,6 @@ from shlex import split as lex
 from subprocess import Popen, PIPE, run
 import traceback
 from datetime import datetime
-from jtools.jconsole import test, ptest, zen
 
 
 class Installer:
