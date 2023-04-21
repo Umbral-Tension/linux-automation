@@ -217,7 +217,7 @@ if __name__ == '__main__':
     except FileNotFoundError:
         pass
     
-    print('here->>', inst.appdir, f'{inst.appdir}/src/linux_automation/jrouter.py', sep='\n')
+    os.makedirs('/home/jeremy/bin', exist_ok=True)
     os.symlink(f'{inst.appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
     os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
 
