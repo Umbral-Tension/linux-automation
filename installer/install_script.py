@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import os, shutil, sys
 import os.path as opath
 import shlex
