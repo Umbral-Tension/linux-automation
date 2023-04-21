@@ -98,8 +98,8 @@ name='vscode'
 
 [custom-keybindings/custom39]
 binding=['<Primary><Alt>5', '<Primary><Alt>KP_5']
-command='jrouter --open vscode_jcomp'
-name='vscode_jcomp'
+command='jrouter --open vscode_linux-automation'
+name='vscode_linux-automation'
 
 [custom-keybindings/custom40]
 binding=['<Primary><Shift><Alt>KP_Begin']
