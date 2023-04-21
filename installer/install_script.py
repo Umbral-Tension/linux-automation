@@ -176,35 +176,35 @@ if __name__ == '__main__':
     inst.result(outcome, nocolor=True)
     inst.log(outcome, inst.currstep)
    
-    # gcc
-    inst.step('get gcc')
-    outcome = inst.chain([inst.install('gcc')])
-    inst.log(outcome, inst.currstep)
-    inst.result(outcome)
+    # # gcc
+    # inst.step('get gcc')
+    # outcome = inst.chain([inst.install('gcc')])
+    # inst.log(outcome, inst.currstep)
+    # inst.result(outcome)
 
-    # clone misc-db-files repo into git-repos/ 
-    inst.step('get misc-db-files repository')
-    outcome = inst.chain([
-        f'git clone git@github.com:umbral-tension/misc-db-files {inst.git_repos}/misc-db-files'
-    ])
-    inst.log(outcome, inst.currstep)
-    inst.result(outcome)
+    # # clone misc-db-files repo into git-repos/ 
+    # inst.step('get misc-db-files repository')
+    # outcome = inst.chain([
+    #     f'git clone git@github.com:umbral-tension/misc-db-files {inst.git_repos}/misc-db-files'
+    # ])
+    # inst.log(outcome, inst.currstep)
+    # inst.result(outcome)
 
-    # keyd
-    inst.step('download and install keyd')
-    keyd_conf = f'{inst.appdir}/resources/configs/my_keyd.conf'
-    inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.installerdir}/keyd'])
-    os.chdir(f'{inst.installerdir}/keyd')
-    outcome = inst.chain([
-        'make',
-        'sudo make install',
-        'sudo systemctl enable keyd',
-        f'sudo cp {keyd_conf} /etc/keyd/default.conf',
-        'sudo systemctl restart keyd',
-        ])
-    inst.log(outcome, inst.currstep)
-    inst.result(outcome)
-    os.chdir(inst.installerdir)
+    # # keyd
+    # inst.step('download and install keyd')
+    # keyd_conf = f'{inst.appdir}/resources/configs/my_keyd.conf'
+    # inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.installerdir}/keyd'])
+    # os.chdir(f'{inst.installerdir}/keyd')
+    # outcome = inst.chain([
+    #     'make',
+    #     'sudo make install',
+    #     'sudo systemctl enable keyd',
+    #     f'sudo cp {keyd_conf} /etc/keyd/default.conf',
+    #     'sudo systemctl restart keyd',
+    #     ])
+    # inst.log(outcome, inst.currstep)
+    # inst.result(outcome)
+    # os.chdir(inst.installerdir)
 
 
     
@@ -216,15 +216,12 @@ if __name__ == '__main__':
         os.remove('/home/jeremy/bin/jrouter')
     except FileNotFoundError:
         pass
+    
+    print('here->>', inst.appdir, f'{inst.appdir}/src/linux_automation/jrouter.py', sep='\n')
     os.symlink(f'{inst.appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
     os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    # outcome = inst.chain([
-    #     f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"'
-    # ])
-    # inst.log(outcome, inst.currstep)
-    # inst.result(outcome)
-    
-    
+
+
     # cleanup
     inst.step('cleanup')
     outcome = inst.chain([
