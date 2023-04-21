@@ -11,20 +11,22 @@ class Installer:
 
     def __init__(self):
 
-        # paths
+        # relevant paths
         self.home = os.environ['HOME']
         self.git_repos = opath.join(self.home, '@data/git-repos')
         os.makedirs(self.git_repos, exist_ok=True)
-        self.appdir = opath.dirname(__file__)
+        self.installerdir = opath.dirname(__file__)
+        self.appdir = opath.dirname(self.installerdir)
         self.appname = opath.basename(self.appdir)
-        
+
         logname = f'install log {datetime.now()}'
-        latestlog = opath.join(self.appdir, f'@LATEST-LOG.txt')
+        latestlog = opath.join(self.installerdir, f'@LATEST-LOG.txt')
         try:
             os.remove(latestlog)
-        except:
+        except FileNotFoundError:
             pass
-        self.install_log = opath.join(self.appdir, f'logs/{logname}')
+        os.makedirs(opath.join(self.installerdir, 'logs'), exist_ok=True)
+        self.install_log = opath.join(self.installerdir, f'logs/{logname}')
         os.symlink(self.install_log, latestlog)
         
         try:
@@ -162,11 +164,11 @@ if __name__ == '__main__':
 
     # get jconsole 
     inst.step('download jtools', nocolor=True)
-    chain = inst.chain([f'git clone https://github.com/umbral-tension/python-jtools {inst.appdir}/localjtools'])
+    chain = inst.chain([f'git clone https://github.com/umbral-tension/python-jtools {inst.installerdir}/localjtools'])
     outcome = False
     if chain:
-        shutil.move(f'{inst.appdir}/localjtools/src/jtools/jconsole.py', f'{inst.appdir}/jconsole.py')
-        shutil.rmtree(f'{inst.appdir}/localjtools')
+        shutil.move(f'{inst.installerdir}/localjtools/src/jtools/jconsole.py', f'{inst.installerdir}/jconsole.py')
+        shutil.rmtree(f'{inst.installerdir}/localjtools')
         import jconsole as jc
         outcome = True
     inst.result(outcome, nocolor=True)
@@ -179,7 +181,7 @@ if __name__ == '__main__':
     inst.result(outcome)
 
     # clone misc-db-files repo into git-repos/ 
-    inst.step('get mis-db-files repository')
+    inst.step('get misc-db-files repository')
     outcome = inst.chain([
         f'git clone git@github.com:umbral-tension/misc-db-files {inst.git_repos}/misc-db-files'
     ])
@@ -188,9 +190,9 @@ if __name__ == '__main__':
 
     # keyd
     inst.step('download and install keyd')
-    keyd_conf = opath.realpath(inst.appdir + '/../resources/configs/my_keyd.conf')
-    inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.appdir}/keyd'])
-    os.chdir(f'{inst.appdir}/keyd')
+    keyd_conf = f'{inst.appdir}/resources/configs/my_keyd.conf'
+    inst.chain([f'git clone https://github.com/rvaiya/keyd {inst.installerdir}/keyd'])
+    os.chdir(f'{inst.installerdir}/keyd')
     outcome = inst.chain([
         'make',
         'sudo make install',
@@ -200,16 +202,30 @@ if __name__ == '__main__':
         ])
     inst.log(outcome, inst.currstep)
     inst.result(outcome)
-    os.chdir(inst.appdir)
-
+    os.chdir(inst.installerdir)
 
     # cleanup
     inst.step('cleanup')
     outcome = inst.chain([
-        f'rm -rf {inst.appdir}/keyd',
-        f'rm -rf {inst.appdir}/jconsole.py'
+        f'rm -rf {inst.installerdir}/keyd',
+        f'rm -rf {inst.installerdir}/jconsole.py',
     ])
     inst.log(outcome, inst.currstep)
     inst.result(outcome)
 
+    
+    # bashrc, jrouter, dconf
+    with open(f'{inst.home}/.bashrc', 'a') as f:
+        f.writelines([f'. {inst.appdir}/resources/configs/bashrc fedora'])
+    try:
+        os.remove('/home/jeremy/bin/jrouter')
+    except FileNotFoundError:
+        pass
+    os.symlink(f'{inst.appdir}/src/linux-automation/jrouter.py', '/home/jeremy/bin/jrouter')         
+    outcome = inst.chain([
+        'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:'
+    ])
+        
+
+    # Show final report
     inst.report()
