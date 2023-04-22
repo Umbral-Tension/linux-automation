@@ -17,7 +17,7 @@ class Installer:
         self.home = os.environ['HOME']
         self.git_repos = opath.join(self.home, '@data/git-repos')
         os.makedirs(self.git_repos, exist_ok=True)
-        self.installerdir = opath.dirname(__file__)
+        self.installerdir = opath.dirname(opath.realpath(__file__))
         self.appdir = opath.dirname(self.installerdir)
         self.appname = opath.basename(self.appdir)
 
@@ -87,7 +87,6 @@ class Installer:
 
     def report(self):
         """ print and return a list of all installation steps and their results."""
-
         print(jc.bold(jc.yellow('\n////// Report /////')))
         for x in self.steps:
             self.result(x[1], x[0], norecord=True)
@@ -208,19 +207,20 @@ if __name__ == '__main__':
 
 
     
-    # bashrc, jrouter, dconf
-    inst.step('bashrc, jrouter, dconf')
-    with open(f'{inst.home}/.bashrc', 'a') as f:
-        f.writelines([f'. {inst.appdir}/resources/configs/bashrc fedora'])
-    try:
-        os.remove('/home/jeremy/bin/jrouter')
-    except FileNotFoundError:
-        pass
+    # # bashrc, jrouter, dconf
+    # inst.step('bashrc, jrouter, dconf')
+    # with open(f'{inst.home}/.bashrc', 'a') as f:
+    #     f.writelines([f'. "{inst.appdir}/resources/configs/bashrc fedora"\n'])
     
-    os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{inst.appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
-    os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-
+    # try:
+    #     os.remove('/home/jeremy/bin/jrouter')
+    # except FileNotFoundError:
+    #     pass
+    # os.makedirs('/home/jeremy/bin', exist_ok=True)
+    # os.symlink(f'{inst.appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
+    # os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{inst.appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    # inst.log(True, inst.currstep)
+    # inst.result(True)
 
     # cleanup
     inst.step('cleanup')
