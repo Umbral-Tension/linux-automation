@@ -49,7 +49,7 @@ if __name__ == '__main__':
     from jtools.shelldo import Shelldo
 
     inst = Shelldo()
-
+    jc.test()
    
     # # gcc
     # inst.set_action('get gcc')
