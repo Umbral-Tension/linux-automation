@@ -22,26 +22,27 @@ if __name__ == '__main__':
     appname = opath.basename(appdir)
 
 
-
-    ### Bootstrap phase
-    # need to do a few thing so jtools can be used for the rest of the script. 
-    # determin package manager to use
-    try:
-        run(['apt'], capture_output=True)
-        pm = 'apt'
-    except FileNotFoundError:
+    print(sys.argv)
+    if len(sys.argv) == 1:
+        ### Bootstrap phase
+        # need to do a few thing so jtools can be used for the rest of the script. 
+        # determin package manager to use
         try:
-            run(['dnf'], capture_output=True)
-            pm = 'dnf'
+            run(['apt'], capture_output=True)
+            pm = 'apt'
         except FileNotFoundError:
-            print('shelldo: No supported package manager found (apt, dnf)')    
-    # get git, pip, and jtools
-    run(lex(f'sudo {pm} install -y git'))
-    run(lex(f'sudo {pm} install -y pip'))
-    run(lex(f'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
-    run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
+            try:
+                run(['dnf'], capture_output=True)
+                pm = 'dnf'
+            except FileNotFoundError:
+                print('shelldo: No supported package manager found (apt, dnf)')    
+        # get git, pip, and jtools
+        run(lex(f'sudo {pm} install -y git'))
+        run(lex(f'sudo {pm} install -y pip'))
+        run(lex(f'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
+        run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
 
-
+        os.execl(sys.argv[0], sys.argv[0], 'continue')
 
     sys.path.append(f'{installerdir}/localjtools/src/')
     from jtools import jconsole as jc
@@ -50,11 +51,11 @@ if __name__ == '__main__':
     inst = Shelldo()
 
    
-    # gcc
-    inst.set_action('get gcc')
-    outcome = inst.chain([inst.inst_cmd('gcc')])
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
+    # # gcc
+    # inst.set_action('get gcc')
+    # outcome = inst.chain([inst.inst_cmd('gcc')])
+    # inst.log(outcome, inst.curraction)
+    # inst.set_result(outcome)
 
     # #Generate SSH keys
     # inst.set_action('generate SSH keys and add to Github')
@@ -75,47 +76,47 @@ if __name__ == '__main__':
     # inst.log(outcome, inst.curraction)
     # inst.set_result(outcome)
 
-    # keyd
-    inst.set_action('download and install keyd')
-    keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
-    inst.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
-    os.chdir(f'{installerdir}/keyd')
-    outcome = inst.chain([
-        'make',
-        'sudo make install',
-        'sudo systemctl enable keyd',
-        f'sudo cp {keyd_conf} /etc/keyd/default.conf',
-        'sudo systemctl restart keyd',
-        ])
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
-    os.chdir(installerdir)
+    # # keyd
+    # inst.set_action('download and install keyd')
+    # keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
+    # inst.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
+    # os.chdir(f'{installerdir}/keyd')
+    # outcome = inst.chain([
+    #     'make',
+    #     'sudo make install',
+    #     'sudo systemctl enable keyd',
+    #     f'sudo cp {keyd_conf} /etc/keyd/default.conf',
+    #     'sudo systemctl restart keyd',
+    #     ])
+    # inst.log(outcome, inst.curraction)
+    # inst.set_result(outcome)
+    # os.chdir(installerdir)
 
 
     
-    # bashrc, jrouter, dconf
-    inst.set_action('bashrc, jrouter, dconf')
-    with open(f'{home}/.bashrc', 'a') as f:
-        f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
+    # # bashrc, jrouter, dconf
+    # inst.set_action('bashrc, jrouter, dconf')
+    # with open(f'{home}/.bashrc', 'a') as f:
+    #     f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
     
-    try:
-        os.remove('/home/jeremy/bin/jrouter')
-    except FileNotFoundError:
-        pass
-    os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
-    os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    inst.log(True, inst.curraction)
-    inst.set_result(True)
+    # try:
+    #     os.remove('/home/jeremy/bin/jrouter')
+    # except FileNotFoundError:
+    #     pass
+    # os.makedirs('/home/jeremy/bin', exist_ok=True)
+    # os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
+    # os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    # inst.log(True, inst.curraction)
+    # inst.set_result(True)
 
-    # cleanup
-    inst.set_action('cleanup')
-    outcome = inst.chain([
-        f'rm -rf {installerdir}/keyd',
-        f'rm -rf {installerdir}/localjtools',
-    ])
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
+    # # cleanup
+    # inst.set_action('cleanup')
+    # outcome = inst.chain([
+    #     f'rm -rf {installerdir}/keyd',
+    #     f'rm -rf {installerdir}/localjtools',
+    # ])
+    # inst.log(outcome, inst.curraction)
+    # inst.set_result(outcome)
 
-    # Show final report
-    inst.report()
+    # # Show final report
+    # inst.report()
