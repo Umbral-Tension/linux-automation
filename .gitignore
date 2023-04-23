@@ -130,6 +130,6 @@ dmypy.json
 .pyre/
 
 #Jeremy additions
-installer/logs/
 installer/jconsole.py
-installer/@LATEST-LOG.txt
+*shelldo log*
+*@LATEST-SHELLDO-LOG.txt*
