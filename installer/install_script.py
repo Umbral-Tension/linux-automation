@@ -93,10 +93,10 @@ if __name__ == '__main__':
     outcome = inst.chain(gh_inst[inst.package_manager])    
     if outcome:
         # can't use chain because we need to interact with this command alot. 
-        a = run(lex('gh auth login -p https -w'))
-        b = run(lex('gh auth refresh -h github.com -s admin:public_key'))
-        c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"'))
-    outcome = outcome and a + b + c == 0
+        a = run(lex('gh auth login -p https -w')).returncode
+        b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
+        c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    outcome = outcome and (a + b + c == 0)
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
     
