@@ -13,13 +13,13 @@ This is a suite of scripts that
 - tree
 - python modules 
 	- ipython 
-	- PyQt5, pandas, mutagen, colorama, progress 
+	- PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein
 - GNOME extensions
 	- Window Calls
 - gcc
 
 ### Non-dependencies
--GNOME extensions
+- GNOME extensions
 	- Alphabetical App Grid
 	- AppIndicator and KStatusNotifierItem Support
 	- Dash To Panel

@@ -10,6 +10,8 @@ from datetime import datetime
 
 
 
+
+
 if __name__ == '__main__':
     print('\n/////////////////////////////////////////////////')
     print('////////   linux-automation installer  //////////\n')
@@ -54,87 +56,91 @@ if __name__ == '__main__':
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
 
 
-    # # gcc
-    # inst.set_action('get gcc')
-    # outcome = inst.chain([inst.inst_cmd('gcc')])
+    # gcc
+    inst.set_action('get gcc')
+    outcome = inst.chain([inst.inst_cmd('gcc')])
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
+
+    
+    # # misc stuff
+    # inst.set_action('hostname')
+    # outcome = inst.chain(['hostnamectl set-hostname {hostname}'])
     # inst.log(outcome, inst.curraction)
     # inst.set_result(outcome)
 
+    # # make ssh keys configure sshd 
+    # inst.set_action('generate SSH keys and configure sshd')
+    # if not opath.exists(f'{home}/.ssh/id_ed25519'): 
+    #     outcome = inst.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
+    # outcome = outcome and inst.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
+    # inst.log(outcome, inst.curraction)
+    # inst.set_result(outcome)
     
-    # misc stuff
-    inst.set_action('hostname')
-    outcome = inst.chain(['hostnamectl set-hostname {hostname}'])
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
-
-    # make ssh keys configure sshd 
-    inst.set_action('generate SSH keys and configure sshd')
-    if not opath.exists(f'{home}/.ssh/id_ed25519'): 
-        outcome = inst.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
-    outcome = outcome and inst.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
+    # # install Github client and add ssh keys to github        
+    # inst.set_action('install github cli and add ssh to github')
+    # gh_inst = {
+    #     'apt': [
+    #         'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg',
+    #         'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
+    #         'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
+    #         'sudo apt update',
+    #         'sudo apt -y install gh '
+    #     ],
+    #     'dnf': [
+    #         'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
+    #         'sudo dnf -y install gh'
+    # ]}    
+    # outcome = inst.chain(gh_inst[inst.package_manager])    
+    # if outcome:
+    #     # can't use chain because we need to interact with this command alot. 
+    #     a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
+    #     # b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
+    #     c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    # outcome = outcome and (a + c == 0)
+    # inst.log(outcome, inst.curraction)
+    # inst.set_result(outcome)
     
-    # install Github client and add ssh keys to github        
-    inst.set_action('install github cli and add ssh to github')
-    gh_inst = {
-        'apt': [
-            'type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)',  
-            'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg',
-            'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
-            'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
-            'sudo apt update',
-            'sudo apt -y install gh '
-        ],
-        'dnf': [
-            'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
-            'sudo dnf -y install gh'
-    ]}    
-    outcome = inst.chain(gh_inst[inst.package_manager])    
-    if outcome:
-        # can't use chain because we need to interact with this command alot. 
-        a = run(lex('gh auth login -p https -w')).returncode
-        b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
-        c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    outcome = outcome and (a + b + c == 0)
-    inst.log(outcome, inst.curraction)
-    inst.set_result(outcome)
-    
-        
-        
-        
-        
-        
-        
-        
-
     # # clone my usual repos into git-repos/ 
-    # inst.set_action('get misc-db-files repository')
+    # inst.set_action('clone my repos from github')
     # repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
-    #          'experiments', 'project-euler']
-    # for x in repos:
-    #     apath = f'{git_repos}/x'
-    # outcome = inst.chain([
-    #     f'git clone git@github.com:umbral-tension/{x} {git_repos}/misc-db-files'
-    # ])
+    #          'experiments', 'project-euler', 'misc-db-files']
+    # clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
+    # outcome = inst.chain(clone_cmds, ignore_exit_code=True)
     # inst.log(outcome, inst.curraction)
     # inst.set_result(outcome)
 
-    # # keyd
-    # inst.set_action('download and install keyd')
-    # keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
-    # inst.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
-    # os.chdir(f'{installerdir}/keyd')
-    # outcome = inst.chain([
-    #     'make',
-    #     'sudo make install',
-    #     'sudo systemctl enable keyd',
-    #     f'sudo cp {keyd_conf} /etc/keyd/default.conf',
-    #     'sudo systemctl restart keyd',
-    #     ])
-    # inst.log(outcome, inst.curraction)
-    # inst.set_result(outcome)
-    # os.chdir(installerdir)
+    # keyd
+    inst.set_action('download and install keyd')
+    inst.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
+    os.chdir(f'{installerdir}/keyd')
+    outcome = inst.chain([
+        'make',
+        'sudo make install',
+        'sudo systemctl enable keyd',
+        'sudo systemctl restart keyd',
+        ])
+    os.chdir(installerdir)
+
+    # exhort user to get keyboard device id 
+    input(jc.yellow("Opening a terminal running keyd -m. Copy the device ids you want and paste them here in a comma seperated list.\n...press enter when ready"))
+    run(lex('gnome-terminal -- sudo keyd -m'))
+    device_ids = input(jc.yellow("device ids: "))
+    device_ids = device_ids.replace(',', '\n,').replace(' ','').split(',')
+    keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
+    temp_conf = f'{installerdir}/temp_keyd_conf'
+    with open(temp_conf, 'w') as tempfile, open(keyd_conf, 'r') as keydfile:
+        lines = ['[ids]\n'] + device_ids + keydfile.readlines()
+        tempfile.writelines(lines)
+    
+    outcome2 = inst.chain([
+        f'sudo cp {temp_conf} /etc/keyd/default.conf',
+        'sudo systemctl restart keyd',
+    ])
+    os.remove(temp_conf)
+    outcome = outcome and outcome2
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
 
 
     
