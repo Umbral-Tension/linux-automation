@@ -1,4 +1,5 @@
 #!/bin/python3
+"""Configure a fedora system."""
 
 import os, shutil, sys
 import os.path as opath
@@ -25,35 +26,52 @@ if __name__ == '__main__':
     appname = opath.basename(appdir)
 
     #### Bootstrap prework to make jtools available for the rest of the script.
-    if len(sys.argv) == 1:
-        # determin package manager to use
-        try:
-            run(['apt'], capture_output=True)
-            pm = 'apt'
-        except FileNotFoundError:
-            try:
-                run(['dnf'], capture_output=True)
-                pm = 'dnf'
-            except FileNotFoundError:
-                print('shelldo: No supported package manager found (apt, dnf)')    
+    if len(sys.argv) == 1:  
         # get git, pip, and jtools
-        run(lex(f'sudo {pm} install -y git'))
-        run(lex(f'sudo {pm} install -y pip'))
+        run(lex(f'sudo dnf install -y git'))
+        run(lex(f'sudo dnf install -y pip'))
         run(lex(f'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
         run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
-
-        # have to relaunch or the modules that were just installed aren't found for import 
+        # have to relaunch or the modules that were just installed aren't importable
         os.execl(sys.argv[0], sys.argv[0], 'continuation')
-
     
+
     #### Begin the rest of installation
     sys.path.append(f'{installerdir}/localjtools/src/')
     from jtools import jconsole as jc
     from jtools.shelldo import Shelldo
     inst = Shelldo()
 
+
+
     #### Collect input
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
+
+
+
+    #### install repos
+    inst.set_action('install some repositories: rpm fusion free and non-free, ')
+    fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
+    outcome = inst.chain([
+        f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
+        f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"',
+    ])
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
+    
+
+
+    #### install packages
+    inst.set_action('install some software: ffmpeg, multimedia codecs, mesa drivers')
+    outcome = inst.chain([
+        'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
+        'sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
+        'sudo dnf -y groupupdate sound-and-video',
+        'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
+        'sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld',
+    ])
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
 
 
     #### gcc
@@ -63,11 +81,14 @@ if __name__ == '__main__':
     inst.set_result(outcome)
 
     
+
     #### misc stuff
     inst.set_action('hostname')
-    outcome = inst.chain(['hostnamectl set-hostname {hostname}'])
+    outcome = inst.chain([f'hostnamectl set-hostname {hostname}'])
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
+
+
 
     #### make ssh keys configure sshd 
     inst.set_action('generate SSH keys and configure sshd')
@@ -77,30 +98,24 @@ if __name__ == '__main__':
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
     
+
+
     #### install Github client and add ssh keys to github        
     inst.set_action('install github cli and add ssh to github')
-    gh_inst = {
-        'apt': [
-            'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg',
-            'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
-            'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
-            'sudo apt update',
-            'sudo apt -y install gh '
-        ],
-        'dnf': [
-            'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
-            'sudo dnf -y install gh'
-    ]}    
-    outcome = inst.chain(gh_inst[inst.package_manager])    
+    outcome = inst.chain([
+        'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
+        'sudo dnf -y install gh'
+    ])
     if outcome:
         # can't use chain because we need to interact with this command alot. 
         a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
-        # b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
-        c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    outcome = outcome and (a + c == 0)
+        b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    outcome = outcome and (a + b == 0)
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
     
+
+
     #### clone my usual repos into git-repos/ 
     inst.set_action('clone my repos from github')
     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
@@ -109,6 +124,8 @@ if __name__ == '__main__':
     outcome = inst.chain(clone_cmds, ignore_exit_code=True)
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
+
+
 
     #### keyd
     inst.set_action('download and install keyd')
@@ -121,6 +138,8 @@ if __name__ == '__main__':
         'sudo systemctl restart keyd',
         ])
     os.chdir(installerdir)
+
+
 
     # exhort user to get keyboard device id 
     input(jc.yellow("Opening a terminal running keyd -m. Copy the device ids you want and paste them here in a comma seperated list.\n...press enter when ready"))
@@ -143,7 +162,7 @@ if __name__ == '__main__':
     inst.set_result(outcome)
 
 
-    
+
     #### bashrc, jrouter, dconf
     inst.set_action('bashrc, jrouter, dconf')
     with open(f'{home}/.bashrc', 'a') as f:
@@ -159,6 +178,8 @@ if __name__ == '__main__':
     inst.log(True, inst.curraction)
     inst.set_result(True)
 
+
+
     #### cleanup
     inst.set_action('cleanup')
     outcome = inst.chain([
@@ -168,6 +189,8 @@ if __name__ == '__main__':
     ])
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
+
+
 
     # Show final report
     inst.report()
