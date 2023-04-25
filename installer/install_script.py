@@ -24,7 +24,7 @@ if __name__ == '__main__':
     appdir = opath.dirname(installerdir)
     appname = opath.basename(appdir)
 
-    ### Bootstrap prework to make jtools available for the rest of the script.
+    #### Bootstrap prework to make jtools available for the rest of the script.
     if len(sys.argv) == 1:
         # determin package manager to use
         try:
@@ -46,71 +46,71 @@ if __name__ == '__main__':
         os.execl(sys.argv[0], sys.argv[0], 'continuation')
 
     
-    ### Begin the rest of installation
+    #### Begin the rest of installation
     sys.path.append(f'{installerdir}/localjtools/src/')
     from jtools import jconsole as jc
     from jtools.shelldo import Shelldo
     inst = Shelldo()
 
-    # Collect input
+    #### Collect input
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
 
 
-    # gcc
+    #### gcc
     inst.set_action('get gcc')
     outcome = inst.chain([inst.inst_cmd('gcc')])
     inst.log(outcome, inst.curraction)
     inst.set_result(outcome)
 
     
-    # # misc stuff
-    # inst.set_action('hostname')
-    # outcome = inst.chain(['hostnamectl set-hostname {hostname}'])
-    # inst.log(outcome, inst.curraction)
-    # inst.set_result(outcome)
+    #### misc stuff
+    inst.set_action('hostname')
+    outcome = inst.chain(['hostnamectl set-hostname {hostname}'])
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
 
-    # # make ssh keys configure sshd 
-    # inst.set_action('generate SSH keys and configure sshd')
-    # if not opath.exists(f'{home}/.ssh/id_ed25519'): 
-    #     outcome = inst.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
-    # outcome = outcome and inst.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
-    # inst.log(outcome, inst.curraction)
-    # inst.set_result(outcome)
+    #### make ssh keys configure sshd 
+    inst.set_action('generate SSH keys and configure sshd')
+    if not opath.exists(f'{home}/.ssh/id_ed25519'): 
+        outcome = inst.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
+    outcome = outcome and inst.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
     
-    # # install Github client and add ssh keys to github        
-    # inst.set_action('install github cli and add ssh to github')
-    # gh_inst = {
-    #     'apt': [
-    #         'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg',
-    #         'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
-    #         'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
-    #         'sudo apt update',
-    #         'sudo apt -y install gh '
-    #     ],
-    #     'dnf': [
-    #         'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
-    #         'sudo dnf -y install gh'
-    # ]}    
-    # outcome = inst.chain(gh_inst[inst.package_manager])    
-    # if outcome:
-    #     # can't use chain because we need to interact with this command alot. 
-    #     a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
-    #     # b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
-    #     c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    # outcome = outcome and (a + c == 0)
-    # inst.log(outcome, inst.curraction)
-    # inst.set_result(outcome)
+    #### install Github client and add ssh keys to github        
+    inst.set_action('install github cli and add ssh to github')
+    gh_inst = {
+        'apt': [
+            'curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg',
+            'sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg',
+            'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null',
+            'sudo apt update',
+            'sudo apt -y install gh '
+        ],
+        'dnf': [
+            'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
+            'sudo dnf -y install gh'
+    ]}    
+    outcome = inst.chain(gh_inst[inst.package_manager])    
+    if outcome:
+        # can't use chain because we need to interact with this command alot. 
+        a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
+        # b = run(lex('gh auth refresh -h github.com -s admin:public_key')).returncode
+        c = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    outcome = outcome and (a + c == 0)
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
     
-    # # clone my usual repos into git-repos/ 
-    # inst.set_action('clone my repos from github')
-    # repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
-    #          'experiments', 'project-euler', 'misc-db-files']
-    # clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
-    # outcome = inst.chain(clone_cmds, ignore_exit_code=True)
-    # inst.log(outcome, inst.curraction)
-    # inst.set_result(outcome)
+    #### clone my usual repos into git-repos/ 
+    inst.set_action('clone my repos from github')
+    repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
+             'experiments', 'project-euler', 'misc-db-files']
+    clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
+    outcome = inst.chain(clone_cmds, ignore_exit_code=True)
+    inst.log(outcome, inst.curraction)
+    inst.set_result(outcome)
 
-    # keyd
+    #### keyd
     inst.set_action('download and install keyd')
     inst.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
     os.chdir(f'{installerdir}/keyd')
@@ -144,22 +144,22 @@ if __name__ == '__main__':
 
 
     
-    # # bashrc, jrouter, dconf
-    # inst.set_action('bashrc, jrouter, dconf')
-    # with open(f'{home}/.bashrc', 'a') as f:
-    #     f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
+    #### bashrc, jrouter, dconf
+    inst.set_action('bashrc, jrouter, dconf')
+    with open(f'{home}/.bashrc', 'a') as f:
+        f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
     
-    # try:
-    #     os.remove('/home/jeremy/bin/jrouter')
-    # except FileNotFoundError:
-    #     pass
-    # os.makedirs('/home/jeremy/bin', exist_ok=True)
-    # os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
-    # os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    # inst.log(True, inst.curraction)
-    # inst.set_result(True)
+    try:
+        os.remove('/home/jeremy/bin/jrouter')
+    except FileNotFoundError:
+        pass
+    os.makedirs('/home/jeremy/bin', exist_ok=True)
+    os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
+    os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    inst.log(True, inst.curraction)
+    inst.set_result(True)
 
-    # cleanup
+    #### cleanup
     inst.set_action('cleanup')
     outcome = inst.chain([
         f'rm -rf {installerdir}/keyd',
