@@ -30,8 +30,9 @@ if args.volume or args.volume == 0:
 # Open/Switch-to application
 if args.open:
     app_launcher.open(args.open)
-    
-if args.tier:
+elif args.tier:
     music_classifier.set_tier(args.tier)
-if args.vibe:
+elif args.vibe:
     music_classifier.set_vibe(args.vibe)
+
+

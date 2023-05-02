@@ -95,7 +95,7 @@
         "wayland_window_title": "wm_class_gnome-terminal-server"
     },
     "vscode": {
-        "exec_cmd": "/usr/bin/code",
+        "exec_cmd": "/usr/bin/code -n",
         "window_title": "wm_class_code.Code",
         "wayland_window_title": "wm_class_code"
     },
