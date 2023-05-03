@@ -24,7 +24,7 @@ def open(name, options=None):
 
     @param name: one of the programs or websites named in resources/paths.json
     @param options: a list of strings that are options to be passed to the
-    program indicated by the name paramter. This list is passed through to subprocess.run().
+    program indicated by the name paramter. This list is passed through to subprocess.Popen()
     For example: ['--no-recurse', '--level', '20', '-i', '--name', 'jeremy']
     """
 
@@ -56,8 +56,7 @@ def open(name, options=None):
     else:
         exec_cmd = lex(exec_cmd)
         exec_cmd.extend(options)
-    subprocess.run(exec_cmd, text=True)
-    
+        
+    subprocess.Popen(exec_cmd, text=True, )
 
-    
 
