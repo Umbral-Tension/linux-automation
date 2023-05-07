@@ -211,10 +211,11 @@ if __name__ == '__main__':
     from jtools.shelldo import Shelldo
     shelldo = Shelldo()
 
+    # The order of these is important and should be changed with care.
     tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, cleanup]
-    skip_tasks = []
+    skip_tasks = [keyd, github_client]
     for t in tasks:
         if t not in skip_tasks:
             t()
