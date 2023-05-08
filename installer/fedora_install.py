@@ -41,7 +41,7 @@ def collect_input():
 
 
 def install_repos():
-    """install some repositories: rpm fusion free and non-free, """
+    """install some repositories: rpm fusion free and non-free, vscode """
     fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
     outcome = shelldo.chain([
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
