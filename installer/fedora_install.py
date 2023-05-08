@@ -39,12 +39,15 @@ def collect_input():
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
     return True
 
+
 def install_repos():
     """install some repositories: rpm fusion free and non-free, """
     fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
     outcome = shelldo.chain([
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"',
+        'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc',
+        'sudo sh -c \'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo\'',
     ])
     return outcome
 
@@ -62,8 +65,15 @@ def freeworld_packages():
 
 
 def simple_installs():
-    """simple package installs (gcc, )"""
-    outcome = shelldo.chain([shelldo.inst_cmd('gcc')])
+    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode)"""
+    outcome1 = shelldo.chain([
+        'dnf check-update',
+        shelldo.inst_cmd('gcc'),
+        shelldo.inst_cmd('tree'),
+        shelldo.inst_cmd('zenity'),
+        shelldo.inst_cmd('gnome-extensions-app'),
+        shelldo.inst_cmd('code')
+        ])
     return outcome
 
 
@@ -82,7 +92,6 @@ def configure_ssh():
     return outcome and shelldo.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
 
 
-
 def github_client():
     """install Github client and add ssh keys to github"""
     outcome = shelldo.chain([
@@ -94,7 +103,6 @@ def github_client():
         a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
         b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
     return outcome and (a + b == 0)
-
 
 
 def clone_repos():
@@ -139,11 +147,13 @@ def _input_device_ids():
     os.remove(temp_conf)
     return outcome
 
+
 def bashrc():
     """source my bash aliases in .bashrc"""
     with open(f'{home}/.bashrc', 'a') as f:
         f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
     return True
+
 
 def jrouter():
     """place symlink to jrouter in ~/bin"""
@@ -154,6 +164,7 @@ def jrouter():
     os.makedirs('/home/jeremy/bin', exist_ok=True)
     os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
     return True         
+
 
 def dconf():
     """use dconf to load my keybindings and settings"""
@@ -189,7 +200,8 @@ if __name__ == '__main__':
     tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, cleanup]
-    skip_tasks = [keyd]
+    skip_tasks = [keyd, collect_input, miscellaneous, configure_ssh, github_client,
+                  clone_repos, bashrc, jrouter, dconf]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)

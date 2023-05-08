@@ -17,17 +17,11 @@ This is a suite of scripts that
 - GNOME extensions
 	- Window Calls
 - gcc
+- git
 
 ### Non-dependencies
-- GNOME extensions
-	- Alphabetical App Grid
-	- AppIndicator and KStatusNotifierItem Support
-	- Dash To Panel
-	- Media Controls
-	- NoAnnoyance v2
-	- User Themes
+- Gnome Extensions App
 - Keyd
-- git
 - Spotify Adblocker
 	- Rust (dependency)
 - VSCode
@@ -38,7 +32,10 @@ This is a suite of scripts that
 - Transmission
 - Soulseek
   
-  
+### Can't install 
+- specific gnome-extensions. 
+	These are all available in repos. The alternative would be to download and install them manually, which would be too messy. 
+- appimage programs. Don't want to hard code download links to things like deezloader because of security worries and update concerns. 
 
 ## **Things it configures:**
 
