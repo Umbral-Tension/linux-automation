@@ -5,7 +5,7 @@ import os, shutil, sys
 import os.path as opath
 import shlex
 from shlex import split as lex
-from subprocess import Popen, PIPE, run
+from subprocess import run
 import traceback
 from datetime import datetime
 
@@ -22,7 +22,7 @@ appname = opath.basename(appdir)
 hostname = ''
 
 def bootstrap():
-    """ Bootstrap prework to make jtools available for the rest of the script. """
+    """Prework to make jtools available for the rest of the script. """
     # get git, pip, and jtools
     print('---> Installing git, pip, and jtools')
     run(lex(f'sudo dnf install -y git'))
@@ -34,28 +34,23 @@ def bootstrap():
 
 
 def collect_input():
-    """collect user input """
-    shelldo.set_action('collect initial user input')
+    """collect some initial user input """
     global hostname
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
-    shelldo.log(True, shelldo.curraction)
-    shelldo.set_result(True)
+    return True
 
 def install_repos():
-    """install non-included repositories"""
-    shelldo.set_action('install some repositories: rpm fusion free and non-free, ')
+    """install some repositories: rpm fusion free and non-free, """
     fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
     outcome = shelldo.chain([
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"',
     ])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 
 def freeworld_packages():
-    """install non-free multimedia packages per https://rpmfusion.org/Howto/Multimedia """
-    shelldo.set_action('install some multimedia codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers')
+    """install some non-included codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers"""
     outcome = shelldo.chain([
         'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
         'sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
@@ -63,40 +58,33 @@ def freeworld_packages():
         'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
         'sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld',
     ])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 
 def simple_installs():
-    """simple installs"""
-    shelldo.set_action('simple installs')
+    """simple package installs (gcc, )"""
     outcome = shelldo.chain([shelldo.inst_cmd('gcc')])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 
 def miscellaneous():
-    shelldo.set_action('miscellanea: hostname')
+    """miscellanea"""
     outcome = shelldo.chain([f'hostnamectl set-hostname {hostname}'])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 
 def configure_ssh():
-    """make ssh keys and configure sshd"""
-    shelldo.set_action('generate SSH keys and configure sshd')
+    """generate ssh keys and configure sshd"""
     if not opath.exists(f'{home}/.ssh/id_ed25519'): 
         outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
     else:
         outcome = True
-    outcome = outcome and shelldo.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome and shelldo.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
+
 
 
 def github_client():
     """install Github client and add ssh keys to github"""
-    shelldo.set_action('install github cli and add ssh to github')
     outcome = shelldo.chain([
         'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
         'sudo dnf -y install gh'
@@ -105,25 +93,21 @@ def github_client():
         # can't use chain because we need to interact with this command alot. 
         a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
         b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    outcome = outcome and (a + b == 0)
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome and (a + b == 0)
+
 
 
 def clone_repos():
     """clone my usual repos into ~/@data/git-repos/"""
-    shelldo.set_action('clone my repos from github')
     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
             'experiments', 'project-euler', 'misc-db-files']
     clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
     outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 
 def keyd():
     """install and configure keyd"""
-    shelldo.set_action('download and install keyd')
     shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
     os.chdir(f'{installerdir}/keyd')
     outcome = shelldo.chain([
@@ -133,7 +117,7 @@ def keyd():
         'sudo systemctl restart keyd',
         ])
     os.chdir(installerdir)
-    _input_device_ids()
+    return outcome and _input_device_ids()
 
 
 def _input_device_ids():
@@ -153,48 +137,38 @@ def _input_device_ids():
         'sudo systemctl restart keyd',
     ])
     os.remove(temp_conf)
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
+    return outcome
 
 def bashrc():
     """source my bash aliases in .bashrc"""
-    shelldo.set_action('bashrc')
     with open(f'{home}/.bashrc', 'a') as f:
         f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
-    shelldo.log(True, shelldo.curraction)
-    shelldo.set_result(True)
+    return True
 
 def jrouter():
     """place symlink to jrouter in ~/bin"""
-    shelldo.set_action('jrouter')
     try:
         os.remove('/home/jeremy/bin/jrouter')
     except FileNotFoundError:
         pass
     os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')         
-    shelldo.log(True, shelldo.curraction)
-    shelldo.set_result(True)
+    os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+    return True         
 
 def dconf():
     """use dconf to load my keybindings and settings"""
-    shelldo.set_action('dconf')
-    os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    shelldo.log(True, shelldo.curraction)
-    shelldo.set_result(True)
+    outcome = os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    return True if outcome == 0 else False
 
 
 def cleanup():
-    #### cleanup
-    shelldo.set_action('cleanup')
+    """delete/uninstall unecessary remnants"""
     outcome = shelldo.chain([
         f'rm -rf {installerdir}/keyd',
         f'rm -rf {installerdir}/localjtools',
-        #shelldo.inst_cmd('gh', uninstall=True),
+        shelldo.inst_cmd('gh', uninstall=True),
     ])
-    shelldo.log(outcome, shelldo.curraction)
-    shelldo.set_result(outcome)
-
+    return outcome
 
 if __name__ == '__main__':
     
@@ -215,10 +189,14 @@ if __name__ == '__main__':
     tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, cleanup]
-    skip_tasks = [keyd, github_client]
+    skip_tasks = [keyd]
     for t in tasks:
         if t not in skip_tasks:
-            t()
+            shelldo.set_action(t.__doc__)
+            outcome = t()
+            shelldo.log(outcome, shelldo.curraction)
+            shelldo.set_result(outcome)
+            
 
 
     # Show final report
