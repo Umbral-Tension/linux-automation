@@ -66,8 +66,8 @@ def freeworld_packages():
 
 def simple_installs():
     """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode)"""
+
     outcome1 = shelldo.chain([
-        'dnf check-update',
         shelldo.inst_cmd('gcc'),
         shelldo.inst_cmd('tree'),
         shelldo.inst_cmd('zenity'),
