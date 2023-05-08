@@ -201,7 +201,7 @@ if __name__ == '__main__':
              simple_installs, miscellaneous, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, cleanup]
     skip_tasks = [keyd, collect_input, miscellaneous, configure_ssh, github_client,
-                  clone_repos, bashrc, jrouter, dconf]
+                  clone_repos, bashrc, jrouter, dconf, freeworld_packages]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
