@@ -39,6 +39,7 @@ while getopts "$OPTSTRING" OPT; do
     case "$OPT" in
         full )              do_full=true ;;
         exclude-large )     exclude_large=true ;;
+        dry-run )           dry_run=true ;;
         ??* )               die "Illegal option --$OPT" ;;  # bad long option
         ? )                 exit 2 ;;  # bad short option (error reported via getopts)
     esac
@@ -69,7 +70,9 @@ else
 fi
 
 # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-rs_opts=( -avPh --delete "--log-file=$backups/temp rsync log" )
+short_opts="-avPh"
+[[ $dry_run == true ]] && short_opts+="n"
+rs_opts=( "$short_opts" --delete "--log-file=$backups/temp rsync log" )
 ! [[ "$do_full" == true ]] && rs_opts+=( --link-dest="$current" )
 exclusions=()
 [[ $exclude_large == true ]] && exclusions+=( "--max-size=10gb" )
@@ -78,7 +81,12 @@ exclusions=()
 rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
 rsyncexit="$?"
 
-
+if [[ $dry_run == true ]]; then {
+    echo -e "\n\n\n////////// Jeremy's incremental rsync backup  ////////////"
+    echo -e "DRY-RUN finished." 
+    exit
+}
+fi
 
 echo -e "\n...\n...\n////////// Jeremy's incremental rsync backup  ////////////...\n"
 echo -e "rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
