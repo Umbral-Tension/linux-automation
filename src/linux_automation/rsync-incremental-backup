@@ -56,6 +56,9 @@ src=(   "/home/jeremy/@data"
         "/home/jeremy/Downloads"
         "/home/jeremy/AppImages"
         "/home/jeremy/.local" )
+# dirs/files to exclude from the backup. These are given as rsync "filter rules"
+# note: Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. @data/git-repos instead of /home/jeremy/@data/git-repos
+exclusions=( "--exclude=@data/git-repos" )
 
 # Directory to put backups into
 backups="/run/media/jeremy/external_jdata/rsync_backups"
@@ -70,13 +73,15 @@ else
 fi
 
 # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-short_opts="-avPh"
-[[ $dry_run == true ]] && short_opts+="n"
-rs_opts=( "$short_opts" --delete "--log-file=$backups/temp rsync log" )
+rs_opts=( --debug=FILTER --human-readable --progress --archive --delete --partial "--log-file=$backups/temp rsync log" )
+# don't do incremental if full option is given
 ! [[ "$do_full" == true ]] && rs_opts+=( --link-dest="$current" )
-exclusions=()
-[[ $exclude_large == true ]] && exclusions+=( "--max-size=10gb" )
-[[ "${#exclusions[@]}" != 0 ]] && rs_opts+=( "$exclusions" )
+[[ $dry_run == true ]] && rs_opts+=( "--dry-run" )
+[[ $exclude_large == true ]] && rs_opts+=( "--max-size=10gb" )
+rs_opts+=( "${exclusions[@]}" )
+
+echo "running rsync as follows (unquoted spaces here are not actually passed to rsync that way): " 
+echo -e "rsync " "${rs_opts[@]}" "${src[@]}" "$newbackup" "2>" "$backups/temp rsync stderr" "| tee" "$backups/temp rsync stdout" "\n\n"
 
 rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
 rsyncexit="$?"
@@ -88,7 +93,7 @@ if [[ $dry_run == true ]]; then {
 }
 fi
 
-echo -e "\n...\n...\n////////// Jeremy's incremental rsync backup  ////////////...\n"
+echo -e "\n\n////////// Jeremy's incremental rsync backup  ////////////...\n"
 echo -e "rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
 
 # gather logging info 
