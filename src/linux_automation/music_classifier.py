@@ -7,7 +7,7 @@ from fuzzywuzzy import fuzz
 display_server = os.environ['XDG_SESSION_TYPE'].casefold() # wayland or x11
 if display_server == 'wayland':
     from window_manager.wm_wayland import win_list
-    rhythmbox_winclass = 'Rhythmbox'
+    rhythmbox_winclass = 'rhythmbox'
 else:
     from window_manager.wm_xorg import win_list
     rhythmbox_winclass = 'rhythmbox.Rhythmbox'

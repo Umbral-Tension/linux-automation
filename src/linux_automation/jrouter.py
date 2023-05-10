@@ -35,4 +35,3 @@ elif args.tier:
 elif args.vibe:
     music_classifier.set_vibe(args.vibe)
 
-
