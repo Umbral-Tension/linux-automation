@@ -19,7 +19,7 @@ os.makedirs(git_repos, exist_ok=True)
 installerdir = opath.dirname(opath.realpath(__file__))
 appdir = opath.dirname(installerdir)
 appname = opath.basename(appdir)
-hostname = ''
+hostname = None
 
 def bootstrap():
     """Prework to make jtools available for the rest of the script. """
@@ -65,23 +65,32 @@ def freeworld_packages():
 
 
 def simple_installs():
-    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode)"""
-
-    outcome1 = shelldo.chain([
+    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode, qbittorrent, chromium, GIMP, veracrypt, dconf-editor)"""
+    outcome = shelldo.chain([
         shelldo.inst_cmd('gcc'),
         shelldo.inst_cmd('tree'),
         shelldo.inst_cmd('zenity'),
         shelldo.inst_cmd('gnome-extensions-app'),
-        shelldo.inst_cmd('code')
+        shelldo.inst_cmd('code'),
+        shelldo.inst_cmd('qbittorrent'),
+        shelldo.inst_cmd('chromium'),
+        shelldo.inst_cmd('gimp'),
+        shelldo.inst_cmd('veracrypt'),
+        shelldo.inst_cmd('dconf-editor'),
         ])
     return outcome
 
 
 def miscellaneous():
-    """miscellanea"""
-    outcome = shelldo.chain([f'hostnamectl set-hostname {hostname}'])
-    return outcome
+    """miscellanea ()"""
+    return True
 
+
+def set_hostname():
+    """set hostname"""
+    outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
+    return outcome
+        
 
 def configure_ssh():
     """generate ssh keys and configure sshd"""
@@ -172,6 +181,16 @@ def dconf():
     return True if outcome == 0 else False
 
 
+def set_pythonpath():
+    """append PYTHONPATH with jtools & linux-automation"""
+    with open(f'{home}/.bash_profile', 'r+') as f:
+        lines = f.readlines()
+        pyexport = 'export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"\n'
+        if pyexport not in lines:
+            f.write(pyexport)
+    return True
+
+
 def cleanup():
     """delete/uninstall unecessary remnants"""
     outcome = shelldo.chain([
@@ -196,12 +215,14 @@ if __name__ == '__main__':
     from jtools.shelldo import Shelldo
     shelldo = Shelldo()
 
-    # The order of these is important and should be changed with care.
-    tasks = [collect_input, install_repos, freeworld_packages,
-             simple_installs, miscellaneous, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, dconf, cleanup]
-    skip_tasks = [keyd, collect_input, miscellaneous, configure_ssh, github_client,
-                  clone_repos, bashrc, jrouter, dconf, freeworld_packages]
+    # Master list of available tasks. 
+    all_tasks = [collect_input, install_repos, freeworld_packages,
+             simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
+             clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, cleanup, ]
+    # Tasks to be performed on this run. The order of these is important and should be changed with care.
+    tasks =  all_tasks 
+    # Tasks to skip on this run. Order is not important. 
+    skip_tasks = [freeworld_packages]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
