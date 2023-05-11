@@ -77,6 +77,7 @@ def simple_installs():
         shelldo.inst_cmd('gimp'),
         shelldo.inst_cmd('veracrypt'),
         shelldo.inst_cmd('dconf-editor'),
+        shelldo.inst_cmd('xed'),
         ])
     return outcome
 
