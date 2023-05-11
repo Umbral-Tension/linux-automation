@@ -161,7 +161,7 @@ def _input_device_ids():
 def bashrc():
     """source my bash aliases in .bashrc"""
     with open(f'{home}/.bashrc', 'a') as f:
-        f.writelines([f'. "{appdir}/resources/configs/bashrc fedora"\n'])
+        f.writelines([f'. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
     return True
 
 
@@ -172,7 +172,7 @@ def jrouter():
     except FileNotFoundError:
         pass
     os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{appdir}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+    os.symlink(f'{git_repos}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
     return True         
 
 
