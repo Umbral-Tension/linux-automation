@@ -177,9 +177,10 @@ def jrouter():
 
 
 def dconf():
-    """use dconf to load my keybindings and settings"""
+    """change some dconf settings (keybindings, app-switcher)"""
     outcome = os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    return True if outcome == 0 else False
+    outcome2 = os.system(f'dconf load -f /org/gnome/desktop/wm/keybindings/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:desktop:wm:keybindings:"')
+    return True if outcome + outcome2 == 0 else False
 
 
 def set_pythonpath():
@@ -191,6 +192,15 @@ def set_pythonpath():
             f.write(pyexport)
     return True
 
+def remove_home_dirs():
+    """remove unused home directories like ~/Templates ~/Music ..etc """
+    dirs = ['Templates', 'Music', 'Pictures', 'Videos', 'Documents']
+    for x in dirs:
+        try:
+            shutil.rmtree(f'{home}/{x}')
+        except FileNotFoundError:
+            pass
+    return True
 
 def cleanup():
     """delete/uninstall unecessary remnants"""
@@ -221,7 +231,7 @@ if __name__ == '__main__':
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks =  all_tasks 
+    tasks = [dconf]# all_tasks 
     # Tasks to skip on this run. Order is not important. 
     skip_tasks = [freeworld_packages]
     for t in tasks:

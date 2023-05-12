@@ -149,3 +149,9 @@ name='mindnumb'
 binding='<Primary><Alt>T'
 command='gnome-terminal'
 name='terminal'
+
+[custom-keybindings/custom54]
+binding='<Super>E'
+command='nautilus'
+name='files'
+
