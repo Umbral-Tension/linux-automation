@@ -29,8 +29,7 @@ with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
 def win_list():
     """
     Get info on all currently open windows
-    """
-    
+    """  
     output = _run_gdbus(methods['List'])[2:-3]    
     ls = json.loads(output)
     if output:        
@@ -69,7 +68,7 @@ def win_id(title):
             continue
         if title.startswith('wm_class_'):
             newtitle = title.replace('wm_class_', '').casefold()
-            match = x['wm_class'].casefold() 
+            match = str(x['wm_class']).casefold() 
             if newtitle == match:
                 return str(x['id'])
         else:

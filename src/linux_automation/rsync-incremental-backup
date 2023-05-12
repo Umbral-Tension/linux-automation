@@ -54,7 +54,6 @@ TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 src=(   "/home/jeremy/@data"
         "/home/jeremy/Desktop"
         "/home/jeremy/Downloads"
-        "/home/jeremy/AppImages"
         "/home/jeremy/.local" )
 # dirs/files to exclude from the backup. These are given as rsync "filter rules"
 # note: Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. @data/git-repos instead of /home/jeremy/@data/git-repos
