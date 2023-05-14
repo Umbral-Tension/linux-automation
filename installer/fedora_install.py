@@ -65,7 +65,7 @@ def freeworld_packages():
 
 
 def simple_installs():
-    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode, qbittorrent, chromium, GIMP, veracrypt, dconf-editor)"""
+    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode, qbittorrent, chromium, GIMP, dconf-editor, xed, tldr)"""
     outcome = shelldo.chain([
         shelldo.inst_cmd('gcc'),
         shelldo.inst_cmd('tree'),
@@ -75,9 +75,9 @@ def simple_installs():
         shelldo.inst_cmd('qbittorrent'),
         shelldo.inst_cmd('chromium'),
         shelldo.inst_cmd('gimp'),
-        shelldo.inst_cmd('veracrypt'),
         shelldo.inst_cmd('dconf-editor'),
         shelldo.inst_cmd('xed'),
+        shelldo.inst_cmd('tldr'),
         ])
     return outcome
 
