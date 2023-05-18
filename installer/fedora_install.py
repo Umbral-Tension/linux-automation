@@ -134,28 +134,31 @@ def keyd():
         'sudo systemctl enable keyd',
         'sudo systemctl restart keyd',
         ])
-    os.chdir(installerdir)
-    return outcome and _input_device_ids()
-
-
-def _input_device_ids():
-    """exhort user to get keyboard device id """
-    input(jc.yellow("Opening a terminal running keyd -m. Copy the device ids you want and paste them here in a comma seperated list.\n...press enter when ready"))
-    run(lex('gnome-terminal -- sudo keyd -m'))
-    device_ids = input(jc.yellow("device ids: "))
-    device_ids = device_ids.replace(',', '\n,').replace(' ','').split(',')
-    keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
-    temp_conf = f'{installerdir}/temp_keyd_conf'
-    with open(temp_conf, 'w') as tempfile, open(keyd_conf, 'r') as keydfile:
-        lines = ['[ids]\n'] + device_ids + keydfile.readlines()
-        tempfile.writelines(lines)
-    
     outcome = shelldo.chain([
-        f'sudo cp {temp_conf} /etc/keyd/default.conf',
+        f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
         'sudo systemctl restart keyd',
     ])
-    os.remove(temp_conf)
     return outcome
+
+
+# def input_device_ids():
+#     """exhort user to get keyboard device id """
+#     input(jc.yellow("Opening a terminal running keyd -m. Copy the device ids you want and paste them here in a comma seperated list.\n...press enter when ready"))
+#     run(lex('gnome-terminal -- sudo keyd -m'))
+#     device_ids = input(jc.yellow("device ids: "))
+#     device_ids = device_ids.replace(',', '\n,').replace(' ','').split(',')
+#     keyd_conf = f'{appdir}/resources/configs/my_keyd.conf'
+#     temp_conf = f'{installerdir}/temp_keyd_conf'
+#     with open(temp_conf, 'w') as tempfile, open(keyd_conf, 'r') as keydfile:
+#         lines = ['[ids]\n'] + device_ids + keydfile.readlines()
+#         tempfile.writelines(lines)
+    
+#     outcome = shelldo.chain([
+#         f'sudo cp {temp_conf} /etc/keyd/default.conf',
+#         'sudo systemctl restart keyd',
+#     ])
+#     os.remove(temp_conf)
+#     return outcome
 
 
 def bashrc():
@@ -231,7 +234,7 @@ if __name__ == '__main__':
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = [dconf]# all_tasks 
+    tasks = [keyd]# all_tasks 
     # Tasks to skip on this run. Order is not important. 
     skip_tasks = [freeworld_packages]
     for t in tasks:
