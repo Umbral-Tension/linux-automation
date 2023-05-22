@@ -224,8 +224,26 @@ def gnome_terminal_themes():
     # cd installs
 
     # # install themes
-    # ./atom.sh
-    # ./dracula.sh
+    # ./afterglow.sh
+    # ./aura.sh
+    # ./chalk.sh
+    # ./chameleon.sh
+    # ./clone-of-ubuntu.sh
+    # ./everblush.sh
+    # ./flat.sh
+    # ./gogh.sh
+    # ./gotham.sh
+    # ./gruvbox-dark.sh
+    # ./horizon-dark.sh
+    # ./lavandula.sh
+    # ./one-half-black.sh
+    # ./panda.sh
+    # ./space-dust.sh
+    # ./srcery.sh
+
+
+
+>>>>>>> 07e33b9 (made function scaffolding for installing Gogh gnome-terminal themes)
 
     return False
 
