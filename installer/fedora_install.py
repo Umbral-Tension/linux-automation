@@ -205,6 +205,30 @@ def remove_home_dirs():
             pass
     return True
 
+def gnome_terminal_themes():
+    """install color themes for gnome-terminal"""
+    #     # clone the repo into "$HOME/src/gogh"
+    # mkdir -p "$HOME/src"
+    # cd "$HOME/src"
+    # git clone https://github.com/Gogh-Co/Gogh.git gogh
+    # cd gogh
+
+    # # necessary in the Gnome terminal on ubuntu
+    # export TERMINAL=gnome-terminal
+
+    # # necessary in the Alacritty terminal
+    # pip install -r requirements.txt
+    # export TERMINAL=alacritty
+
+    # # Enter theme installs dir
+    # cd installs
+
+    # # install themes
+    # ./atom.sh
+    # ./dracula.sh
+
+    return False
+
 def cleanup():
     """delete/uninstall unecessary remnants"""
     outcome = shelldo.chain([
@@ -232,7 +256,7 @@ if __name__ == '__main__':
     # Master list of available tasks. 
     all_tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, cleanup, ]
+             clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = [keyd]# all_tasks 
     # Tasks to skip on this run. Order is not important. 
