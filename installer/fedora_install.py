@@ -175,7 +175,7 @@ def jrouter():
     except FileNotFoundError:
         pass
     os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{git_repos}/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+    os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
     return True         
 
 
@@ -207,10 +207,15 @@ def remove_home_dirs():
 
 def gnome_terminal_themes():
     """install color themes for gnome-terminal"""
-    #     # clone the repo into "$HOME/src/gogh"
+    # outcome1 = shelldo.chain([f'git clone https://github.com/Gogh-Co/Gogh.git {installerdir}/gogh'])
+    # os.chdir(f'{installerdir}/gogh')
+    # outcome2 = shelldo.chain([f'export TERMINAL=gnome-terminal'])
+    # os.chdir('installs')
+    
+
+    # clone the repo into "$HOME/src/gogh"
     # mkdir -p "$HOME/src"
     # cd "$HOME/src"
-    # git clone https://github.com/Gogh-Co/Gogh.git gogh
     # cd gogh
 
     # # necessary in the Gnome terminal on ubuntu
@@ -223,6 +228,7 @@ def gnome_terminal_themes():
     # # Enter theme installs dir
     # cd installs
 
+    # 06 11 37 38 39 61 68 77 81 86 97 115 159 163 200 206
     # # install themes
     # ./afterglow.sh
     # ./aura.sh
@@ -240,13 +246,7 @@ def gnome_terminal_themes():
     # ./panda.sh
     # ./space-dust.sh
     # ./srcery.sh
-
-
-
->>>>>>> 07e33b9 (made function scaffolding for installing Gogh gnome-terminal themes)
-
     return False
-
 def cleanup():
     """delete/uninstall unecessary remnants"""
     outcome = shelldo.chain([
@@ -276,7 +276,7 @@ if __name__ == '__main__':
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = [keyd]# all_tasks 
+    tasks = [jrouter]# all_tasks 
     # Tasks to skip on this run. Order is not important. 
     skip_tasks = [freeworld_packages]
     for t in tasks:
