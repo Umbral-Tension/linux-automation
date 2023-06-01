@@ -182,8 +182,8 @@ def jrouter():
 def dconf():
     """change some dconf settings (keybindings, app-switcher)"""
     outcome = os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
-    outcome2 = os.system(f'dconf load -f /org/gnome/desktop/wm/keybindings/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:desktop:wm:keybindings:"')
-    return True if outcome + outcome2 == 0 else False
+    #outcome2 = os.system(f'dconf load -f /org/gnome/desktop/wm/keybindings/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:desktop:wm:keybindings:"')
+    return True if outcome == 0 else False
 
 
 def set_pythonpath():
