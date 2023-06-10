@@ -66,11 +66,6 @@ binding=['<Alt>3', '<Alt>KP_3']
 command='jrouter --open terminal'
 name='terminal'
 
-[custom-keybindings/custom33]
-binding=['<Alt>KP_Add']
-command='jrouter --open fsearch'
-name='fsearch'
-
 [custom-keybindings/custom34]
 binding=['<Alt>4', '<Alt>KP_4']
 command='jrouter --open jipython'
@@ -85,6 +80,21 @@ name='tier 1'
 binding=['<Primary><Shift>KP_Down']
 command='jrouter --tier 2'
 name='tier 2'
+
+[custom-keybindings/custom43]
+binding='<Primary><Shift>KP_4'
+command='jrouter --vibe happy'
+name='happy'
+
+[custom-keybindings/custom44]
+binding='<Primary><Shift>KP_5'
+command='jrouter --vibe sad'
+name='sad'
+
+[custom-keybindings/custom45]
+binding='<Primary><Shift>KP_6'
+command='jrouter --vibe mindnumb'
+name='mindnumb'
 
 [custom-keybindings/custom37]
 binding=['<Alt>2', '<Alt>KP_2']
