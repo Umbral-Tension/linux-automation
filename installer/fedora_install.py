@@ -276,9 +276,9 @@ if __name__ == '__main__':
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
              clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = [jrouter]# all_tasks 
+    tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [freeworld_packages]
+    skip_tasks = []
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
