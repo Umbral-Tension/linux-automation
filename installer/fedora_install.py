@@ -244,7 +244,7 @@ def gnome_terminal_themes():
     # ./lavandula.sh
     # ./one-half-black.sh
     # ./panda.sh
-    # ./space-dust.sh
+    # ./spacedust.sh
     # ./srcery.sh
     return False
 def cleanup():
