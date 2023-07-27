@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
             'Firefox', 'Obsidian', 'Rhythmbox', 'Spotify',  
         ]
         self.websites = [
-            'AudiobookBay', 'Artstation', 'Github', 'Gmail', 'Lichess', 'Proton', 'RNSFW', 'RSFW', 'Reddit', 'RedditSave', 'Youtube'
+            'AudiobookBay', 'Artstation', 'Github', 'Lichess', 'Proton','RSFW', 'Reddit', 'RedditSave', 'Youtube'
         ]
         self.buttons = {}
         for name in (self.programs + self.websites): 
