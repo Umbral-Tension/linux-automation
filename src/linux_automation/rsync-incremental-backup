@@ -61,7 +61,8 @@ src=(   "/home/jeremy/@data"
 # note: Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. @data/git-repos instead of /home/jeremy/@data/git-repos
 exclusions=(    "--exclude=@data/git-repos"
                 "--exclude=@data/jvault"
-                "--exclude=.local/lib" )
+                "--exclude=.local/lib"
+                "--exclude=.local/share/Trash"  )
 
 # Directory to put backups into
 backups="/run/media/jeremy/external_jdata/rsync_backups"
