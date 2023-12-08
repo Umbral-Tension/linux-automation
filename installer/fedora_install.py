@@ -79,6 +79,7 @@ def simple_installs():
         shelldo.inst_cmd('vlc'),
         shelldo.inst_cmd('nemo'),
         shelldo.inst_cmd('xinput'),
+        shelldo.inst_cmd('puddletag'),
         ])
     return outcome
 
@@ -184,6 +185,14 @@ def jrouter():
     os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
     return True         
 
+def nemo_scripts():
+    """place symlinks to nemo scripts in ~/.local/share/nemo/scripts"""
+    try:
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/nemo-context-menu/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/nemo-context-menu/puddletag', '/home/jeremy/.local/share/nemo/scripts/puddletag')
+    except:
+        return False
+    return True
 
 def dconf():
     """change some dconf settings (keybindings, app-switcher)"""
@@ -284,7 +293,7 @@ if __name__ == '__main__':
     # Master list of available tasks. 
     all_tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
+             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
