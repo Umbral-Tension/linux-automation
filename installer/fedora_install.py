@@ -9,8 +9,6 @@ from subprocess import run
 import traceback
 from datetime import datetime
 
-print('\n/////////////////////////////////////////////////')
-print('////////   linux-automation installer  //////////\n')
 
 # relevant paths
 home = os.environ['HOME']
@@ -80,6 +78,7 @@ def simple_installs():
         shelldo.inst_cmd('tldr'),
         shelldo.inst_cmd('vlc'),
         shelldo.inst_cmd('nemo'),
+        shelldo.inst_cmd('xinput'),
         ])
     return outcome
 
@@ -165,8 +164,13 @@ def keyd():
 
 def bashrc():
     """source my bash aliases in .bashrc"""
-    with open(f'{home}/.bashrc', 'a') as f:
-        f.writelines([f'. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
+    try:
+        with open(f'{home}/.bashrc', 'a') as f:
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
+        with open(f'{home}/.bash_profile', 'a') as f:
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile fedora"\n'])
+    except:
+        return False
     return True
 
 
@@ -259,6 +263,10 @@ def cleanup():
     return outcome
 
 if __name__ == '__main__':
+
+
+    print('\n/////////////////////////////////////////////////')
+    print('////////   linux-automation installer  //////////\n')
     
     ### Bootstrap stuff to make jtools available
     if '--no-bootstrap' not in sys.argv:
