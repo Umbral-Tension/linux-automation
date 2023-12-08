@@ -78,6 +78,8 @@ def simple_installs():
         shelldo.inst_cmd('dconf-editor'),
         shelldo.inst_cmd('xed'),
         shelldo.inst_cmd('tldr'),
+        shelldo.inst_cmd('vlc'),
+        shelldo.inst_cmd('nemo'),
         ])
     return outcome
 
