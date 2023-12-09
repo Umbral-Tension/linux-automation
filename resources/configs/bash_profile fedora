@@ -4,6 +4,8 @@
 
 #turn off broken laptop touchscreen 
 [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 
+[[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
+[[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
 
 #make jtools available 
 export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"s

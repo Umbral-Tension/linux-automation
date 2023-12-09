@@ -164,7 +164,7 @@ def keyd():
 
 
 def bashrc():
-    """source my bash aliases in .bashrc"""
+    """source my .bashrc and .bash_profile customization files"""
     try:
         with open(f'{home}/.bashrc', 'a') as f:
             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
@@ -200,15 +200,6 @@ def dconf():
     #outcome2 = os.system(f'dconf load -f /org/gnome/desktop/wm/keybindings/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:desktop:wm:keybindings:"')
     return True if outcome == 0 else False
 
-
-def set_pythonpath():
-    """append PYTHONPATH with jtools & linux-automation"""
-    with open(f'{home}/.bash_profile', 'r+') as f:
-        lines = f.readlines()
-        pyexport = 'export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"\n'
-        if pyexport not in lines:
-            f.write(pyexport)
-    return True
 
 def remove_home_dirs():
     """remove unused home directories like ~/Templates ~/Music ..etc """
@@ -293,7 +284,7 @@ if __name__ == '__main__':
     # Master list of available tasks. 
     all_tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
+             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
