@@ -218,23 +218,19 @@ def gnome_terminal_themes():
     # outcome2 = shelldo.chain([f'export TERMINAL=gnome-terminal'])
     # os.chdir('installs')
     
-
-    # clone the repo into "$HOME/src/gogh"
+    # # clone the repo into "$HOME/src/gogh"
     # mkdir -p "$HOME/src"
     # cd "$HOME/src"
+    # git clone https://github.com/Gogh-Co/Gogh.git gogh
     # cd gogh
 
     # # necessary in the Gnome terminal on ubuntu
     # export TERMINAL=gnome-terminal
 
-    # # necessary in the Alacritty terminal
-    # pip install -r requirements.txt
-    # export TERMINAL=alacritty
-
     # # Enter theme installs dir
     # cd installs
 
-    # 06 11 37 38 39 61 68 77 81 86 97 115 159 163 200 206
+    # # 06 11 37 38 39 61 68 77 81 86 97 115 159 163 200 206
     # # install themes
     # ./afterglow.sh
     # ./aura.sh
@@ -252,6 +248,7 @@ def gnome_terminal_themes():
     # ./panda.sh
     # ./spacedust.sh
     # ./srcery.sh
+
     return False
 def cleanup():
     """delete/uninstall unecessary remnants"""
