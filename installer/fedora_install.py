@@ -164,7 +164,7 @@ def keyd():
 
 
 def bashrc():
-    """source my bash aliases in .bashrc"""
+    """source my .bashrc and .bash_profile customization files"""
     try:
         with open(f'{home}/.bashrc', 'a') as f:
             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
@@ -201,15 +201,6 @@ def dconf():
     return True if outcome == 0 else False
 
 
-def set_pythonpath():
-    """append PYTHONPATH with jtools & linux-automation"""
-    with open(f'{home}/.bash_profile', 'r+') as f:
-        lines = f.readlines()
-        pyexport = 'export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"\n'
-        if pyexport not in lines:
-            f.write(pyexport)
-    return True
-
 def remove_home_dirs():
     """remove unused home directories like ~/Templates ~/Music ..etc """
     dirs = ['Templates', 'Music', 'Pictures', 'Videos', 'Documents']
@@ -227,23 +218,19 @@ def gnome_terminal_themes():
     # outcome2 = shelldo.chain([f'export TERMINAL=gnome-terminal'])
     # os.chdir('installs')
     
-
-    # clone the repo into "$HOME/src/gogh"
+    # # clone the repo into "$HOME/src/gogh"
     # mkdir -p "$HOME/src"
     # cd "$HOME/src"
+    # git clone https://github.com/Gogh-Co/Gogh.git gogh
     # cd gogh
 
     # # necessary in the Gnome terminal on ubuntu
     # export TERMINAL=gnome-terminal
 
-    # # necessary in the Alacritty terminal
-    # pip install -r requirements.txt
-    # export TERMINAL=alacritty
-
     # # Enter theme installs dir
     # cd installs
 
-    # 06 11 37 38 39 61 68 77 81 86 97 115 159 163 200 206
+    # # 06 11 37 38 39 61 68 77 81 86 97 115 159 163 200 206
     # # install themes
     # ./afterglow.sh
     # ./aura.sh
@@ -261,6 +248,7 @@ def gnome_terminal_themes():
     # ./panda.sh
     # ./spacedust.sh
     # ./srcery.sh
+
     return False
 def cleanup():
     """delete/uninstall unecessary remnants"""
@@ -293,7 +281,7 @@ if __name__ == '__main__':
     # Master list of available tasks. 
     all_tasks = [collect_input, install_repos, freeworld_packages,
              simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, set_pythonpath, gnome_terminal_themes, cleanup, ]
+             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
