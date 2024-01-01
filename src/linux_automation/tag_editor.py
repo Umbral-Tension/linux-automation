@@ -237,7 +237,10 @@ def format_standard(music_directories):
             print(red('Failed to auto-open the error log in a text editor.'))
         
 if __name__ == '__main__':
-    format_standard(get_music_directories())
-    exit_app('----------\nFinished')
+    music_dirs = get_music_directories()
+
+    if yes_no(red(('Continue?'))):
+        format_standard(music_dirs)
+        exit_app('----------\nFinished')
 
 
