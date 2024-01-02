@@ -190,6 +190,8 @@ def nemo_scripts():
     try:
         os.symlink(f'{git_repos}/linux-automation/src/linux_automation/nemo-context-menu/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
         os.symlink(f'{git_repos}/linux-automation/src/linux_automation/nemo-context-menu/puddletag', '/home/jeremy/.local/share/nemo/scripts/puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/nemo-context-menu/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
+
     except:
         return False
     return True
