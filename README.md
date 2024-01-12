@@ -50,8 +50,8 @@ This is a suite of scripts that
 	- aliases
 	- auto-completion tweaks
 - Keyd
-- Nemo
-	- add context menu scripts to ~/.local/share/nemo/scripts
+- Context Menu Scripts
+	- add symlinks to scripts in file browser's script dir  ~/.local/share/nautilus/scripts
 - PYTHONPATH
     - add jtools so it can be easily used and updated. 
 

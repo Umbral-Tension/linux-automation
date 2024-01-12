@@ -1,5 +1,5 @@
-"""This script takes paths as arguments and removes/replaces a given string from the last component of each path. 
-This means if a directory path is received the name of the directory is changed, NOT the names of the files in that directory. 
+"""This script takes paths as arguments and removes or replaces a given string from the last component of each path. 
+If a path to a directory is received the name of the directory ITSELF is changed; directories are not recursed into for safety reasons.
 (intended to be invoked from the context menu of some file explorer like nemo, which can pass it the paths of mouse-selected files/directories)"""
 
 from jtools.jconsole import test, ptest

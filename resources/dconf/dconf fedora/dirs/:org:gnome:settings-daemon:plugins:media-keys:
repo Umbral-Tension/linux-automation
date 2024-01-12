@@ -152,6 +152,6 @@ name='terminal'
 
 [custom-keybindings/custom54]
 binding='<Super>E'
-command='nemo'
+command='nautilus'
 name='files'
 
