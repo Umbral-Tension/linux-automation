@@ -22,7 +22,13 @@
 # * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
 
 echo -e "//////////////////////////////////////////////////////////\n//////////////////////////////////////////////////////////"
-echo -e "////////// Jeremy's incremental rsync backup  ////////////\n\n"
+echo -e "////////// Jeremy's incremental rsync backup  ////////////\n"
+echo -e "long options:\t"
+mylongopts=( --full --exclude-large --dry-run "--path-to-backups=path (i.e. specify an alternate external drive)" )
+for x in "${mylongopts[@]}"; do
+    echo -e "\t$x"; done
+echo -e "\n"
+
 
 # Option Handling
 die() { echo "$*" >&2; exit 2; }  # complain to STDERR and exit with error
@@ -40,12 +46,18 @@ while getopts "$OPTSTRING" OPT; do
         full )              do_full=true ;;
         exclude-large )     exclude_large=true ;;
         dry-run )           dry_run=true ;;
+        path-to-backups )   path_to_backups="$OPTARG" ;;
         ??* )               die "Illegal option --$OPT" ;;  # bad long option
         ? )                 exit 2 ;;  # bad short option (error reported via getopts)
     esac
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 # End Option Handling
+
+# if ! [ -z ${path_to_backups+x} ]; then echo "var is unset"; else echo "var is set to '$path_to_backups'"; fi
+# #[[ path_to_backups == "" ]] && echo empty string
+# echo "given path is:  $path_to_backups"
+# read -p "continue?" dummyvar
 
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 
@@ -61,8 +73,11 @@ src=(   "/home/jeremy/@data"
 exclusions=(    "--exclude=@data/git-repos"
                 "--exclude=@data/jvault" )
 
-# Directory to put backups into
+# Default directory to put backups into
 backups="/run/media/jeremy/external_jdata/rsync_backups"
+# set alternative backup location if long option was given (explanation:  https://stackoverflow.com/a/13864829)
+if ! [ -z ${path_to_backups+x} ]; then backups="$path_to_backups"; fi
+mkdir -p "$backups" 
 
 # paths to the new backup being created and the current latest backup
 current="$backups/current"  
@@ -90,6 +105,9 @@ rsyncexit="$?"
 if [[ $dry_run == true ]]; then {
     echo -e "\n\n\n////////// Jeremy's incremental rsync backup  ////////////"
     echo -e "DRY-RUN finished." 
+    mv "$backups/temp rsync stderr" "$backups/${TIMESTAMP} DRY-RUN rsync stderr"
+    mv "$backups/temp rsync stdout" "$backups/${TIMESTAMP} DRY-RUN rsync stdout"
+    mv "$backups/temp rsync log" "$backups/${TIMESTAMP} DRY-RUNrsync log"
     exit
 }
 fi
@@ -101,7 +119,7 @@ echo -e "rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
 # prepare a diff file with the first part of paths truncated up to the timestamp
 if ! [[ "$do_full" == true ]]; then {
     mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
-    diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout + stderr" \
+    diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout" --exclude="rsync stderr" \
         "$newbackup" $(realpath "$current") | sort > "$mydiff"
     echo -e "\nfinished diff ($?)"
     sed -i -e "s:$backups/::g" "$mydiff"
