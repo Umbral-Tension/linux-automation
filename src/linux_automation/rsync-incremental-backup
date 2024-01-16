@@ -54,11 +54,6 @@ done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
 # End Option Handling
 
-# if ! [ -z ${path_to_backups+x} ]; then echo "var is unset"; else echo "var is set to '$path_to_backups'"; fi
-# #[[ path_to_backups == "" ]] && echo empty string
-# echo "given path is:  $path_to_backups"
-# read -p "continue?" dummyvar
-
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 
 # Directories to backup. 
