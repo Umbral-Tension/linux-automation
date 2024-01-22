@@ -2,12 +2,10 @@
 If a path to a directory is received the name of the directory ITSELF is changed; directories are not recursed into for safety reasons.
 (intended to be invoked from the context menu of some file explorer like nemo, which can pass it the paths of mouse-selected files/directories)"""
 
-from jtools.jconsole import test, ptest
 from jtools import jconsole as jc
 import os
 import os.path as opath
 import sys
-import re
 from datetime import datetime
 import traceback
 
@@ -22,7 +20,7 @@ if __name__ == '__main__':
     
     print("##################\nThis script takes paths as arguments and removes/replaces a given string from the last component of each path. This means if a directory path is received the name of the directory is changed, NOT the names of the files in that directory. (intended to be invoked from the context menu of some file explorer like nemo, which can pass it the paths of mouse-selected files/directories)\n")
     
-    badstring = input(jc.yellow('String to remove? (case-SENSITIVE, be mindful of SPACES):'))
+    badstring = input(jc.yellow('String to replace? (case-SENSITIVE, be mindful of SPACES):'))
     replacement = input(jc.yellow('Replace with? (leave blank to simply remove the string):'))
             
 
