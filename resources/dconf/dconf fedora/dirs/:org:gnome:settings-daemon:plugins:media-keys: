@@ -4,7 +4,7 @@ custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybin
 
 [custom-keybindings/custom20]
 binding='<Primary>KP_0'
-command='jrouter --volume 5'
+command='jrouter --volume 0'
 name='volume 0'
 [custom-keybindings/custom21]
 binding='<Primary>KP_1'

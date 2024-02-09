@@ -1,6 +1,6 @@
 
 #### JEREMY'S ADDITIONS 
-#### dot source this file in ~/.bash_profile
+#### dot source this file in ~/.profile
 
 #turn off broken laptop touchscreen 
 [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 

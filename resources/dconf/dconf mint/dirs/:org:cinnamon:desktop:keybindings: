@@ -3,7 +3,7 @@ custom-list=['custom20', 'custom21', 'custom22', 'custom23', 'custom24', 'custom
 
 [custom-keybindings/custom20]
 binding=['<Primary>KP_0']
-command='jrouter --volume 5'
+command='jrouter --volume 0'
 name='volume 0'
 
 [custom-keybindings/custom21]
@@ -112,7 +112,7 @@ command='jrouter --open vscode_linux-automation'
 name='vscode_linux-automation'
 
 [custom-keybindings/custom40]
-binding=['<Primary><Shift><Alt>KP_Begin']
+binding=['<Primary><Shift><Alt>KP_5']
 command='jrouter --open vscode_experiments'
 name='vscode_experiments'
 
