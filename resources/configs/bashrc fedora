@@ -26,12 +26,6 @@ alias tree3='tree -L 3'
 # gnome-text-editor
 alias gte='gnome-text-editor'
 
-# print exit status of last command
-alias ??='echo $?'
-
-# quickly run bash experimentation script
-alias be='~/@data/bash-experiments'
-
 # ignore case when usin tab completion
 bind "set completion-ignore-case on"
 
