@@ -2,10 +2,13 @@
 #### JEREMY'S ADDITIONS 
 #### dot source this file in ~/.profile
 
-#turn off broken laptop touchscreen 
-[[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 
-[[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
-[[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
+#turn off broken laptop touchscreen. Requires that hostname of laptop is "jlaptop"
+if [[ $HOSTNAME == jlaptop ]]; then 
+    [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 
+    [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
+    [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
+fi
 
 #make jtools available 
-export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"s
+export PYTHONPATH=/home/jeremy/@data/git-repos/python-jtools/src:/home/jeremy/@data/git-repos/linux-automation/src/:"${PYTHONPATH}"
+

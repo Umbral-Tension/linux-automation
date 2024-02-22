@@ -60,16 +60,18 @@ TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 # These MUST NOT end with a slash or rsync will copy only their contents rather than the directory AND its contents.
 src=(   "/home/jeremy/@data"
         "/home/jeremy/Desktop"
-        "/home/jeremy/Downloads"
+        "/home/jeremy/Downloads" 
         "/home/jeremy/@data/jvault" )
 
 # dirs/files to exclude from the backup. These are given as rsync "filter rules"
 # note: Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. @data/git-repos instead of /home/jeremy/@data/git-repos
 exclusions=(    "--exclude=@data/git-repos"
-                "--exclude=@data/jvault" )
+                "--exclude=@data/jvault"
+                "--exclude=@data/videos/TV"
+                "--exclude=@data/videos/Movies" )
 
 # Default directory to put backups into
-backups="/run/media/jeremy/external_jdata/rsync_backups"
+backups="/media/jeremy/internal_6TB/rsync_backups"
 # set alternative backup location if long option was given (explanation:  https://stackoverflow.com/a/13864829)
 if ! [ -z ${path_to_backups+x} ]; then backups="$path_to_backups"; fi
 mkdir -p "$backups" 
