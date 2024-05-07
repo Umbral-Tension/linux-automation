@@ -21,7 +21,7 @@ if __name__ == '__main__':
         
         print("##################\nThis script takes paths as arguments and removes/replaces a given string from the last component of each path. This means if a directory path is received the name of the directory is changed, NOT the names of the files in that directory. (intended to be invoked from the context menu of some file explorer like nemo, which can pass it the paths of mouse-selected files/directories)\n")
         
-        copy_paste_string = jc.yellow('####\n1st filename for COPY/PASTE purposes: {{') + jc.white(f' First filename{opath.basename(paths[0])}') + jc.yellow('}}\n#####\n\n')
+        copy_paste_string = jc.yellow('####\n1st filename for COPY/PASTE purposes: {{') + jc.white(f'{opath.basename(paths[0])}') + jc.yellow('}}\n#####\n\n')
         print(copy_paste_string)
 
         badstring = input(jc.yellow('String to replace? (case-SENSITIVE, be mindful of SPACES):'))
