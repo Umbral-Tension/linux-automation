@@ -71,7 +71,7 @@ exclusions=(    "--exclude=@data/git-repos"
                 "--exclude=@data/videos/Movies" )
 
 # Default directory to put backups into
-backups="/media/jeremy/internal_6TB/rsync_backups"
+backups="/run/media/jeremy/internal_6TB/rsync_backups"
 # set alternative backup location if long option was given (explanation:  https://stackoverflow.com/a/13864829)
 if ! [ -z ${path_to_backups+x} ]; then backups="$path_to_backups"; fi
 mkdir -p "$backups" 
