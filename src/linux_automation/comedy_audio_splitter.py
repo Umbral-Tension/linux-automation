@@ -12,13 +12,9 @@ sits in the parent directory of "top_level_dir" i.e. "top_level_dir/../audio_out
 
 """
 
-
-
 from jtools.jconsole import test, ptest, zen
 import os
 from os import path as opath
-import shutil
-from mutagen.easyid3 import EasyID3
 import subprocess
 import shlex
 
@@ -36,7 +32,6 @@ def split_video_to_audio():
             
             src = list(os.scandir(album))[0].path
             output_dir = opath.abspath(f'{top_level_dir}/../audio_out/{comic.name}/{album.name}')
-            # input(output_dir + "?????????????????????")
             os.makedirs(output_dir, exist_ok=True)
             output_template = f'{output_dir}/%02d. {comic.name} - {album.name}.mp3'
 
