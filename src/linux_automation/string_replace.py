@@ -39,9 +39,9 @@ if __name__ == '__main__':
         if not jc.yes_no(confirmation_message):
             sys.exit()
 
-        if not opath.exists('/home/jeremy/@data/logs/'):
-            os.mkdir('/home/jeremy/@data/logs/')
-        logfile = f'/home/jeremy/@data/logs/remove_string.py {str(datetime.now())}'    
+        if not opath.exists('/home/jeremy/jdata/logs/'):
+            os.mkdir('/home/jeremy/jdata/logs/')
+        logfile = f'/home/jeremy/jdata/logs/remove_string.py {str(datetime.now())}'    
         for x in paths:
             namestring = opath.basename(x)
             parent = opath.dirname(x)

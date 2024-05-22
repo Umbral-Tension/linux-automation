@@ -55,8 +55,8 @@ def build_census():
     
     # paths to monitor
     home = os.getenv('HOME')
-    data = opath.join(home, '@data')
-    data_dirs = os.listdir(data) # dirs I keep in a big personal @data directory
+    data = opath.join(home, 'jdata')
+    data_dirs = os.listdir(data) # dirs I keep in a big personal jdata directory
     other_dirs = [
         opath.join(home, 'Desktop'),
         opath.join(home, 'Downloads')

@@ -45,7 +45,7 @@ This is a suite of scripts that
 - Cinnamon (and possible other desktop environments that use dconf)
 	- keyboard shutcuts
 	- taskbar
-	- make symlinks in `~/.local/share/applications` to the .desktop files in `@data/AppImages`
+	- make symlinks in `~/.local/share/applications` to the .desktop files in `jdata/AppImages`
 - bash
 	- aliases
 	- auto-completion tweaks

@@ -12,14 +12,14 @@ else:
     from window_manager.wm_xorg import win_list
     rhythmbox_winclass = 'rhythmbox.Rhythmbox'
 
-obsidian_vault = '/home/jeremy/@data/jvault/Memory 2/M2 Miscellaneous/music classifications'
+obsidian_vault = '/home/jeremy/jdata/jvault/Memory 2/M2 Miscellaneous/music classifications'
 
 def match_song():
     """Try to match the song info in the window title of Rhythmbox to a file in my music directory.
     Return a list like [path_to_song, artist, song] if a match is found or [rhythmbox_window_title] 
     if no match is found. """
     global rhythmbox_winclass
-    my_artists = [x for x in os.scandir('/home/jeremy/@data/music') if x.is_dir]
+    my_artists = [x for x in os.scandir('/home/jeremy/jdata/music') if x.is_dir]
     rbox = [x for x in win_list() if x['wm_class'] == rhythmbox_winclass]
     if rbox:
         # This parsing of the title string assumes no artist will have a hyphen in their name. 
@@ -79,7 +79,7 @@ def set_tier(tier):
     if len(song_info) == 1:
         new_entry = f"tier {tier} (no match): {song_info[0]}"
     else:
-        new_entry = f"tier {tier}: {song_info[0].replace('/home/jeremy/@data/music/', '')}\n"
+        new_entry = f"tier {tier}: {song_info[0].replace('/home/jeremy/jdata/music/', '')}\n"
     ls.append(new_entry)
     
     # remove duplictaes & sort
@@ -100,7 +100,7 @@ def set_vibe(vibe):
         new_entry = f'(no match): {new_entry}\n'
     else:
         new_entry = song_info[0] # will be path to file
-        new_entry = new_entry.replace('/home/jeremy/@data/music/', '') + '\n'
+        new_entry = new_entry.replace('/home/jeremy/jdata/music/', '') + '\n'
         
 
     ls.append(new_entry)

@@ -15,7 +15,7 @@
         "wayland_window_title": ""
     },
     "jipython": {
-        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/jipython.py",
+        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jipython.py",
         "window_title": "",
         "wayland_window_title": ""
     },
@@ -50,7 +50,7 @@
         "wayland_window_title": ""
     },
     "mouseappmenu": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/mouse_app_menu.py",
+        "exec_cmd": "python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/mouse_app_menu.py",
         "window_title": "mouse_app_menu.py",
         "wayland_window_title": ""
     },
@@ -100,12 +100,12 @@
         "wayland_window_title": "wm_class_code"
     },
     "vscode_linux-automation": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/linux-automation",
+        "exec_cmd": "/usr/bin/code /home/jeremy/jdata/git-repos/linux-automation",
         "window_title": "",
         "wayland_window_title": ""
     },
     "vscode_experiments": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/@data/git-repos/experiments",
+        "exec_cmd": "/usr/bin/code /home/jeremy/jdata/git-repos/experiments",
         "window_title": "",
         "wayland_window_title": ""
     },
@@ -115,17 +115,17 @@
         "wayland_window_title": ""
     },
     "r": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py",
+        "exec_cmd": "python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/random_reddit.py",
         "window_title": "",
         "wayland_window_title": ""
     },
     "rnsfw": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py nsfw",
+        "exec_cmd": "python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/random_reddit.py nsfw",
         "window_title": "",
         "wayland_window_title": "Visual Studio Code"
     },
     "rsfw": {
-        "exec_cmd": "python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/random_reddit.py sfw",
+        "exec_cmd": "python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/random_reddit.py sfw",
         "window_title": "",
         "wayland_window_title": ""
     },

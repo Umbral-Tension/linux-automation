@@ -1,4 +1,4 @@
 #!/bin/bash
 
-gnome-terminal -- python3 /home/jeremy/@data/git-repos/linux-automation/src/linux_automation/tag_editor.py "$@"
+gnome-terminal -- python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/tag_editor.py "$@"
 

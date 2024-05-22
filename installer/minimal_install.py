@@ -20,7 +20,7 @@ if __name__ == '__main__':
     
     # relevant paths
     home = os.environ['HOME']
-    git_repos = opath.join(home, '@data/git-repos')
+    git_repos = opath.join(home, 'jdata/git-repos')
     os.makedirs(git_repos, exist_ok=True)
     installerdir = opath.dirname(opath.realpath(__file__))
     appdir = opath.dirname(installerdir)

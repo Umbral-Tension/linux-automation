@@ -12,7 +12,7 @@ from datetime import datetime
 
 # relevant paths
 home = os.environ['HOME']
-git_repos = opath.join(home, '@data/git-repos')
+git_repos = opath.join(home, 'jdata/git-repos')
 os.makedirs(git_repos, exist_ok=True)
 installerdir = opath.dirname(opath.realpath(__file__))
 appdir = opath.dirname(installerdir)
@@ -117,7 +117,7 @@ def github_client():
 
 
 def clone_repos():
-    """clone my usual repos into ~/@data/git-repos/"""
+    """clone my usual repos into ~/jdata/git-repos/"""
     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
             'experiments', 'project-euler', 'misc-db-files']
     clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
