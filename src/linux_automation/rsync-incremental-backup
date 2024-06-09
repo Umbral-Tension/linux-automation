@@ -68,7 +68,8 @@ src=(   "/home/jeremy/jdata"
 exclusions=(    "--exclude=jdata/git-repos"         # syncing issues
                 "--exclude=jdata/jvault"            # --^
                 "--exclude=jdata/videos/tv"         # already stored on backup drive
-                "--exclude=jdata/videos/movies" )   # --^
+                "--exclude=jdata/videos/movies"     # --^
+                "--exclude=jdata/\$RECYCLE.BIN" )     # dumb Windows dir that gets added every time I boot to windows. 
 
 # Default directory to put backups into
 backups="/run/media/jeremy/internal_6TB/rsync_backups"
