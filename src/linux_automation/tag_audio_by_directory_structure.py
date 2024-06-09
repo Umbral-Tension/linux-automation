@@ -16,7 +16,7 @@ from mutagen.easyid3 import EasyID3
 
 
 def tag_by_directory_structure():
-    top_level_dir = "/run/media/jeremy/internal_6TB/torrents/audio_out"
+    top_level_dir = "/home/jeremy/jdata/downloads/newaudio/"
 
     rename_files = yes_no('Should files be renamed in addition to being tagged? The following template will be used: {{ track. artist - album.mp3 }}')
     renames = []

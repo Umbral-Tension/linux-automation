@@ -85,7 +85,7 @@
         "wayland_window_title": ""
     },
     "spotify": {
-        "exec_cmd": "LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify",
+        "exec_cmd": "flatpak run --command=sh com.spotify.Client -c 'eval \"$(sed s#LD_PRELOAD=#LD_PRELOAD=$HOME/.spotify-adblock/spotify-adblock.so:#g /app/bin/spotify)\"'",
         "window_title": "wm_class_spotify.Spotify",
         "wayland_window_title": "wm_class_spotify"
     },
