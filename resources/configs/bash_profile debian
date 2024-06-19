@@ -7,6 +7,8 @@ if [[ $HOSTNAME == jlaptop ]]; then
     [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 
     [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
     [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
+    firefox https://www.lichess.org
+    touch ~/testing-file
 fi
 
 #make jtools available 

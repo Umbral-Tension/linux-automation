@@ -23,8 +23,8 @@ def bootstrap():
     """Prework to make jtools available for the rest of the script. """
     # get git, pip, and jtools
     print('---> Installing git, pip, and jtools')
-    run(lex(f'sudo dnf install -y git'))
-    run(lex(f'sudo dnf install -y pip'))
+    run(lex(f'sudo apt install -y git'))
+    run(lex(f'sudo apt install -y pip'))
     run(lex(f'pip -q install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
     if not opath.exists(f'{installerdir}/localjtools'):
         run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
@@ -38,27 +38,12 @@ def collect_input():
 
 
 def install_repos():
-    """install some repositories: rpm fusion free and non-free, vscode """
-    fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
+    """install some repositories: vscode """
     outcome = shelldo.chain([
-        f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
-        f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"',
-        'sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc',
-        'sudo sh -c \'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo\'',
+
     ])
     return outcome
 
-
-def freeworld_packages():
-    """install some non-included codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers"""
-    outcome = shelldo.chain([
-        'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
-        'sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
-        'sudo dnf -y groupupdate sound-and-video',
-        'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
-        'sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld',
-    ])
-    return outcome
 
 
 def simple_installs():
@@ -78,6 +63,7 @@ def simple_installs():
         shelldo.inst_cmd('vlc'),
         shelldo.inst_cmd('xinput'),
         shelldo.inst_cmd('puddletag'),
+        shelldo.inst_cmd('nemo'),
         ])
     return outcome
 
@@ -99,14 +85,12 @@ def configure_ssh():
         outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
     else:
         outcome = True
-    return outcome and shelldo.chain([f'sudo cp {appdir}/resources/configs/sshd_config /etc/ssh/sshd_config'])
-
+    return outcome 
 
 def github_client():
     """install Github client and add ssh keys to github"""
     outcome = shelldo.chain([
-        'sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo',
-        'sudo dnf -y install gh'
+        '(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) && sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y'
     ])
     if outcome:
         # can't use chain because we need to interact with this command alot. 
@@ -165,9 +149,9 @@ def bashrc():
     """source my .bashrc and .bash_profile customization files"""
     try:
         with open(f'{home}/.bashrc', 'a') as f:
-            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc fedora"\n'])
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc debian"\n'])
         with open(f'{home}/.bash_profile', 'a') as f:
-            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile fedora"\n'])
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile debian"\n'])
     except:
         return False
     return True
@@ -183,12 +167,13 @@ def jrouter():
     os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
     return True         
 
-def nautilus_scripts():
+
+def nemo_scripts():
     """place symlinks to context-menu scripts in file browser's script dir."""
     try:
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/puddletag', '/home/jeremy/.local/share/nautilus/scripts/puddletag')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/puddletag', '/home/jeremy/.local/share/nemo/scripts/puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
 
     except:
         return False
@@ -196,7 +181,7 @@ def nautilus_scripts():
 
 def dconf():
     """change some dconf settings (keybindings, app-switcher)"""
-    outcome = os.system(f'dconf load -f /org/gnome/settings-daemon/plugins/media-keys/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:settings-daemon:plugins:media-keys:"')
+    outcome = os.system(f'dconf load -f /org/cinnamon/desktop/keybindings/ < "{appdir}/resources/dconf/dconf mint/dirs/-org-cinnamon-desktop-keybindings-"') 
     #outcome2 = os.system(f'dconf load -f /org/gnome/desktop/wm/keybindings/ < "{appdir}/resources/dconf/dconf fedora/dirs/:org:gnome:desktop:wm:keybindings:"')
     return True if outcome == 0 else False
 
@@ -261,10 +246,8 @@ def cleanup():
 
 if __name__ == '__main__':
 
-    from jtools.shelldo import Shelldo
-    clone_repos()
-    # print('\n/////////////////////////////////////////////////')
-    # print('////////   linux-automation installer  //////////\n')
+    print('\n/////////////////////////////////////////////////')
+    print('////////   linux-automation installer  //////////\n')
     
     # ### Bootstrap stuff to make jtools available
     # if '--no-bootstrap' not in sys.argv:
@@ -272,29 +255,29 @@ if __name__ == '__main__':
     #     # have to relaunch after bootstrap or the modules that were just installed aren't importable
     #     os.execl(sys.argv[0], sys.argv[0], '--no-bootstrap')
 
+    
+    #### Begin the rest of the installation
+    sys.path.append(f'{installerdir}/localjtools/src/')
+    from jtools import jconsole as jc
+    from jtools.shelldo import Shelldo
+    shelldo = Shelldo()
 
-    # #### Begin the rest of the installation
-    # sys.path.append(f'{installerdir}/localjtools/src/')
-    # from jtools import jconsole as jc
-    # from jtools.shelldo import Shelldo
-    # shelldo = Shelldo()
-
-    # # Master list of available tasks. 
-    # all_tasks = [collect_input, install_repos, freeworld_packages,
-    #          simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-    #          clone_repos, keyd, bashrc, jrouter, nautilus_scripts, dconf, gnome_terminal_themes, cleanup, ]
-    # # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    # tasks = all_tasks 
-    # # Tasks to skip on this run. Order is not important. 
-    # skip_tasks = []
-    # for t in tasks:
-    #     if t not in skip_tasks:
-    #         shelldo.set_action(t.__doc__)
-    #         outcome = t()
-    #         shelldo.log(outcome, shelldo.curraction)
-    #         shelldo.set_result(outcome)
+    # Master list of available tasks. 
+    all_tasks = [collect_input, install_repos,
+             simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
+             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
+    # Tasks to be performed on this run. The order of these is important and should be changed with care.
+    tasks = all_tasks 
+    # Tasks to skip on this run. Order is not important. 
+    skip_tasks = []
+    for t in tasks:
+        if t not in skip_tasks:
+            shelldo.set_action(t.__doc__)
+            outcome = t()
+            shelldo.log(outcome, shelldo.curraction)
+            shelldo.set_result(outcome)
             
 
 
-    # # Show final report
-    # shelldo.report()
+    # Show final report
+    shelldo.report()
