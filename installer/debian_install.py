@@ -87,16 +87,18 @@ def configure_ssh():
         outcome = True
     return outcome 
 
-def github_client():
-    """install Github client and add ssh keys to github"""
-    outcome = shelldo.chain([
-        '(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) && sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y'
-    ])
-    if outcome:
-        # can't use chain because we need to interact with this command alot. 
-        a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
-        b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    return outcome and (a + b == 0)
+## NOT WORKING
+
+# def github_client():
+#     """install Github client and add ssh keys to github"""
+#     outcome = shelldo.chain([
+#         '(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) && sudo mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y'
+#     ])
+#     if outcome:
+#         # can't use chain because we need to interact with this command alot. 
+#         a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
+#         b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+#     return outcome and (a + b == 0)
 
 
 def clone_repos():

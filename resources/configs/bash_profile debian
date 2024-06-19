@@ -5,10 +5,8 @@
 #turn off broken laptop touchscreen. Requires that hostname of laptop is "jlaptop"
 if [[ $HOSTNAME == jlaptop ]]; then 
     [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E" 
-    [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
-    [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
-    firefox https://www.lichess.org
-    touch ~/testing-file
+    # [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Eraser (0)" 
+    # [[ $XDG_SESSION_TYPE == x11 ]] && xinput disable "ELAN2514:00 04F3:272E Stylus Pen (0)" 
 fi
 
 #make jtools available 
