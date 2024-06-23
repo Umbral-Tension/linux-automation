@@ -47,13 +47,11 @@ def install_repos():
 
 
 def simple_installs():
-    """simple package installs (gcc, tree, zenity, gnome-extensions-app, vscode, qbittorrent, chromium, GIMP, dconf-editor, xed, tldr)"""
+    """simple package installs (gcc, tree, zenity, qbittorrent, chromium, GIMP, dconf-editor, xed, tldr, vlc, puddletag, nemo, build-essential)"""
     outcome = shelldo.chain([
         shelldo.inst_cmd('gcc'),
         shelldo.inst_cmd('tree'),
         shelldo.inst_cmd('zenity'),
-        shelldo.inst_cmd('gnome-extensions-app'),
-        shelldo.inst_cmd('code'),
         shelldo.inst_cmd('qbittorrent'),
         shelldo.inst_cmd('chromium'),
         shelldo.inst_cmd('gimp'),
