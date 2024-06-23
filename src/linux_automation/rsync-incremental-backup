@@ -72,7 +72,7 @@ exclusions=(    "--exclude=jdata/git-repos"         # syncing issues
                 "--exclude=jdata/\$RECYCLE.BIN" )     # dumb Windows dir that gets added every time I boot to windows. 
 
 # Default directory to put backups into
-backups="/run/media/jeremy/internal_6TB/rsync_backups"
+backups="/media/jeremy/internal_6TB/rsync_backups"
 # set alternative backup location if long option was given (explanation:  https://stackoverflow.com/a/13864829)
 if ! [ -z ${path_to_backups+x} ]; then backups="$path_to_backups"; fi
 mkdir -p "$backups" 

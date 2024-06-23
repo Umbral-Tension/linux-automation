@@ -20,7 +20,7 @@ import shlex
 
 
 def split_video_to_audio():
-    top_level_dir = "/run/media/jeremy/internal_6TB/torrents/standup"
+    top_level_dir = "/media/jeremy/internal_6TB/torrents/standup"
 
 
     for comic in os.scandir(top_level_dir):
