@@ -1,5 +1,5 @@
 """  !!!Fragile Script
-batch tags and optionally renames mp3 files based on info gathered from the directory structure they exist within.
+batch tags/renames mp3 files based on info gathered from the directory structure they exist within.
 Mostly to be used on freshly segmented comedy specials. 
 
 Requirements: 
