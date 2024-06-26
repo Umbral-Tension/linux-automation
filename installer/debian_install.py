@@ -157,27 +157,29 @@ def bashrc():
     return True
 
 
-def jrouter():
-    """place symlink to jrouter in ~/bin"""
+def place_symlinks():
+    """place symlinks to jrouter and other scripts in ~/bin and file manager configs"""
+    os.makedirs('/home/jeremy/bin', exist_ok=True)
     try:
         os.remove('/home/jeremy/bin/jrouter')
     except FileNotFoundError:
         pass
-    os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+    try:
+        # ~/bin     
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/bin/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace')
+
+        # place symlinks to context-menu scripts in file browser's script dir.
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
+    except Exception:
+        return False
     return True         
 
 
-def nemo_scripts():
-    """place symlinks to context-menu scripts in file browser's script dir."""
-    try:
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/puddletag', '/home/jeremy/.local/share/nemo/scripts/puddletag')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
-
-    except:
-        return False
-    return True
 
 def dconf():
     """change some dconf settings (keybindings, app-switcher)"""
@@ -264,8 +266,8 @@ if __name__ == '__main__':
 
     # Master list of available tasks. 
     all_tasks = [collect_input, install_repos,
-             simple_installs, miscellaneous, set_hostname, configure_ssh, github_client,
-             clone_repos, keyd, bashrc, jrouter, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
+             simple_installs, miscellaneous, set_hostname, configure_ssh,
+             clone_repos, keyd, bashrc, place_symlinks, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
