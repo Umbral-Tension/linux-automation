@@ -18,7 +18,8 @@ alias keyderr='sudo journalctl -eu keyd'
 alias gogit='cd ~/jdata/git-repos'
 alias godat='cd ~/jdata'
 alias gomus='cd ~/jdata/music'
-alias goext='cd /media/jeremy/external_jdata'
+alias goext='cd /media/jeremy/external_2TB'
+alias goint='cd /media/jeremy/internal_6TB/'
 
 # make ll show all files and append type symbol to end of names
 alias ll='ls -alF'
