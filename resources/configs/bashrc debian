@@ -54,7 +54,7 @@ cwd_arrow=$green
 # cwd_arrow=$brightgreen
 
 # custom bash prompt
-PS1="$joff\n$bold$user_host\u$cwd_arrow@$user_host\h$joff:$bold$cwd_arrow\w\n└───$bold➤$joff\$ "
+PS1="$joff\n$bold$user_host\u$cwd_arrow@$user_host\h$joff:$bold$cwd_arrow\w\n└───$bold▶$joff\$ "
 
 
 

@@ -53,7 +53,7 @@ cwd_arrow=$green
 # cwd_arrow=$brightgreen
 
 # bash custom prompt
-PS1="$joff\n$bold$user_host\u$cwd_arrow@$user_host\h$joff:$bold$cwd_arrow\w\n└───$bold➤$joff\$ "
+PS1="$joff\n$bold$user_host\u$cwd_arrow@$user_host\h$joff:$bold$cwd_arrow\w\n└───$bold▶$joff\$ "
 
 # Keyd 
 alias rekeyd='sudo cp ~/jdata/git-repos/linux-automation/resources/configs/my_keyd.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 
