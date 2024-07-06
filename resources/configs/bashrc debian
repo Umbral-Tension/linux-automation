@@ -18,44 +18,38 @@ printcolors (){
 joff='\[\033[00m\]'
 bold='\[\033[1m\]'
 
-grey='\[\033[30m\]'
-red='\[\033[31m\]'
-green='\[\033[32m\]'
-yellow='\[\033[33m\]'
-blue='\[\033[34m\]'
-violet='\[\033[35m\]'
-teal='\[\033[36m\]'
-white='\[\033[37m\]'
+grey='\[\033[30m\]'     ; brightgrey='\[\033[90m\]'
+red='\[\033[31m\]'      ; brightred='\[\033[91m\]'
+green='\[\033[32m\]'    ; brightgreen='\[\033[92m\]'
+yellow='\[\033[33m\]'   ; brightyellow='\[\033[93m\]'
+blue='\[\033[34m\]'     ; brightblue='\[\033[94m\]'
+violet='\[\033[35m\]'   ; brightviolet='\[\033[95m\]'
+teal='\[\033[36m\]'     ; brightteal='\[\033[96m\]'
+white='\[\033[37m\]'    ; brightwhite='\[\033[97m\]'
 
+#get current gnome terminal theme name
+curr=$(dconf read /org/gnome/terminal/legacy/profiles:/default | sed "s/'//g")
+curr=$(dconf read /org/gnome/terminal/legacy/profiles:/:"$curr"/visible-name | sed "s/'//g")
 
-brightgrey='\[\033[90m\]'
-brightred='\[\033[91m\]'
-brightgreen='\[\033[92m\]'
-brightyellow='\[\033[93m\]'
-brightblue='\[\033[94m\]'
-brightviolet='\[\033[95m\]'
-brightteal='\[\033[96m\]'
-brightwhite='\[\033[97m\]'
+case $curr in
+    "Aura") 
+        user_host=$violet ; cwd_arrow=$green ;;
+    "Srcery")
+        user_host=$brightblue ; cwd_arrow=$brightgreen ;;
+    "Clone Of Ubuntu")
+        user_host=$brightviolet; cwd_arrow=$brightyellow ;;
+    "Spacedust")
+        user_host=$brightviolet ; cwd_arrow=$brightyellow ;;
+    *) 
+        user_host=$brightblue ; cwd_arrow=$brightgreen ;;
+esac
 
-
-# no color
-PS1="\n\u@\h:\w\n┖───▶\[\033[00m\]\$ "
-
-# #standard
-# user_host=$brightblue
-# cwd_arrow=$brightgreen
-
-#aura theme REQUIRES unchecking "show bold text in bright colors" in gnome-terminal color preferences
-user_host=$violet
-cwd_arrow=$green
-
-# #srcery theme
-# user_host=$brightblue
-# cwd_arrow=$brightgreen
 
 # custom bash prompt
-PS1="$joff\n$bold$user_host\u$cwd_arrow@$user_host\h$joff:$bold$cwd_arrow\w\n└───$bold▶$joff\$ "
+PS1="$joff\n$user_host\u$cwd_arrow@$user_host\h$joff:$cwd_arrow\w\n└──▶$joff\$ "
 
+# # no color
+# PS1="\n\u@\h:\w\n┖───▶\$ "
 
 
 # Keyd 
