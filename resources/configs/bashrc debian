@@ -2,8 +2,16 @@
 ############### Jeremy's Additions ############
 # dot source this file in bashrc
 
+declare -A colors=(
+    ["grey"]='\[\033[30m\]' ["red"]='\[\033[31m\]' ["green"]='\[\033[32m\]' ["yellow"]='\[\033[33m\]' ["blue"]='\[\033[34m\]' ["violet"]='\[\033[35m\]' ["teal"]='\[\033[36m\]' ["white"]='\[\033[37m\]' 
+    ["brightgrey"]='\[\033[90m\]' ["brightred"]='\[\033[91m\]' ["brightgreen"]='\[\033[92m\]' ["brightyellow"]='\[\033[93m\]' ["brightblue"]='\[\033[94m\]' ["brightviolet"]='\[\033[95m\]' ["brightteal"]='\[\033[96m\]' ["brightwhite"]='\[\033[97m\]'
+)
 
-printcolors (){
+joff='\[\033[00m\]'
+bold='\[\033[1m\]'
+
+color-print-codes (){
+    # print ansi escape codes in the effect that the code represents
     i=0
     while [ $i -le 107 ]; do
         for column in {0..9}; do
@@ -14,41 +22,51 @@ printcolors (){
     done
 }
 
-joff='\[\033[00m\]'
-bold='\[\033[1m\]'
+color-set-prompt(){
+    # no color
+    [[ $1 == "none" ]] && PS1="\n\u@\h:\w\n┖───▶\$ " && return
+    
+    # set user and cwd colors to those specified in args 1 and 2
+    [[ $1 ]] && user_color=${colors[$1]} 
+    [[ $2 ]] && cwd_color=${colors[$2]} 
 
-grey='\[\033[30m\]'     ; brightgrey='\[\033[90m\]'
-red='\[\033[31m\]'      ; brightred='\[\033[91m\]'
-green='\[\033[32m\]'    ; brightgreen='\[\033[92m\]'
-yellow='\[\033[33m\]'   ; brightyellow='\[\033[93m\]'
-blue='\[\033[34m\]'     ; brightblue='\[\033[94m\]'
-violet='\[\033[35m\]'   ; brightviolet='\[\033[95m\]'
-teal='\[\033[36m\]'     ; brightteal='\[\033[96m\]'
-white='\[\033[37m\]'    ; brightwhite='\[\033[97m\]'
+    # set standard blue-green if no arguments are given
+    [[ ! $1 ]] && [[ ! $2 ]] && user_color=${colors["blue"]} && cwd_color=${colors["green"]}
 
-#get current gnome terminal theme name
-curr=$(dconf read /org/gnome/terminal/legacy/profiles:/default | sed "s/'//g")
-curr=$(dconf read /org/gnome/terminal/legacy/profiles:/:"$curr"/visible-name | sed "s/'//g")
+    PS1="$joff\n$user_color\u$cwd_color@$user_color\h$joff:$cwd_color\w\n└──▶$joff\$ "
+}
 
-case $curr in
+color-prompt-demo(){ 
+    # print ps1 in all color combinations excluding brightwhite
+    declare -A altcolors=(["grey"]='\033[30m' ["red"]='\033[31m' ["green"]='\033[32m' ["yellow"]='\033[33m' ["blue"]='\033[34m' ["violet"]='\033[35m' ["teal"]='\033[36m' ["white"]='\033[37m' ["brightgrey"]='\033[90m' ["brightred"]='\033[91m' ["brightgreen"]='\033[92m' ["brightyellow"]='\033[93m' ["brightblue"]='\033[94m' ["brightviolet"]='\033[95m' ["brightteal"]='\033[96m')
+    color_names=(grey brightgrey red brightred green brightgreen yellow brightyellow blue brightblue violet brightviolet teal brightteal white)
+    altjoff='\033[00m'
+    for x in ${color_names[@]}; do 
+        color_a=${altcolors[$x]}
+        for y in ${color_names[@]}; do 
+            color_b=${altcolors[$y]}
+            echo -e "$altjoff\n${color_a}user$color_b@${color_a}host$altjoff:${color_b}a/fake/directory/\n└──▶$altjoff\$ ls -al \n"
+        done
+    done
+}
+
+
+# get current gnome terminal theme name
+curr_theme=$(dconf read /org/gnome/terminal/legacy/profiles:/default | sed "s/'//g")
+curr_theme=$(dconf read /org/gnome/terminal/legacy/profiles:/:"$curr_theme"/visible-name | sed "s/'//g")
+
+# set custom bash prompt
+case $curr_theme in
     "Aura") 
-        user_host=$violet ; cwd_arrow=$green ;;
+        color-set-prompt violet green ;;
     "Srcery")
-        user_host=$brightblue ; cwd_arrow=$brightgreen ;;
+        color-set-prompt brightblue brightgreen ;;
     "Clone Of Ubuntu")
-        user_host=$brightviolet; cwd_arrow=$brightyellow ;;
-    "Spacedust")
-        user_host=$brightviolet ; cwd_arrow=$brightyellow ;;
-    *) 
-        user_host=$brightblue ; cwd_arrow=$brightgreen ;;
+        color-set-prompt brightviolet brightyellow ;;
+    *)  
+        color-set-prompt "$user_color" "$cwd_color" ;;
 esac
 
-
-# custom bash prompt
-PS1="$joff\n$user_host\u$cwd_arrow@$user_host\h$joff:$cwd_arrow\w\n└──▶$joff\$ "
-
-# # no color
-# PS1="\n\u@\h:\w\n┖───▶\$ "
 
 
 # Keyd 
