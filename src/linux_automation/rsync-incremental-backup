@@ -22,9 +22,9 @@
 # * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
 
 echo -e "//////////////////////////////////////////////////////////\n//////////////////////////////////////////////////////////"
-echo -e "////////// Jeremy's incremental rsync backup  ////////////\n"
+echo -e "////////// STARTING Jeremy's incremental rsync backup  ////////////\n"
 echo -e "long options:\t"
-mylongopts=( --full --exclude-large --dry-run "--path-to-backups=path (i.e. specify an alternate external drive)" )
+mylongopts=( "--default (run normally)" --full --dry-run --exclude-large "--path-to-backups=path (i.e. specify an alternate external drive)" )
 for x in "${mylongopts[@]}"; do
     echo -e "\t$x"; done
 echo -e "\n"
@@ -43,6 +43,7 @@ while getopts "$OPTSTRING" OPT; do
         OPTARG="${OPTARG#=}"        # if long option argument, remove assigning `=`
     fi
     case "$OPT" in
+        default )           do_standard=true ;;
         full )              do_full=true ;;
         exclude-large )     exclude_large=true ;;
         dry-run )           dry_run=true ;;
@@ -52,6 +53,12 @@ while getopts "$OPTSTRING" OPT; do
     esac
 done
 shift $((OPTIND-1)) # remove parsed options and args from $@ list
+
+# exit if a specific run-type isn't specificed
+if [[ $do_standard != true ]] && [[ $do_full != true ]] && [[ $dry_run != true ]] ; then
+    echo "specify one of [--default, --full]"
+    exit 0 
+fi
 # End Option Handling
 
 TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
@@ -60,8 +67,8 @@ TIMESTAMP=`date "+%Y-%m-%d@%H:%M:%S"`
 # These MUST NOT end with a slash or rsync will copy only their contents rather than the directory AND its contents.
 src=(   "/home/jeremy/jdata"
         "/home/jeremy/Desktop"
-        "/home/jeremy/jdata/jvault" )
-        # "/home/jeremy/Downloads"    Downloads folder is currently just a link to jdata/downloads so so it's already covered.
+        "/home/jeremy/jdata/jvault" 
+        "/home/jeremy/Downloads" )   #Downloads folder is currently just a link to jdata/downloads so so it's already covered.
 
 # dirs/files to exclude from the backup. These are given as rsync "filter rules"
 # note: Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. jdata/git-repos instead of /home/jeremy/jdata/git-repos
@@ -87,7 +94,8 @@ else
 fi
 
 # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-rs_opts=( --debug=FILTER --human-readable --progress --archive --delete --partial "--log-file=$backups/temp rsync log" )
+rs_opts=( --debug=FILTER --itemize-changes --human-readable --progress --archive --delete --partial "--log-file=$backups/temp rsync log" )
+
 # don't do incremental if full option is given
 ! [[ "$do_full" == true ]] && rs_opts+=( --link-dest="$current" )
 [[ $dry_run == true ]] && rs_opts+=( "--dry-run" )
@@ -110,8 +118,7 @@ if [[ $dry_run == true ]]; then {
 }
 fi
 
-echo -e "\n\n////////// Jeremy's incremental rsync backup  ////////////...\n"
-echo -e "rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
+echo -e "//////////rsync process finished with exit code: $rsyncexit.\nrunning diff ..."
 
 # gather logging info 
 # prepare a diff file with the first part of paths truncated up to the timestamp
@@ -123,6 +130,21 @@ if ! [[ "$do_full" == true ]]; then {
     sed -i -e "s:$backups/::g" "$mydiff"
 }
 fi
+
+realcurr=$(realpath $current)
+shortcurr=$(sed -e "s:$backups/::g" <<< $realcurr)
+shortnew=$(sed -e "s:$backups/::g" <<< $newbackup)
+echo ---DELETED:
+grep --color "Only in $shortcurr" < "$mydiff"
+echo --------------
+
+echo ---ADDED:
+grep --color "Only in $shortnew" < "$mydiff"
+echo --------------
+
+echo -e "\n\n////////// FINISHED Jeremy's incremental rsync backup  ////////////...\n"
+
+
 mv "$backups/temp rsync stderr" "$newbackup/rsync stderr"
 mv "$backups/temp rsync stdout" "$newbackup/rsync stdout"
 mv "$backups/temp rsync log" "$newbackup/rsync log"
