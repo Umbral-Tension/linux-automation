@@ -135,11 +135,11 @@ realcurr=$(realpath $current)
 shortcurr=$(sed -e "s:$backups/::g" <<< $realcurr)
 shortnew=$(sed -e "s:$backups/::g" <<< $newbackup)
 echo ---DELETED:
-grep --color "Only in $shortcurr" < "$mydiff"
+grep --color "Only in $shortcurr" < "$mydiff" | tee "$newbackup/DELETIONS"
 echo --------------
 
 echo ---ADDED:
-grep --color "Only in $shortnew" < "$mydiff"
+grep --color "Only in $shortnew" < "$mydiff" | tee "$newbackup/ADDITIONS"
 echo --------------
 
 echo -e "\n\n////////// FINISHED Jeremy's incremental rsync backup  ////////////...\n"
