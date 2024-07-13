@@ -125,7 +125,7 @@ echo -e "//////////rsync process finished with exit code: $rsyncexit.\nrunning d
 if ! [[ "$do_full" == true ]]; then {
     mydiff="$newbackup/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
     diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout" --exclude="rsync stderr" \
-        "$newbackup" $(realpath "$current") | sort > "$mydiff"
+        --exclude="ADDITIONS" --exclude="DELETIONS" "$newbackup" $(realpath "$current") | sort > "$mydiff"
     echo -e "\nfinished diff ($?)"
     sed -i -e "s:$backups/::g" "$mydiff"
 }
@@ -135,11 +135,13 @@ realcurr=$(realpath $current)
 shortcurr=$(sed -e "s:$backups/::g" <<< $realcurr)
 shortnew=$(sed -e "s:$backups/::g" <<< $newbackup)
 echo ---DELETED:
-grep --color "Only in $shortcurr" < "$mydiff" | tee "$newbackup/DELETIONS"
+grep --color "Only in $shortcurr" < "$mydiff"
+grep --color "Only in $shortcurr" < "$mydiff" > "$newbackup/DELETIONS"
 echo --------------
 
 echo ---ADDED:
-grep --color "Only in $shortnew" < "$mydiff" | tee "$newbackup/ADDITIONS"
+grep --color "Only in $shortnew" < "$mydiff" 
+grep --color "Only in $shortnew" < "$mydiff" > "$newbackup/ADDITIONS"
 echo --------------
 
 echo -e "\n\n////////// FINISHED Jeremy's incremental rsync backup  ////////////...\n"
