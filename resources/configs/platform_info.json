@@ -1,0 +1,28 @@
+{
+  "os_list": {
+    "debian": {
+      "pm": "apt",
+      "install_cmd": "sudo apt -y install",
+      "uninstall_cmd": "sudo apt -y remove",
+      "update": "apt update && sudo /usr/bin/apt -y upgrade"
+    },
+    "ubuntu": {
+      "pm": "apt",
+      "install_cmd": "sudo apt -y install ",
+      "uninstall_cmd": "sudo apt -y remove ",
+      "update": "apt update && sudo /usr/bin/apt -y upgrade"
+    },
+    "linuxmint": {
+      "pm": "apt",
+      "install_cmd": "sudo apt -y install ",
+      "uninstall_cmd": "sudo apt -y remove ",
+      "update": "apt update && sudo /usr/bin/apt -y upgrade"
+    },
+    "fedora": {
+      "pm": "dnf",
+      "install_cmd": "sudo dnf -y install ",
+      "uninstall_cmd": "sudo dnf -y remove ",
+      "update": "sudo dnf -y upgrade"
+    }
+  }
+}
