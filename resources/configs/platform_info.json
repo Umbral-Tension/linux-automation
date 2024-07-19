@@ -4,6 +4,21 @@
          "install_cmd": "sudo apt -y install",
          "name": "debian",
          "pm": "apt",
+         "simple_installs": [
+            "build-essential",
+            "gcc",
+            "tree",
+            "zenity",
+            "qbittorrent",
+            "chromium",
+            "dconf-editor",
+            "xed",
+            "tldr",
+            "vlc",
+            "xinput",
+            "puddletag",
+            "nemo"
+         ],
          "uninstall_cmd": "sudo apt -y remove",
          "update": "apt update && sudo /usr/bin/apt -y upgrade"
       },
@@ -11,6 +26,21 @@
          "install_cmd": "sudo dnf -y install ",
          "name": "fedora",
          "pm": "dnf",
+         "simple_installs": [
+            "build-essential",
+            "gcc",
+            "tree",
+            "zenity",
+            "qbittorrent",
+            "chromium",
+            "dconf-editor",
+            "xed",
+            "tldr",
+            "vlc",
+            "xinput",
+            "puddletag",
+            "nemo"
+         ],
          "uninstall_cmd": "sudo dnf -y remove ",
          "update": "sudo dnf -y upgrade"
       },
@@ -18,6 +48,21 @@
          "install_cmd": "sudo apt -y install ",
          "name": "linuxmint",
          "pm": "apt",
+         "simple_installs": [
+            "build-essential",
+            "gcc",
+            "tree",
+            "zenity",
+            "qbittorrent",
+            "chromium",
+            "dconf-editor",
+            "xed",
+            "tldr",
+            "vlc",
+            "xinput",
+            "puddletag",
+            "nemo"
+         ],
          "uninstall_cmd": "sudo apt -y remove ",
          "update": "apt update && sudo /usr/bin/apt -y upgrade"
       },
@@ -25,6 +70,21 @@
          "install_cmd": "sudo apt -y install ",
          "name": "ubuntu",
          "pm": "apt",
+         "simple_installs": [
+            "build-essential",
+            "gcc",
+            "tree",
+            "zenity",
+            "qbittorrent",
+            "chromium",
+            "dconf-editor",
+            "xed",
+            "tldr",
+            "vlc",
+            "xinput",
+            "puddletag",
+            "nemo"
+         ],
          "uninstall_cmd": "sudo apt -y remove ",
          "update": "apt update && sudo /usr/bin/apt -y upgrade"
       }

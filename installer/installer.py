@@ -36,6 +36,17 @@ with open(f'{appdir}/resources/configs/platform_info.json', 'r') as f:
             run('clear')
 json.dump(jsondata, open(f'{appdir}/resources/configs/platform_info.json', 'w'), indent=3, sort_keys=True)
 
+def install(package):
+    """return a platform specific installation command"""
+    return f"{platform['install_cmd']} {package}"
+
+def uninstall(package):
+    """return a platform specific uninstallation command"""
+    return f"{platform['uninstall_cmd']} {package}"
+
+
+
+
 def bootstrap():
     """Prework to make jtools available for the rest of the script. """
     # get git, pip, and jtools
@@ -52,16 +63,27 @@ def bootstrap():
         sys.exit()
     print('---> success (git,pip,jtools)')
 
+def collect_input():
+    """collect some initial user input """
+    global hostname
+    hostname = input(jc.yellow('What should be the hostname for this machine?: '))
+    return True
 
-def install(package):
-    """return a platform specific installation command"""
-    return f"{platform['install_cmd']} {package}"
-
-def uninstall(package):
-    """return a platform specific uninstallation command"""
-    return f"{platform['uninstall_cmd']} {package}"
+def simple_installs():
+    """simple package installs (gcc, tree, qbittorrent...etc)"""
+    cmds = [install(x) for x in platform["simple_installs"]]
+    outcome = shelldo.chain(cmds)
+    return outcome
 
 
+def cleanup():
+    """delete/uninstall unecessary remnants"""
+    outcome = shelldo.chain([
+        f'rm -rf {installerdir}/keyd',
+        f'rm -rf {installerdir}/localjtools',
+        uninstall('gh')
+    ])
+    return outcome
 
 
 if __name__ == '__main__':
@@ -83,6 +105,20 @@ if __name__ == '__main__':
     from jtools.shelldo import Shelldo
     shelldo = Shelldo(installerdir)
 
-    print(jc.blue('bluetext'))
+     # Master list of available tasks (functions). 
+    all_tasks = []
+    # Tasks to be performed on this run. The order of these is important and should be changed with care.
+    tasks = all_tasks 
+    # Tasks to skip on this run. Order is not important. 
+    skip_tasks = []
+    for t in tasks:
+        if t not in skip_tasks:
+            shelldo.set_action(t.__doc__)
+            outcome = t()
+            shelldo.log(outcome, shelldo.curraction)
+            shelldo.set_result(outcome)
+        
+    
+    # Show final report
+    shelldo.report()
 
-    jc.test(platform)

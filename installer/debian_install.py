@@ -19,56 +19,56 @@ appdir = opath.dirname(installerdir)
 appname = opath.basename(appdir)
 hostname = None
 
-def bootstrap():
-    """Prework to make jtools available for the rest of the script. """
-    # get git, pip, and jtools
-    print('---> Installing git, pip, and jtools')
-    run(lex(f'sudo apt install -y git'))
-    run(lex(f'sudo apt install -y pip'))
-    run(lex(f'pip -q install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
-    if not opath.exists(f'{installerdir}/localjtools'):
-        run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
-    print('---> success (git,pip,jtools)')
+# def bootstrap():
+#     """Prework to make jtools available for the rest of the script. """
+#     # get git, pip, and jtools
+#     print('---> Installing git, pip, and jtools')
+#     run(lex(f'sudo apt install -y git'))
+#     run(lex(f'sudo apt install -y pip'))
+#     run(lex(f'pip -q install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
+#     if not opath.exists(f'{installerdir}/localjtools'):
+#         run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
+#     print('---> success (git,pip,jtools)')
 
-def collect_input():
-    """collect some initial user input """
-    global hostname
-    hostname = input(jc.yellow('What should be the hostname for this machine?: '))
-    return True
-
-
-def install_repos():
-    """install some repositories: vscode """
-    outcome = shelldo.chain([
-
-    ])
-    return outcome
+# def collect_input():
+#     """collect some initial user input """
+#     global hostname
+#     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
+#     return True
 
 
+# def install_repos():
+#     """install some repositories: vscode """
+#     outcome = shelldo.chain([
 
-def simple_installs():
-    """simple package installs (gcc, tree, zenity, qbittorrent, chromium, GIMP, dconf-editor, xed, tldr, vlc, puddletag, nemo, build-essential)"""
-    outcome = shelldo.chain([
-        shelldo.inst_cmd('gcc'),
-        shelldo.inst_cmd('tree'),
-        shelldo.inst_cmd('zenity'),
-        shelldo.inst_cmd('qbittorrent'),
-        shelldo.inst_cmd('chromium'),
-        shelldo.inst_cmd('gimp'),
-        shelldo.inst_cmd('dconf-editor'),
-        shelldo.inst_cmd('xed'),
-        shelldo.inst_cmd('tldr'),
-        shelldo.inst_cmd('vlc'),
-        shelldo.inst_cmd('xinput'),
-        shelldo.inst_cmd('puddletag'),
-        shelldo.inst_cmd('nemo'),
-        ])
-    return outcome
+#     ])
+#     return outcome
 
 
-def miscellaneous():
-    """miscellanea ()"""
-    return True
+
+# def simple_installs():
+#     """simple package installs (gcc, tree, zenity, qbittorrent, chromium, GIMP, dconf-editor, xed, tldr, vlc, puddletag, nemo, build-essential)"""
+#     outcome = shelldo.chain([
+#         shelldo.inst_cmd('gcc'),
+#         shelldo.inst_cmd('tree'),
+#         shelldo.inst_cmd('zenity'),
+#         shelldo.inst_cmd('qbittorrent'),
+#         shelldo.inst_cmd('chromium'),
+#         shelldo.inst_cmd('gimp'),
+#         shelldo.inst_cmd('dconf-editor'),
+#         shelldo.inst_cmd('xed'),
+#         shelldo.inst_cmd('tldr'),
+#         shelldo.inst_cmd('vlc'),
+#         shelldo.inst_cmd('xinput'),
+#         shelldo.inst_cmd('puddletag'),
+#         shelldo.inst_cmd('nemo'),
+#         ])
+#     return outcome
+
+
+# def miscellaneous():
+#     """miscellanea ()"""
+#     return True
 
 
 def set_hostname():
@@ -237,49 +237,49 @@ def gnome_terminal_themes():
     # ./srcery.sh
 
     return False
-def cleanup():
-    """delete/uninstall unecessary remnants"""
-    outcome = shelldo.chain([
-        f'rm -rf {installerdir}/keyd',
-        f'rm -rf {installerdir}/localjtools',
-        shelldo.inst_cmd('gh', uninstall=True),
-    ])
-    return outcome
+# def cleanup():
+#     """delete/uninstall unecessary remnants"""
+#     outcome = shelldo.chain([
+#         f'rm -rf {installerdir}/keyd',
+#         f'rm -rf {installerdir}/localjtools',
+#         shelldo.inst_cmd('gh', uninstall=True),
+#     ])
+#     return outcome
 
 if __name__ == '__main__':
-
-    print('\n/////////////////////////////////////////////////')
-    print('////////   linux-automation installer  //////////\n')
+    pass
+    # print('\n/////////////////////////////////////////////////')
+    # print('////////   linux-automation installer  //////////\n')
     
-    # ### Bootstrap stuff to make jtools available
-    # if '--no-bootstrap' not in sys.argv:
-    #     bootstrap()
-    #     # have to relaunch after bootstrap or the modules that were just installed aren't importable
-    #     os.execl(sys.argv[0], sys.argv[0], '--no-bootstrap')
+    # # ### Bootstrap stuff to make jtools available
+    # # if '--no-bootstrap' not in sys.argv:
+    # #     bootstrap()
+    # #     # have to relaunch after bootstrap or the modules that were just installed aren't importable
+    # #     os.execl(sys.argv[0], sys.argv[0], '--no-bootstrap')
 
     
-    #### Begin the rest of the installation
-    sys.path.append(f'{installerdir}/localjtools/src/')
-    from jtools import jconsole as jc
-    from jtools.shelldo import Shelldo
-    shelldo = Shelldo()
+    # #### Begin the rest of the installation
+    # sys.path.append(f'{installerdir}/localjtools/src/')
+    # from jtools import jconsole as jc
+    # from jtools.shelldo import Shelldo
+    # shelldo = Shelldo()
 
-    # Master list of available tasks. 
-    all_tasks = [collect_input, install_repos,
-             simple_installs, miscellaneous, set_hostname, configure_ssh,
-             clone_repos, keyd, bashrc, place_symlinks, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
-    # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = all_tasks 
-    # Tasks to skip on this run. Order is not important. 
-    skip_tasks = []
-    for t in tasks:
-        if t not in skip_tasks:
-            shelldo.set_action(t.__doc__)
-            outcome = t()
-            shelldo.log(outcome, shelldo.curraction)
-            shelldo.set_result(outcome)
+    # # Master list of available tasks. 
+    # all_tasks = [collect_input, install_repos,
+    #          simple_installs, miscellaneous, set_hostname, configure_ssh,
+    #          clone_repos, keyd, bashrc, place_symlinks, nemo_scripts, dconf, gnome_terminal_themes, cleanup, ]
+    # # Tasks to be performed on this run. The order of these is important and should be changed with care.
+    # tasks = all_tasks 
+    # # Tasks to skip on this run. Order is not important. 
+    # skip_tasks = []
+    # for t in tasks:
+    #     if t not in skip_tasks:
+    #         shelldo.set_action(t.__doc__)
+    #         outcome = t()
+    #         shelldo.log(outcome, shelldo.curraction)
+    #         shelldo.set_result(outcome)
             
 
 
-    # Show final report
-    shelldo.report()
+    # # Show final report
+    # shelldo.report()
