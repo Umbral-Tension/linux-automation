@@ -22,18 +22,19 @@ appname = opath.basename(appdir)
 hostname = None
 # detect platform
 with open(f'{appdir}/resources/configs/platform_info.json', 'r') as f:
-    platform = json.load(f)
+    jsondata = json.load(f)
     os_release=osplatform.freedesktop_os_release()['ID']
     try:
-        platform = platform['os_list'][os_release]
+        platform = jsondata['os_list'][os_release]
     except KeyError:
         while(True):
-            options = ["quit"] + list(platform["os_list"].keys())
+            options = ["quit"] + list(jsondata["os_list"].keys())
             choice=input(f"Didn't detect suitable os. Try with manual selection? options:\n\t{options}]\n? ")
             if choice in options:
-                platform = sys.exit() if choice == "quit" else platform["os_list"][choice]
+                platform = sys.exit() if choice == "quit" else jsondata["os_list"][choice]
                 break
             run('clear')
+json.dump(jsondata, open(f'{appdir}/resources/configs/platform_info.json', 'w'), indent=3, sort_keys=True)
 
 def bootstrap():
     """Prework to make jtools available for the rest of the script. """
