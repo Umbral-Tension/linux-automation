@@ -20,16 +20,20 @@ installerdir = opath.dirname(opath.realpath(__file__))
 appdir = opath.dirname(installerdir)
 appname = opath.basename(appdir)
 hostname = None
-
+# detect platform
 with open(f'{appdir}/resources/configs/platform_info.json', 'r') as f:
     platform = json.load(f)
-os_release=osplatform.freedesktop_os_release()['ID']
-try:
-    platform = platform['os_list'][os_release]
-except NameError:
-    print('not a supported operating system')
-    sys.exit()
-
+    os_release=osplatform.freedesktop_os_release()['ID']
+    try:
+        platform = platform['os_list'][os_release]
+    except KeyError:
+        while(True):
+            options = ["quit"] + list(platform["os_list"].keys())
+            choice=input(f"Didn't detect suitable os. Try with manual selection? options:\n\t{options}]\n? ")
+            if choice in options:
+                platform = sys.exit() if choice == "quit" else platform["os_list"][choice]
+                break
+            run('clear')
 
 def bootstrap():
     """Prework to make jtools available for the rest of the script. """
@@ -62,7 +66,8 @@ def uninstall(package):
 if __name__ == '__main__':
 
     print('\n/////////////////////////////////////////////////')
-    print('////////   linux-automation installer  //////////\n')
+    print('////////   linux-automation installer  //////////')
+    print(f'Installing for: {platform["name"]}')
     
     ### Bootstrap stuff to make jtools available
     if '--no-bootstrap' not in sys.argv:
