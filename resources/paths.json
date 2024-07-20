@@ -39,6 +39,11 @@
         "window_title": "",
         "wayland_window_title": ""
     },
+    "lemm.ee": {
+        "exec_cmd": "https://lemm.ee",
+        "window_title": "",
+        "wayland_window_title": ""
+    },
     "lichess": {
         "exec_cmd": "http://lichess.org",
         "window_title": "",
