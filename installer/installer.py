@@ -170,6 +170,7 @@ def place_symlinks():
 
         # place symlinks to context-menu scripts in file browser's (nautilus and nemo) script dir.
         if run('whatis nemo> /dev/null', shell=True).returncode == 0: #check for presence of nemo program
+            os.makedirs('/home/jeremy/.local/share/nemo/scripts', exist_ok=True)
             os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
             os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
             os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
@@ -208,6 +209,25 @@ def remove_home_dirs():
     return True
 
 
+## fedora only jobs
+def install_repos():
+    """add some repositories: rpm fusion free and non-free """
+    fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
+    outcome = shelldo.chain([
+        f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
+        f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"'])
+    return outcome
+
+def freeworld_packages():
+    """install some non-included codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers"""
+    outcome = shelldo.chain([
+        'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
+        'sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
+        'sudo dnf -y groupupdate sound-and-video',
+        'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
+        'sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld',
+    ])
+    return outcome
 
 def cleanup():
     """delete/uninstall unecessary remnants"""
@@ -239,13 +259,15 @@ if __name__ == '__main__':
     shelldo = Shelldo(installerdir)
 
      # Master list of available tasks (functions). 
-    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh,
-                 github_client, clone_repos, keyd, bashrc, place_symlinks,
-                 dconf, remove_home_dirs, cleanup]
+    all_tasks = [collect_input, simple_installs, install_repos, freeworld_packages, 
+                 set_hostname, configure_ssh, github_client, clone_repos,
+                 keyd, bashrc, place_symlinks, dconf, remove_home_dirs, cleanup
+                 ]
+    
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = all_tasks
+    tasks = [simple_installs, place_symlinks]
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
+    skip_tasks = [clone_repos, github_client] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)

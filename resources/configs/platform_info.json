@@ -29,7 +29,7 @@
          "name": "fedora",
          "pm": "dnf",
          "simple_installs": [
-            "build-essential",
+            "@development-tools",
             "gcc",
             "tree",
             "zenity",
