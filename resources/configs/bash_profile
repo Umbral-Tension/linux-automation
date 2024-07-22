@@ -1,6 +1,6 @@
 
 #### JEREMY'S ADDITIONS 
-#### dot source this file in ~/.profile
+#### dot source this file in ~/.bash_profile or ~/.profile or if linuxmint
 
 #turn off broken laptop touchscreen. Requires that hostname of laptop is "jlaptop"
 if [[ $HOSTNAME == jlaptop ]]; then 

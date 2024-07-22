@@ -99,13 +99,13 @@ hostname = None
 #     return outcome and (a + b == 0)
 
 
-def clone_repos():
-    """clone my usual repos into ~/jdata/git-repos/"""
-    repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
-            'experiments', 'project-euler', 'misc-db-files']
-    clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
-    outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
-    return outcome
+# def clone_repos():
+#     """clone my usual repos into ~/jdata/git-repos/"""
+#     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
+#             'experiments', 'project-euler', 'misc-db-files']
+#     clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
+#     outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
+#     return outcome
 
 
 # def keyd():
@@ -145,16 +145,16 @@ def clone_repos():
 #     return outcome
 
 
-def bashrc():
-    """source my .bashrc and .bash_profile customization files"""
-    try:
-        with open(f'{home}/.bashrc', 'a') as f:
-            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc debian"\n'])
-        with open(f'{home}/.bash_profile', 'a') as f:
-            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile debian"\n'])
-    except:
-        return False
-    return True
+# def bashrc():
+#     """source my .bashrc and .bash_profile customization files"""
+#     try:
+#         with open(f'{home}/.bashrc', 'a') as f:
+#             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc debian"\n'])
+#         with open(f'{home}/.bash_profile', 'a') as f:
+#             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile debian"\n'])
+#     except:
+#         return False
+#     return True
 
 
 def place_symlinks():

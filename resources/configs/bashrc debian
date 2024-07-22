@@ -23,6 +23,8 @@ color-print-codes (){
 }
 
 color-set-prompt(){
+    echo "poop"
+    echo $1 -- $2
     # no color
     [[ $1 == "none" ]] && PS1="\n\u@\h:\w\n┖───▶\$ " && return
     

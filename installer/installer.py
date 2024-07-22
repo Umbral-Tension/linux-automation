@@ -92,11 +92,11 @@ def configure_ssh():
 def github_client():
     """install Github client and add ssh keys to github"""
     if platform['pm'] == 'apt':
-        outcome = shelldo.chain([
-            'sudo mkdir -p -m 755 /etc/apt/keyrings',
-            'wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg > /etc/apt/keyrings/githubcli-archive-keyring.gpg',
-            'sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg',
-            'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list',
+        outcome = shelldo.chain(['sudo mkdir -p -m 755 /etc/apt/keyrings'])
+        a = run('wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null', shell=True).returncode
+        b = shelldo.chain(['sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg'])
+        c = run('echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list', shell=True).returncode
+        shelldo.chain([       
             'sudo apt update',
             'sudo apt -y install gh',
         ])
@@ -134,6 +134,18 @@ def keyd():
     return outcome
 
 
+def bashrc():
+    """source my .bashrc and .bash_profile customization files"""
+    # linux mint doesn't seem to follow .profile precedence rules. It ignores .bash_profile in favor of .profile. 
+    profile_loc = ".profile" if platform['name'] == 'linuxmint' else ".bash_profile"
+    try:
+        with open(f'{home}/.bashrc', 'a') as f:
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc debian"\n'])
+        with open(f'{home}/{profile_loc}', 'a') as f:
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile"\n'])
+    except:
+        return False
+    return True
 
 
 
@@ -167,11 +179,11 @@ if __name__ == '__main__':
     shelldo = Shelldo(installerdir)
 
      # Master list of available tasks (functions). 
-    all_tasks = [configure_ssh, github_client, clone_repos, ] #collect_input, simple_installs, set_hostname, configure_ssh]
+    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh, github_client, clone_repos, keyd]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = []
+    skip_tasks = [github_client, clone_repos, set_hostname]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
