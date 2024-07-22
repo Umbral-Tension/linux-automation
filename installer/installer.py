@@ -116,7 +116,6 @@ def clone_repos():
     outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
     return outcome
 
-
 def keyd():
     """install and configure keyd"""
     shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
@@ -140,7 +139,7 @@ def bashrc():
     profile_loc = ".profile" if platform['name'] == 'linuxmint' else ".bash_profile"
     try:
         with open(f'{home}/.bashrc', 'a') as f:
-            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc debian"\n'])
+            f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bashrc"\n'])
         with open(f'{home}/{profile_loc}', 'a') as f:
             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile"\n'])
     except:
@@ -179,7 +178,7 @@ if __name__ == '__main__':
     shelldo = Shelldo(installerdir)
 
      # Master list of available tasks (functions). 
-    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh, github_client, clone_repos, keyd]
+    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh, github_client, clone_repos, keyd, bashrc]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
