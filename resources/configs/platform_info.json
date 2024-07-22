@@ -1,6 +1,7 @@
 {
    "os_list": {
       "debian": {
+         "dconf_dir": "resources/configs/dconf/debian",
          "install_cmd": "sudo apt -y install",
          "name": "debian",
          "pm": "apt",
@@ -23,6 +24,7 @@
          "update": "apt update && sudo /usr/bin/apt -y upgrade"
       },
       "fedora": {
+         "dconf_dir": "resources/configs/dconf/fedora",
          "install_cmd": "sudo dnf -y install ",
          "name": "fedora",
          "pm": "dnf",
@@ -45,6 +47,7 @@
          "update": "sudo dnf -y upgrade"
       },
       "linuxmint": {
+         "dconf_dir": "resources/configs/dconf/linuxmint",
          "install_cmd": "sudo apt -y install ",
          "name": "linuxmint",
          "pm": "apt",
@@ -67,6 +70,7 @@
          "update": "apt update && sudo /usr/bin/apt -y upgrade"
       },
       "ubuntu": {
+         "dconf_dir": "resources/configs/dconf/ubuntu",
          "install_cmd": "sudo apt -y install ",
          "name": "ubuntu",
          "pm": "apt",

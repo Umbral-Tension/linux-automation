@@ -11,6 +11,7 @@ import traceback
 from datetime import datetime
 import platform as osplatform
 import json
+import traceback
 
 # environment info 
 home = os.environ['HOME']
@@ -70,16 +71,19 @@ def collect_input():
     hostname = input(jc.yellow('What should be the hostname for this machine?: '))
     return True
 
+
 def simple_installs():
     """simple package installs (gcc, tree, qbittorrent...etc)"""
     cmds = [install(x) for x in platform["simple_installs"]]
     outcome = shelldo.chain(cmds)
     return outcome
 
+
 def set_hostname():
     """set hostname"""
     outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
     return outcome
+
 
 def configure_ssh():
     """generate ssh keys and configure sshd"""
@@ -88,6 +92,7 @@ def configure_ssh():
     else:
         outcome = True
     return outcome 
+
 
 def github_client():
     """install Github client and add ssh keys to github"""
@@ -108,6 +113,7 @@ def github_client():
         b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
     return outcome and a + b == 0
 
+
 def clone_repos():
     """clone my usual repos into ~/jdata/git-repos/"""
     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
@@ -115,6 +121,7 @@ def clone_repos():
     clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
     outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
     return outcome
+
 
 def keyd():
     """install and configure keyd"""
@@ -146,6 +153,7 @@ def bashrc():
         return False
     return True
 
+
 def place_symlinks():
     """place symlinks to jrouter and other scripts in ~/bin and file manager configs"""
     os.makedirs('/home/jeremy/bin', exist_ok=True)
@@ -160,17 +168,44 @@ def place_symlinks():
         os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag')
         os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace')
 
-        # place symlinks to context-menu scripts in file browser's script dir.
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
-
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace')
+        # place symlinks to context-menu scripts in file browser's (nautilus and nemo) script dir.
+        if run('whatis nemo> /dev/null', shell=True).returncode == 0: #check for presence of nemo program
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
+        if run('whatis nautilus > /dev/null', shell=True).returncode == 0:
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor')
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag')
+            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace')
     except Exception:
+        estring = traceback.format_exc()
+        print(estring)
         return False
     return True         
+
+
+def dconf():
+    """change some dconf settings (keybindings, app-switcher)"""
+    dconfdir = opath.join(appdir, "resources/configs/dconf", platform['name'])
+    try:
+        for x in os.scandir(opath.join(dconfdir, 'dirs')):
+            run(f'dconf load -f {x.name.replace("~~", "/")} < "{x.path}"', shell=True)
+        for x in os.listdir(opath.join(dconfdir, 'keys')):
+            run(f'dconf load -f {x.name.replace("~~", "/")} < "{x.path}"', shell=True)
+    except:
+        return False
+    return True #if outcome == 0 else False
+
+
+def remove_home_dirs():
+    """remove unused home directories like ~/Templates ~/Music ..etc """
+    dirs = ['Templates', 'Music', 'Pictures', 'Videos', 'Documents']
+    for x in dirs:
+        try:
+            shutil.rmtree(f'{home}/{x}')
+        except FileNotFoundError:
+            pass
+    return True
 
 
 
@@ -204,11 +239,13 @@ if __name__ == '__main__':
     shelldo = Shelldo(installerdir)
 
      # Master list of available tasks (functions). 
-    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh, github_client, clone_repos, keyd, bashrc]
+    all_tasks = [collect_input, simple_installs, set_hostname, configure_ssh,
+                 github_client, clone_repos, keyd, bashrc, place_symlinks,
+                 dconf, remove_home_dirs, cleanup]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = all_tasks 
+    tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [github_client, clone_repos, set_hostname, simple_installs]
+    skip_tasks = [] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
