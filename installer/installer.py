@@ -14,6 +14,7 @@ import json
 
 # environment info 
 home = os.environ['HOME']
+user = os.environ['USER']
 git_repos = opath.join(home, 'jdata/git-repos')
 os.makedirs(git_repos, exist_ok=True)
 installerdir = opath.dirname(opath.realpath(__file__))
@@ -45,23 +46,23 @@ def uninstall(package):
     return f"{platform['uninstall_cmd']} {package}"
 
 
-
-
 def bootstrap():
     """Prework to make jtools available for the rest of the script. """
     # get git, pip, and jtools
     print('---> Installing git, pip, and jtools')
     try:
-        run(platform['update'], shell=True) # needs to be run with string and shell=true due to presence of "&&" in command
+        run(platform['update'], shell=True) # needs to be run shell=true due to presence of "&&" in command
         run(lex(install('git')))
         run(lex(install('pip')))
-        run(lex(f'pip install ipython PyQt5 pandas mutagen colorama progress fuzzywuzzy Levenshtein'))
+        run(lex(f'pip install ipython PyQt5 pandas mutagen colorama fuzzywuzzy Levenshtein'))
         if not opath.exists(f'{installerdir}/localjtools'):
             run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
     except: 
         print('bootstrap failed')
         sys.exit()
-    print('---> success (git,pip,jtools)')
+    print('\n\n---> success (git,pip,jtools)')
+
+
 
 def collect_input():
     """collect some initial user input """
@@ -74,6 +75,66 @@ def simple_installs():
     cmds = [install(x) for x in platform["simple_installs"]]
     outcome = shelldo.chain(cmds)
     return outcome
+
+def set_hostname():
+    """set hostname"""
+    outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
+    return outcome
+
+def configure_ssh():
+    """generate ssh keys and configure sshd"""
+    if not opath.exists(f'{home}/.ssh/id_ed25519'): 
+        outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -C "{user}@{hostname}" -f {home}/.ssh/id_ed25519'])
+    else:
+        outcome = True
+    return outcome 
+
+def github_client():
+    """install Github client and add ssh keys to github"""
+    if platform['pm'] == 'apt':
+        outcome = shelldo.chain([
+            'sudo mkdir -p -m 755 /etc/apt/keyrings',
+            'wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg > /etc/apt/keyrings/githubcli-archive-keyring.gpg',
+            'sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg',
+            'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list',
+            'sudo apt update',
+            'sudo apt -y install gh',
+        ])
+    elif platform['pm'] == 'dnf':
+        outcome = shelldo.chain([install('gh')])
+    if outcome:
+        # can't use chain because we need to interact with this command alot. 
+        a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
+        b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    return outcome and a + b == 0
+
+def clone_repos():
+    """clone my usual repos into ~/jdata/git-repos/"""
+    repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
+            'experiments', 'project-euler', 'misc-db-files']
+    clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
+    outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
+    return outcome
+
+
+def keyd():
+    """install and configure keyd"""
+    shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
+    os.chdir(f'{installerdir}/keyd')
+    outcome = shelldo.chain([
+        'make',
+        'sudo make install',
+        'sudo systemctl enable keyd',
+        'sudo systemctl restart keyd',
+        ])
+    outcome = shelldo.chain([
+        f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
+        'sudo systemctl restart keyd',
+    ])
+    return outcome
+
+
+
 
 
 def cleanup():
@@ -106,7 +167,7 @@ if __name__ == '__main__':
     shelldo = Shelldo(installerdir)
 
      # Master list of available tasks (functions). 
-    all_tasks = []
+    all_tasks = [configure_ssh, github_client, clone_repos, ] #collect_input, simple_installs, set_hostname, configure_ssh]
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 

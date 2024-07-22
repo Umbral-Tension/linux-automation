@@ -71,19 +71,19 @@ hostname = None
 #     return True
 
 
-def set_hostname():
-    """set hostname"""
-    outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
-    return outcome
+# def set_hostname():
+#     """set hostname"""
+#     outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
+#     return outcome
         
 
-def configure_ssh():
-    """generate ssh keys and configure sshd"""
-    if not opath.exists(f'{home}/.ssh/id_ed25519'): 
-        outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -f {home}/.ssh/id_ed25519'])
-    else:
-        outcome = True
-    return outcome 
+# def configure_ssh():
+#     """generate ssh keys and configure sshd"""
+#     if not opath.exists(f'{home}/.ssh/id_ed25519'): 
+#         outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -C f"{hostname}" -f {home}/.ssh/id_ed25519'])
+#     else:
+#         outcome = True
+#     return outcome 
 
 ## NOT WORKING
 
@@ -108,21 +108,21 @@ def clone_repos():
     return outcome
 
 
-def keyd():
-    """install and configure keyd"""
-    shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
-    os.chdir(f'{installerdir}/keyd')
-    outcome = shelldo.chain([
-        'make',
-        'sudo make install',
-        'sudo systemctl enable keyd',
-        'sudo systemctl restart keyd',
-        ])
-    outcome = shelldo.chain([
-        f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
-        'sudo systemctl restart keyd',
-    ])
-    return outcome
+# def keyd():
+#     """install and configure keyd"""
+#     shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
+#     os.chdir(f'{installerdir}/keyd')
+#     outcome = shelldo.chain([
+#         'make',
+#         'sudo make install',
+#         'sudo systemctl enable keyd',
+#         'sudo systemctl restart keyd',
+#         ])
+#     outcome = shelldo.chain([
+#         f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
+#         'sudo systemctl restart keyd',
+#     ])
+#     return outcome
 
 
 # def input_device_ids():
