@@ -146,6 +146,32 @@ def bashrc():
         return False
     return True
 
+def place_symlinks():
+    """place symlinks to jrouter and other scripts in ~/bin and file manager configs"""
+    os.makedirs('/home/jeremy/bin', exist_ok=True)
+    try:
+        os.remove('/home/jeremy/bin/jrouter')
+    except FileNotFoundError:
+        pass
+    try:
+        # ~/bin     
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/bin/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace')
+
+        # place symlinks to context-menu scripts in file browser's script dir.
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
+
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag')
+        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace')
+    except Exception:
+        return False
+    return True         
+
 
 
 def cleanup():
@@ -182,7 +208,7 @@ if __name__ == '__main__':
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks 
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [github_client, clone_repos, set_hostname]
+    skip_tasks = [github_client, clone_repos, set_hostname, simple_installs]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)

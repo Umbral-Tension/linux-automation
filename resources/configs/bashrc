@@ -63,6 +63,8 @@ case $curr_theme in
         color-set-prompt brightblue brightgreen ;;
     "Clone Of Ubuntu")
         color-set-prompt brightviolet brightyellow ;;
+    "Gogh")
+        color-set-prompt blue brightgreen ;;
     *)  
         color-set-prompt "" "" ;;
 esac
