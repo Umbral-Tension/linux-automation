@@ -111,7 +111,7 @@ def github_client():
         # can't use chain because we need to interact with this command alot. 
         a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
         b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    return outcome and a + b == 0
+    return outcome and a + b + c == 0
 
 
 def clone_repos():
