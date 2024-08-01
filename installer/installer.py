@@ -150,38 +150,44 @@ def bashrc():
         with open(f'{home}/{profile_loc}', 'a') as f:
             f.writelines([f'\n. "{git_repos}/linux-automation/resources/configs/bash_profile"\n'])
     except:
+        print(traceback.format_exc())
         return False
     return True
 
 
 def place_symlinks():
     """place symlinks to jrouter and other scripts in ~/bin and file manager configs"""
+
+    links = [
+        (f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/bin/jtag_editor'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace'),
+
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace'),
+
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag'),
+        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace'),
+    ]
     os.makedirs('/home/jeremy/bin', exist_ok=True)
     try:
         os.remove('/home/jeremy/bin/jrouter')
     except FileNotFoundError:
         pass
-    try:
-        # ~/bin     
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/bin/jtag_editor')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag')
-        os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace')
-
-        # place symlinks to context-menu scripts in file browser's (nautilus and nemo) script dir.
-        if run('whatis nemo> /dev/null', shell=True).returncode == 0: #check for presence of nemo program
-            os.makedirs('/home/jeremy/.local/share/nemo/scripts', exist_ok=True)
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor')
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag')
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace')
-        if run('whatis nautilus > /dev/null', shell=True).returncode == 0:
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor')
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag')
-            os.symlink(f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace')
-    except Exception:
-        estring = traceback.format_exc()
-        print(estring)
-        return False
+    
+    for l in links:
+        try:
+            os.remove(l[1]) # remove any prexisting links of the same name 
+        except FileNotFoundError:
+            pass
+        try:
+            os.symlink(l[0], l[1])
+        except Exception:
+            print(traceback.format_exception())
+            return False
     return True         
 
 
@@ -194,6 +200,7 @@ def dconf():
         for x in os.listdir(opath.join(dconfdir, 'keys')):
             run(f'dconf load -f {x.name.replace("~~", "/")} < "{x.path}"', shell=True)
     except:
+        print(traceback.format_exc())
         return False
     return True #if outcome == 0 else False
 
@@ -265,9 +272,9 @@ if __name__ == '__main__':
                  ]
     
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
-    tasks = [simple_installs, place_symlinks]
+    tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [clone_repos, github_client] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
+    skip_tasks = [] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
