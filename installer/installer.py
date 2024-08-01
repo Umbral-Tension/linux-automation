@@ -98,10 +98,10 @@ def github_client():
     """install Github client and add ssh keys to github"""
     if platform['pm'] == 'apt':
         outcome = shelldo.chain(['sudo mkdir -p -m 755 /etc/apt/keyrings'])
-        a = run('wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null', shell=True).returncode
-        b = shelldo.chain(['sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg'])
-        c = run('echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list', shell=True).returncode
-        shelldo.chain([       
+        retcodes = run('wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null', shell=True).returncode
+        retcodes += shelldo.chain(['sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg'])
+        retcodes += run('echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list', shell=True).returncode
+        retcodes += shelldo.chain([       
             'sudo apt update',
             'sudo apt -y install gh',
         ])
@@ -109,9 +109,9 @@ def github_client():
         outcome = shelldo.chain([install('gh')])
     if outcome:
         # can't use chain because we need to interact with this command alot. 
-        a = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
-        b = run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
-    return outcome and a + b + c == 0
+        retcodes = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
+        retcodes += run(lex(f'gh ssh-key add {home}/.ssh/id_ed25519.pub --title "{hostname}"')).returncode
+    return outcome and retcodes == 0
 
 
 def clone_repos():
@@ -133,7 +133,7 @@ def keyd():
         'sudo systemctl enable keyd',
         'sudo systemctl restart keyd',
         ])
-    outcome = shelldo.chain([
+    outcome = outcome and shelldo.chain([
         f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
         'sudo systemctl restart keyd',
     ])
@@ -173,6 +173,8 @@ def place_symlinks():
         (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace'),
     ]
     os.makedirs('/home/jeremy/bin', exist_ok=True)
+    os.makedirs('/home/jeremy/.local/share/nautilus/scripts', exist_ok=True)
+    os.makedirs('/home/jeremy/.local/share/nemo/scripts', exist_ok=True)
     try:
         os.remove('/home/jeremy/bin/jrouter')
     except FileNotFoundError:
@@ -186,7 +188,7 @@ def place_symlinks():
         try:
             os.symlink(l[0], l[1])
         except Exception:
-            print(traceback.format_exception())
+            print(traceback.format_exc())
             return False
     return True         
 
@@ -274,7 +276,7 @@ if __name__ == '__main__':
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
+    skip_tasks = [github_client, clone_repos] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
