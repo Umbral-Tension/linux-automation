@@ -106,7 +106,7 @@ rs_opts+=( "${exclusions[@]}" )
 echo "running rsync as follows (unquoted spaces here are not actually passed to rsync that way): " 
 echo -e "rsync " "${rs_opts[@]}" "${src[@]}" "$newbackup" "2>" "$backups/temp rsync stderr" "| tee" "$backups/temp rsync stdout" "\n\n"
 
-rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
+sudo rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
 rsyncexit="$?"
 
 if [[ $dry_run == true ]]; then {
