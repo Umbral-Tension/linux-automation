@@ -103,9 +103,9 @@ rs_opts=( --debug=FILTER --itemize-changes --human-readable --progress --archive
 rs_opts+=( "${exclusions[@]}" )
 
 echo "running rsync as follows (unquoted spaces here are not actually passed to rsync that way): " 
-echo -e "sudo rsync " "${rs_opts[@]}" "${src[@]}" "$newbackup" "2>" "$backups/temp rsync stderr" "| tee" "$backups/temp rsync stdout" "\n\n"
+echo -e "rsync " "${rs_opts[@]}" "${src[@]}" "$newbackup" "2>" "$backups/temp rsync stderr" "| tee" "$backups/temp rsync stdout" "\n\n"
 
-sudo rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
+rsync "${rs_opts[@]}" "${src[@]}" "$newbackup" 2> "$backups/temp rsync stderr" | tee "$backups/temp rsync stdout"
 rsyncexit="$?"
 
 if [[ $dry_run == true ]]; then {
