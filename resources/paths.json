@@ -99,18 +99,18 @@
         "window_title": "wm_class_gnome-terminal-server.Gnome-terminal",
         "wayland_window_title": "wm_class_gnome-terminal-server"
     },
-    "vscode": {
-        "exec_cmd": "/usr/bin/code -n",
-        "window_title": "wm_class_code.Code",
-        "wayland_window_title": "wm_class_code"
+    "codium": {
+        "exec_cmd": "codium",
+        "window_title": "vscodium.VSCodium",
+        "wayland_window_title": "wm_class_VSCodium"
     },
-    "vscode_linux-automation": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/jdata/git-repos/linux-automation",
+    "codium_linux-automation": {
+        "exec_cmd": "codium /home/jeremy/jdata/git-repos/linux-automation",
         "window_title": "",
         "wayland_window_title": ""
     },
-    "vscode_experiments": {
-        "exec_cmd": "/usr/bin/code /home/jeremy/jdata/git-repos/experiments",
+    "codium_experiments": {
+        "exec_cmd": "codium /home/jeremy/jdata/git-repos/experiments",
         "window_title": "",
         "wayland_window_title": ""
     },

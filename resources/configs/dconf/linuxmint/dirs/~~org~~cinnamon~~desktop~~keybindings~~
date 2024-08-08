@@ -103,18 +103,18 @@ name='obsidian'
 
 [custom-keybindings/custom38]
 binding=['<Alt>5', '<Alt>KP_5']
-command='jrouter --open vscode'
-name='vscode'
+command='jrouter --open codium'
+name='codium'
 
 [custom-keybindings/custom39]
 binding=['<Primary><Alt>5', '<Primary><Alt>KP_5']
-command='jrouter --open vscode_linux-automation'
-name='vscode_linux-automation'
+command='jrouter --open codium_linux-automation'
+name='codium_linux-automation'
 
 [custom-keybindings/custom40]
 binding=['<Primary><Shift><Alt>KP_5']
-command='jrouter --open vscode_experiments'
-name='vscode_experiments'
+command='jrouter --open codium_experiments'
+name='codium_experiments'
 
 [custom-keybindings/custom41]
 binding=['<Alt>9', '<Alt>KP_9']

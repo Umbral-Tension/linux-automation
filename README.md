@@ -24,7 +24,7 @@ This is a suite of scripts that
 - Keyd
 - Spotify Adblocker
 	- Rust (dependency)
-- VSCode
+- codium
 - Obsidian 
 - Transmission
 - Deemix
