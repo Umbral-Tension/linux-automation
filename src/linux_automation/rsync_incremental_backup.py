@@ -19,8 +19,7 @@
 # * Note: If one of SRC does not exist, rsync still exits with code 0. The backup will not be marked failed, and the non-existent
 #   SRC directory will not appear in that or subsequent backups, but it will still exist in previous backups. 
 # * Note: After a failed backup current points to the latest backup that succeeded. Subsequent backups may be run with no consequence.
-# * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync
-
+# * Credit to Samuel Hewitt for the outline of this script: https://samuelhewitt.com/blog/2018-06-05-time-machine-style-backups-with-rsync.
 
 import sys
 import os
@@ -32,44 +31,36 @@ import shlex
 import shutil
 from jtools.jconsole import test
 
-
-parser = argparse.ArgumentParser(prog="rsync incremental backup", description="This script uses rsync to create full and incremental backups of important directories. Backups are stored in a directory called \"backups\" whose location may be specified with the --path-to-backup option")
-parser.add_argument('--default', help='run normally', action='store_true')
-parser.add_argument('--full', help='force full backup rather than incremental', action='store_true')
-parser.add_argument('--dry-run', action='store_true')
-parser.add_argument('--path-to-backups', default="/media/jeremy/internal_6TB/rsync_backups")
-
-
 if __name__ == '__main__':
-
-    # args = parser.parse_args()
-    args = parser.parse_args("--default".split(" "))
+    print("---------- STARTING Jeremy's incremental rsync backup  ----------\n")
+    parser = argparse.ArgumentParser(prog="rsync incremental backup", description="This script uses rsync to create full and incremental backups of important directories. Backups are stored in a directory called \"backups\" whose location may be specified with the --path-to-backup option")
+    parser.add_argument('--default', help='run normally', action='store_true')
+    parser.add_argument('--full', help='force full backup rather than incremental', action='store_true')
+    parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--path-to-backups', default="/run/media/jeremy/internal_6TB/rsync_backups")
+    args = parser.parse_args()
     if not (args.dry_run or args.full or args.default):
         print("error: specify one of [--default, --full, --dry-run]")
         sys.exit()
     
-
-    print("//////////////////////////////////////////////////////////\n//////////////////////////////////////////////////////////")
-    print("////////// STARTING Jeremy's incremental rsync backup  ////////////\n")
     
-    
-    timestamp = datetime.now().strftime("%Y-%m-%d@%H:%M:%S")
-
     # Directories to backup. 
     # These MUST NOT end with a slash or rsync will copy only their contents rather than the directory AND its contents.
     src=['"/home/jeremy/jdata"',
          '"/home/jeremy/Desktop"',
          '"/home/jeremy/jdata/jvault"',
          '"/home/jeremy/Downloads"']
-
-    # dirs/files to exclude from the backup. These are given as rsync "filter rules"
-    # note: Don't understand why, but ther   dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. jdata/git-repos instead of /home/jeremy/jdata/git-repos
-    exclusions=['--exclude="jdata/git-repos"',          # syncing issues
-                '--exclude="jdata/jvault"',             # --^
-                '--exclude="jdata/videos/tv"',          # already stored on backup drive
-                '--exclude="jdata/videos/movies"',      # --^
-                '--exclude="jdata/$RECYCLE.BIN"',]      # dumb Windows dir that gets added every time I boot to windows. 
-    
+    # Directories to exclude 
+    # note: given as rsync "filter rules". Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. jdata/git-repos instead of /home/jeremy/jdata/git-repos
+    exclusions=[
+        '--exclude="/home/jeremy/Downloads"',   # Downloads is currently just a link to jdata/downloads (including it causes symlink shenanigans)
+        '--exclude="jdata/.Trash-1000"',        # 
+        '--exclude="jdata/git-repos"',          # syncing issues
+        '--exclude="jdata/jvault"',             # --^
+        '--exclude="jdata/videos/tv"',          # already stored on backup drive
+        '--exclude="jdata/videos/movies"',      # --^
+        '--exclude="jdata/$RECYCLE.BIN"',]      # dumb Windows dir that gets added every time I boot to windows. 
+    timestamp = datetime.now().strftime("%Y-%m-%d@%H:%M:%S")
     # directory to put backups into (Default is set in arg parser) 
     backups=args.path_to_backups 
     os.makedirs(backups, exist_ok=True)
@@ -77,52 +68,71 @@ if __name__ == '__main__':
     current = f'{backups}/current'
     if not opath.exists(current):
         args.full = True # can't do incremental if current doesn't exist
-    newbackup = f'{backups}/{timestamp}_(Full)' if args.full else f'{backups}/{timestamp}_(Incremental)'
+    newbackup = f'{backups}/{timestamp}_Full' if args.full else f'{backups}/{timestamp}_Incremental'
 
     
-
-
     # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-    rs_opts = ['--debug=FILTER', '--itemize-changes', '--human-readable', '--progress', '--archive', '--delete', '--partial', f'--log-file="{backups}/temp rsync log"']
+    rs_opts = ['--debug=FILTER', '--itemize-changes', '--human-readable', '--progress', '--archive', '--delete', '--partial', f'--log-file="{backups}/temp_rsync_log"']
     if not args.full: # don't do incremental if full option is given
         rs_opts.append(f'--link-dest="{current}"')
     if args.dry_run:
         rs_opts.append('--dry-run')
     rs_opts.extend(exclusions)
-    
-    rsync_cmd = f'rsync {" ".join(rs_opts)} {" ".join(src)} "{newbackup}" 2> "{backups}/temp rsync stderr" | tee "{backups}/temp rsync stdout"'
+    rsync_cmd = f'rsync {" ".join(rs_opts)} {" ".join(src)} "{newbackup}" 2> "{backups}/temp_rsync_stderr" | tee "{backups}/temp_rsync_stdout"'
     print(f"running rsync as follows:\n{rsync_cmd}\n") 
     rproc = subprocess.run(rsync_cmd, shell=True)
 
-    if args.dry_run:
-        print("\n\n\n////////// Jeremy's incremental rsync backup  ////////////")
-        print("DRY-RUN finished.")
-        shutil.move(f"{backups}/temp rsync stderr", f"{backups}/{timestamp} DRY-RUN rsync stderr")
-        shutil.move(f"{backups}/temp rsync stdout", f"{backups}/{timestamp} DRY-RUN rsync stdout")
-        shutil.move(f"{backups}/temp rsync log", f"{backups}/{timestamp} DRY-RUN rsync log")
-     
-    print(f"\n////////////\n//////////rsync process finished with exit code: {rproc.returncode}")
     
     # gather logging info 
+    if args.dry_run:
+        print("\n\n---------- Jeremy's incremental rsync backup ----------")
+        print("DRY-RUN finished.")
+        shutil.move(f"{backups}/temp_rsync_stderr", f"{backups}/{timestamp}_DRY-RUN_rsync_stderr")
+        shutil.move(f"{backups}/temp_rsync_stdout", f"{backups}/{timestamp}_DRY-RUN_rsync_stdout")
+        shutil.move(f"{backups}/temp_rsync_log", f"{backups}/{timestamp}_DRY-RUN_rsync_log")
+        sys.exit() # end program here if dryrun. 
+    else:    
+        shutil.move(f'{backups}/temp_rsync_stderr', f"{newbackup}/rsync_stderr")
+        shutil.move(f'{backups}/temp_rsync_stdout', f"{newbackup}/rsync_stdout")
+        shutil.move(f'{backups}/temp_rsync_log', f"{newbackup}/rsync_log")
     # prepare a diff file with the first part of paths truncated up to the timestamp
     if not args.full:
-        mydiff=f"{newbackup}/DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP"
-        print('running diff...')
-        diff_cmd = f'diff -rq --exclude="DIFF CHANGES SINCE PREVIOUS INCREMENTAL BACKUP" --exclude="rsync log" --exclude="rsync stdout" --exclude="rsync stderr" \
-        --exclude="ADDITIONS" --exclude="DELETIONS" "{newbackup}" "{opath.realpath(current)}"'# | sort > "{mydiff}"'
-        print(diff_cmd)
-        diffproc = subprocess.run(diff_cmd, shell=True)
-        
-        
-        subprocess.run(f'sed -i -e "s:{backups}/::g" "{mydiff}"')
-        print(f"\nfinished diff ({diffproc.returncode})")
-        
+        print('\n---------- running diff...')
+        diff = subprocess.run(
+            f'diff -rq --exclude="DIFF_CHANGES_SINCE_PREVIOUS_INCREMENTAL_BACKUP" --exclude="rsync_log" --exclude="rsync_stdout" --exclude="rsync_stderr" --exclude="ADDITIONS" --exclude="DELETIONS" "{newbackup}" "{opath.realpath(current)}"',
+            shell=True, stdout=subprocess.PIPE, text=True)
+        diff = sorted([x.replace(f'{backups}/', "") for x in diff.stdout.split('\n')])
+        diff_file = f"{newbackup}/DIFF_CHANGES_SINCE_PREVIOUS_INCREMENTAL_BACKUP"
+        with open(diff_file, 'w') as f:
+            f.writelines("\n".join(diff))
+        print(f"---------- finished diff\n")
+    # print Summary
+    shortcurr = opath.realpath(current).replace(f'{backups}/', '')
+    shortnew = newbackup.replace(f'{backups}/', '')
+    print('---------- DELETED')
+    # running grep with "| tee" prevents colored output so it is run twice here, once for terminal output and once for file redirection
+    subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}"', shell=True) #
+    subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}" > "{newbackup}/DELETIONS"', shell=True)
+    print('---------- ADDED')
+    subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}"', shell=True)
+    subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}" > "{newbackup}/ADDITIONS"', shell=True)
+    print(f"\n\n---------- rsync process finished with exit code: {rproc.returncode} ----------\n")
+
+
+    # check exit status to see if backup failed
+    if rproc.returncode == 0:
+        try:
+            os.remove(current)
+        except FileNotFoundError:
+            pass
+        # make current link to the newest backup
+        os.symlink(newbackup, current)
+        print(f'\nBackup successful. Logs placed in {newbackup}')
+    else:
+        # Rename directory if failed
+        os.rename(newbackup, f'{backups}/failed_{timestamp}')
+        print(f'\nBackup failed. Logs placed in {backups}/failed_{timestamp}')
     
-
-    # test(rproc)
-
-
-
 
 
 
