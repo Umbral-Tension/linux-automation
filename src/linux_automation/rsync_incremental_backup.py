@@ -39,6 +39,9 @@ if __name__ == '__main__':
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--path-to-backups', default="/run/media/jeremy/internal_6TB/rsync_backups")
     args = parser.parse_args()
+    if args.full and args.default:
+        print("can't use both --full and --default")
+        sys.exit()
     if not (args.dry_run or args.full or args.default):
         print("error: specify one of [--default, --full, --dry-run]")
         sys.exit()
@@ -68,34 +71,32 @@ if __name__ == '__main__':
     current = f'{backups}/current'
     if not opath.exists(current):
         args.full = True # can't do incremental if current doesn't exist
-    newbackup = f'{backups}/{timestamp}_Full' if args.full else f'{backups}/{timestamp}_Incremental'
+    newbackup_desc = f'{timestamp}_Full' if args.full else f'{timestamp}_Incremental'
+    if args.dry_run:
+        newbackup_desc = f'Dry_Run_{newbackup_desc}'
+    newbackup = f'{backups}/{newbackup_desc}'
+    os.makedirs(newbackup)
 
     
     # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-    rs_opts = ['--debug=FILTER', '--itemize-changes', '--human-readable', '--progress', '--archive', '--delete', '--partial', f'--log-file="{backups}/temp_rsync_log"']
+    rs_opts = ['--debug=FILTER', '--itemize-changes', '--human-readable', '--progress', '--archive', '--delete', '--partial', f'--log-file="{newbackup}/rsync_log"']
     if not args.full: # don't do incremental if full option is given
         rs_opts.append(f'--link-dest="{current}"')
     if args.dry_run:
         rs_opts.append('--dry-run')
     rs_opts.extend(exclusions)
-    rsync_cmd = f'rsync {" ".join(rs_opts)} {" ".join(src)} "{newbackup}" 2> "{backups}/temp_rsync_stderr" | tee "{backups}/temp_rsync_stdout"'
+    rsync_cmd = f'rsync {" ".join(rs_opts)} {" ".join(src)} "{newbackup}" 2> "{newbackup}/rsync_stderr" | tee "{newbackup}/rsync_stdout"'
     print(f"running rsync as follows:\n{rsync_cmd}\n") 
     rproc = subprocess.run(rsync_cmd, shell=True)
 
     
-    # gather logging info 
+    # end program here if dryrun. 
     if args.dry_run:
-        print("\n\n---------- Jeremy's incremental rsync backup ----------")
-        print("DRY-RUN finished.")
-        shutil.move(f"{backups}/temp_rsync_stderr", f"{backups}/{timestamp}_DRY-RUN_rsync_stderr")
-        shutil.move(f"{backups}/temp_rsync_stdout", f"{backups}/{timestamp}_DRY-RUN_rsync_stdout")
-        shutil.move(f"{backups}/temp_rsync_log", f"{backups}/{timestamp}_DRY-RUN_rsync_log")
-        sys.exit() # end program here if dryrun. 
-    else:    
-        shutil.move(f'{backups}/temp_rsync_stderr', f"{newbackup}/rsync_stderr")
-        shutil.move(f'{backups}/temp_rsync_stdout', f"{newbackup}/rsync_stdout")
-        shutil.move(f'{backups}/temp_rsync_log', f"{newbackup}/rsync_log")
-    # prepare a diff file with the first part of paths truncated up to the timestamp
+        print("\n\n---------- Jeremy's incremental rsync backup ----------\nDRY-RUN finished.")
+        sys.exit() 
+
+    
+    # For incremental backups, use diff to compare 'current' to 'newbackup' to detect which files have been added and which deleted. 
     if not args.full:
         print('\n---------- running diff...')
         diff = subprocess.run(
@@ -106,20 +107,20 @@ if __name__ == '__main__':
         with open(diff_file, 'w') as f:
             f.writelines("\n".join(diff))
         print(f"---------- finished diff\n")
-    # print Summary
-    shortcurr = opath.realpath(current).replace(f'{backups}/', '')
-    shortnew = newbackup.replace(f'{backups}/', '')
-    print('---------- DELETED')
-    # running grep with "| tee" prevents colored output so it is run twice here, once for terminal output and once for file redirection
-    subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}"', shell=True) #
-    subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}" > "{newbackup}/DELETIONS"', shell=True)
-    print('---------- ADDED')
-    subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}"', shell=True)
-    subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}" > "{newbackup}/ADDITIONS"', shell=True)
-    print(f"\n\n---------- rsync process finished with exit code: {rproc.returncode} ----------\n")
+        # print Summary
+        shortcurr = opath.realpath(current).replace(f'{backups}/', '')
+        shortnew = newbackup.replace(f'{backups}/', '')
+        print('---------- DELETED')
+        # running grep with "| tee" prevents colored output so it is run twice here, once for terminal output and once for redirection to file
+        subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}"', shell=True) #
+        subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}" > "{newbackup}/DELETIONS"', shell=True)
+        print('---------- ADDED')
+        subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}"', shell=True)
+        subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}" > "{newbackup}/ADDITIONS"', shell=True)
 
 
     # check exit status to see if backup failed
+    print(f"\n\n---------- rsync process finished with exit code: {rproc.returncode} ----------\n")
     if rproc.returncode == 0:
         try:
             os.remove(current)
@@ -129,7 +130,7 @@ if __name__ == '__main__':
         os.symlink(newbackup, current)
         print(f'\nBackup successful. Logs placed in {newbackup}')
     else:
-        # Rename directory if failed
+        # Rename directory if failed and do not update 'current' os subsequent backups don't build off a failed one. 
         os.rename(newbackup, f'{backups}/failed_{timestamp}')
         print(f'\nBackup failed. Logs placed in {backups}/failed_{timestamp}')
     
