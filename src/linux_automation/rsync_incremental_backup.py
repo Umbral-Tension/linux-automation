@@ -29,7 +29,10 @@ from datetime import datetime
 import subprocess
 import shlex
 import shutil
-from jtools.jconsole import test
+from jtools.jconsole import test, red, green
+from jtools.jdir import jdir
+        
+        
 
 if __name__ == '__main__':
     print("---------- STARTING Jeremy's incremental rsync backup  ----------\n")
@@ -53,6 +56,7 @@ if __name__ == '__main__':
          '"/home/jeremy/Desktop"',
          '"/home/jeremy/jdata/jvault"',
          '"/home/jeremy/Downloads"']
+    print("---------- backuping up:\n" + "\n".join(src) + '\n')
     # Directories to exclude 
     # note: given as rsync "filter rules". Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. jdata/git-repos instead of /home/jeremy/jdata/git-repos
     exclusions=[
@@ -86,7 +90,7 @@ if __name__ == '__main__':
         rs_opts.append('--dry-run')
     rs_opts.extend(exclusions)
     rsync_cmd = f'rsync {" ".join(rs_opts)} {" ".join(src)} "{newbackup}" 2> "{newbackup}/rsync_stderr" | tee "{newbackup}/rsync_stdout"'
-    print(f"running rsync as follows:\n{rsync_cmd}\n") 
+    print(f"---------- running rsync as follows:\n{rsync_cmd}\n") 
     rproc = subprocess.run(rsync_cmd, shell=True)
 
     
@@ -99,24 +103,13 @@ if __name__ == '__main__':
     # For incremental backups, use diff to compare 'current' to 'newbackup' to detect which files have been added and which deleted. 
     if not args.full:
         print('\n---------- running diff...')
-        diff = subprocess.run(
-            f'diff -rq --exclude="DIFF_CHANGES_SINCE_PREVIOUS_INCREMENTAL_BACKUP" --exclude="rsync_log" --exclude="rsync_stdout" --exclude="rsync_stderr" --exclude="ADDITIONS" --exclude="DELETIONS" "{newbackup}" "{opath.realpath(current)}"',
-            shell=True, stdout=subprocess.PIPE, text=True)
-        diff = sorted([x.replace(f'{backups}/', "") for x in diff.stdout.split('\n')])
-        diff_file = f"{newbackup}/DIFF_CHANGES_SINCE_PREVIOUS_INCREMENTAL_BACKUP"
-        with open(diff_file, 'w') as f:
-            f.writelines("\n".join(diff))
+        deleted, added = jdir.diff(opath.realpath(current), newbackup) # files that only exist in newbackups must be newly added. Those only in the old backup 'current' must have been deleted. 
+        deleted, added = '\n'.join(deleted), '\n'.join(added) # list to string for printing and saving to file
         print(f"---------- finished diff\n")
-        # print Summary
-        shortcurr = opath.realpath(current).replace(f'{backups}/', '')
-        shortnew = newbackup.replace(f'{backups}/', '')
-        print('---------- DELETED')
-        # running grep with "| tee" prevents colored output so it is run twice here, once for terminal output and once for redirection to file
-        subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}"', shell=True) #
-        subprocess.run(f'grep --color "Only in {shortcurr}" < "{diff_file}" > "{newbackup}/DELETIONS"', shell=True)
-        print('---------- ADDED')
-        subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}"', shell=True)
-        subprocess.run(f'grep --color "Only in {shortnew}" < "{diff_file}" > "{newbackup}/ADDITIONS"', shell=True)
+        print('---------- DELETED\n' + red(deleted))
+        print('---------- ADDED\n' + green(added))
+        open(f'{newbackup}/DELETIONS', 'w').writelines(deleted)
+        open(f'{newbackup}/ADDITIONS', 'w').writelines(added)
 
 
     # check exit status to see if backup failed
