@@ -71,9 +71,9 @@ if __name__ == '__main__':
     current = f'{backups}/current'
     if not opath.exists(current):
         args.full = True # can't do incremental if current doesn't exist
-    newbackup_desc = f'{timestamp}_Full' if args.full else f'{timestamp}_Incremental'
+    newbackup_desc = f'{timestamp}_(Full)' if args.full else f'{timestamp}_(Incremental)'
     if args.dry_run:
-        newbackup_desc = f'Dry_Run_{newbackup_desc}'
+        newbackup_desc = f'(Dry_Run)_{newbackup_desc}'
     newbackup = f'{backups}/{newbackup_desc}'
     os.makedirs(newbackup)
 
