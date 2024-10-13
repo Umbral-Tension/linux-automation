@@ -1,6 +1,6 @@
 [/]
 
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom20/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom21/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom22/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom23/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom24/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom25/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom26/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom27/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom28/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom29/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom30/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom31/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom32/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom33/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom34/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom35/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom36/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom37/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom38/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom39/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom40/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom41/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom42/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom43/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom44/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom45/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom46/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom47/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom48/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom49/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom50/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom51/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom52/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom53/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom54/']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom20/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom21/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom22/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom23/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom24/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom25/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom26/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom27/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom28/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom29/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom30/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom31/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom32/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom33/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom34/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom35/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom36/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom37/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom38/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom39/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom40/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom41/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom42/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom43/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom44/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom45/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom46/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom47/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom48/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom49/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom50/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom51/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom52/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom53/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom54/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom55/']
   
 
 [custom-keybindings/custom20]
@@ -51,8 +51,8 @@ command='gnome-terminal'
 name='gnome-terminal'
 [custom-keybindings/custom31]
 binding='<Super>e'
-command='nautilus'
-name='nautilus'
+command='nemo'
+name='nemo'
 
 [custom-keybindings/custom32]
 binding='<Alt>Return'
@@ -129,7 +129,10 @@ name='codium_experiments KP'
 binding='<Alt>KP_9'
 command='jrouter --open mouseappmenu'
 name='mouseappmenu KP'
-
+[custom-keybindings/custom55]
+binding='<Alt>0'
+command='jrouter --open rsfw'
+name='random reddits'
 
 
 [custom-keybindings/custom50]
