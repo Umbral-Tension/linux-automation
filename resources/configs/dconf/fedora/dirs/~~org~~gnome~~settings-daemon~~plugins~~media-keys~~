@@ -47,8 +47,8 @@ name='volume 100'
 
 [custom-keybindings/custom30]
 binding='<Control><Alt>t'
-command='gnome-terminal'
-name='gnome-terminal'
+command='ptyxis --new-window'
+name='terminal'
 [custom-keybindings/custom31]
 binding='<Super>e'
 command='nemo'

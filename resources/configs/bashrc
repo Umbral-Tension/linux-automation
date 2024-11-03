@@ -101,6 +101,11 @@ alias tree3='tree -L 3'
 # gnome-text-editor
 alias gte='gnome-text-editor'
 
+# reload dconf keyboard shortcuts from linux-automation repo
+alias jdconf-reload='
+    dconf load -f "/org/gnome/settings-daemon/plugins/media-keys/" < "/home/jeremy/jdata/git-repos/linux-automation/resources/configs/dconf/fedora/dirs/~~org~~gnome~~settings-daemon~~plugins~~media-keys~~" \
+    && dconf load -f "/org/gnome/desktop/wm/keybindings/" < "/home/jeremy/jdata/git-repos/linux-automation/resources/configs/dconf/fedora/dirs/~~org~~gnome~~desktop~~wm~~keybindings~~" ' 
+
 # ignore case when usin tab completion
 bind "set completion-ignore-case on"
 

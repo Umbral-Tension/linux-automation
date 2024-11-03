@@ -15,7 +15,7 @@
         "wayland_window_title": ""
     },
     "jipython": {
-        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jipython.py",
+        "exec_cmd": "ptyxis -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jipython.py",
         "window_title": "",
         "wayland_window_title": ""
     },
@@ -94,10 +94,15 @@
         "window_title": "wm_class_spotify.Spotify",
         "wayland_window_title": "wm_class_spotify"
     },
-    "terminal": {
+    "gnome-terminal": {
         "exec_cmd": "/usr/bin/gnome-terminal",
         "window_title": "wm_class_gnome-terminal-server.Gnome-terminal",
         "wayland_window_title": "wm_class_gnome-terminal-server"
+    },
+    "terminal": {
+        "exec_cmd": "/usr/bin/ptyxis",
+        "window_title": "",
+        "wayland_window_title": "org.gnome.Ptyxis"
     },
     "codium": {
         "exec_cmd": "codium",
