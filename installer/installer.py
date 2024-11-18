@@ -276,7 +276,7 @@ if __name__ == '__main__':
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [github_client, clone_repos] #[github_client, clone_repos, set_hostname, simple_installs, cleanup]
+    skip_tasks = [] #[github_client, clone_repos]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
