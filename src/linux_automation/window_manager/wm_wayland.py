@@ -76,7 +76,6 @@ def win_id(title):
                 return str(x['id'])
     return None
 
-
 def win_wait(title, refresh_rate=0.1):
     """
     Wait until the specified window exists. 
@@ -122,7 +121,6 @@ def get_gemoetry():
     #Fullscreen apps report coords of (-2,-2), (-40,-40)...etc 
     pass
     
-
 def win_snap(title, position: str):
     """
     Move and resize a window so that it occupies one of the screen's corners, sides, top, or bottom. 

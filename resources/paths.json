@@ -27,7 +27,7 @@
     "firefox": {
         "exec_cmd": "/usr/bin/firefox",
         "window_title": "wm_class_Navigator.firefox",
-        "wayland_window_title": "wm_class_firefox"
+        "wayland_window_title": "wm_class_org.mozilla.firefox"
     },
     "github": {
         "exec_cmd": "https://github.com/Umbral-Tension?tab=repositories",
@@ -102,7 +102,7 @@
     "terminal": {
         "exec_cmd": "/usr/bin/ptyxis",
         "window_title": "",
-        "wayland_window_title": "org.gnome.Ptyxis"
+        "wayland_window_title": "wm_class_org.gnome.Ptyxis"
     },
     "codium": {
         "exec_cmd": "codium",
@@ -143,5 +143,10 @@
         "exec_cmd": "flatpak run md.obsidian.Obsidian",
         "window_title": "wm_class_obsidian.obsidian",
         "wayland_window_title": "wm_class_obsidian"
+    },
+    "jrouter_interactive": {
+        "exec_cmd": "python3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jrouter.py",
+        "window_title": "",
+        "wayland_window_title": ""
     }
 }
