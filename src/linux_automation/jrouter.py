@@ -74,9 +74,9 @@ def launch(name, options=None):
 
 
 
-
-# Set system volume
-if args.volume or args.volume == 0:
+# Argument handling
+# set system volume
+if args.volume is not None:
     if 0 <= args.volume <= 100:
         os.system(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
         print(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
