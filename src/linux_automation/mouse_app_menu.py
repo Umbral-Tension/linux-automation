@@ -5,7 +5,6 @@ import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QCommandLinkButton, QBoxLayout, QWidget, QDesktopWidget
 from functools import partial
-import app_launcher
 import jrouter
 
 # TODO 
