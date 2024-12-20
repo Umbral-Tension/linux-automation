@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# script to backup some of my data to my Proton Drive 
+
+rclone sync -v --human-readable --progress /home/jeremy/jdata/documents proton_drive:desktop_backup/documents --log-file=/home/jeremy/jdata/logs/rclone_proton_drive_backup
+rclone sync -v --human-readable --progress /home/jeremy/jdata/pictures proton_drive:desktop_backup/pictures --log-file=/home/jeremy/jdata/logs/rclone_proton_drive_backup
+rclone sync -v --human-readable --progress /home/jeremy/jdata/jvault proton_drive:desktop_backup/jvault --log-file=/home/jeremy/jdata/logs/rclone_proton_drive_backup
+rclone sync -v --human-readable --progress /home/jeremy/jdata/videos proton_drive:desktop_backup/videos --exclude "stand-up comedy/" --exclude "tv/" --exclude "movies/" --log-file=/home/jeremy/jdata/logs/rclone_proton_drive_backup
