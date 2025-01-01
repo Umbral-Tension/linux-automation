@@ -7,7 +7,7 @@ import os
 import os.path as opath
 import argparse
 import sys
-import music_classifier
+import audio_file_management.music_classifier
 import json
 import subprocess
 from shlex import split as lex
