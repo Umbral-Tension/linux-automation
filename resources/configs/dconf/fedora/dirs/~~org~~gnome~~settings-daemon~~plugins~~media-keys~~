@@ -51,8 +51,8 @@ command='ptyxis --new-window'
 name='terminal'
 [custom-keybindings/custom31]
 binding='<Super>e'
-command='nemo'
-name='nemo'
+command='nautilus'
+name='nautilus'
 
 [custom-keybindings/custom32]
 binding='<Alt>Return'
