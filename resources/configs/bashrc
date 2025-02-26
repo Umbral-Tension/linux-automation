@@ -80,7 +80,7 @@ alias keyderr='sudo journalctl -eu keyd'
 # cd to common directories  
 alias gogit='cd ~/jdata/git-repos'
 alias godat='cd ~/jdata'
-alias gomus='cd ~/jdata/music'
+alias gomus='cd ~/jdata/audio/music'
 
 if [[ $fedora == true ]] ; then 
     alias goext='cd /run/media/jeremy/external_2TB'

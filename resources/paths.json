@@ -39,6 +39,11 @@
         "window_title": "",
         "wayland_window_title": ""
     },
+    "deezer": {
+        "exec_cmd": "https://deezer.com",
+        "window_title": "",
+        "wayland_window_title": ""
+    },
     "lemm.ee": {
         "exec_cmd": "https://lemm.ee",
         "window_title": "",

@@ -39,6 +39,9 @@ def win_list():
             ls[x]['title'] = title
     return ls
 
+def win_list_raw():
+    return _run_gdbus(methods['List'])    
+
 def win_exists(title):
     """
     Return True if window exists in the 1st workspace. 
