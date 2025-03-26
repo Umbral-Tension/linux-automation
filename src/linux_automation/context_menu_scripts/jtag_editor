@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ptyxis -- python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/audio_file_management/tag_editor.py "$@"
+gnome-terminal -- python3 /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/audio_file_management/tag_editor.py "$@"
 

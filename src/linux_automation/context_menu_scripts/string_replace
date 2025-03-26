@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ptyxis -- python3 "/home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/string_replace.py" "$@"
+gnome-terminal -- python3 "/home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/string_replace.py" "$@"
