@@ -72,6 +72,8 @@ esac
 
 fedora=false && cat /etc/os-release | grep fedora > /dev/null && fedora=true
 
+# ipython - can't use pip install ipython anymore (due to PEP 668). Installed ipython3 from apt package manager instead. 
+alias ipython=ipython3
 
 # Keyd 
 alias rekeyd='sudo cp ~/jdata/git-repos/linux-automation/resources/configs/my_keyd.conf /etc/keyd/default.conf && sudo systemctl restart keyd' 

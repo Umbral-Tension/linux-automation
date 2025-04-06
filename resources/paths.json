@@ -111,7 +111,7 @@
     },
     "codium": {
         "exec_cmd": "codium",
-        "window_title": "vscodium.VSCodium",
+        "window_title": "wm_class_vscodium.VSCodium",
         "wayland_window_title": "wm_class_VSCodium"
     },
     "codium_linux-automation": {

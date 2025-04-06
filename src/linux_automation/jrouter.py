@@ -90,7 +90,7 @@ elif args.vibe:
     music_classifier.set_vibe(args.vibe)
 elif args.interactive:
     print(jc.red(jc.bold('Entering interactive jrouter session. jrouter.py functions like launch() and window_manager functions like wm.win_list() are available.\njtools.jconsole available as jc')))
-    cmd = f"{paths['terminal']['exec_cmd']} -- ipython -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jrouter.py"
+    cmd = f"{paths['terminal']['exec_cmd']} -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jrouter.py"
     subprocess.Popen(lex(cmd))
 
 
