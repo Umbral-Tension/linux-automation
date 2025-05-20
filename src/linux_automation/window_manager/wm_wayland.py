@@ -1,7 +1,7 @@
 """" Module for manipulating windows in a Gnome+Wayland\
     environment.
 
-Uses the Gnome extension "Window Calls" as a backend to send dbus calls.\
+Uses the Gnome extension "Window Calls (https://extensions.gnome.org/extension/4724/window-calls/)" as a backend to send dbus calls.\
 Multiple monitors are not explicitly supported but might work anyway. Only\
 operatoes on windows in the current workspace.  
 """

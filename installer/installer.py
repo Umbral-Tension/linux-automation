@@ -231,8 +231,7 @@ def freeworld_packages():
     """install some non-included codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers"""
     outcome = shelldo.chain([
         'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
-        'sudo dnf -y groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
-        'sudo dnf -y groupupdate sound-and-video',
+        'sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
         'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
         'sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld',
     ])
@@ -276,7 +275,7 @@ if __name__ == '__main__':
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = [install_repos, freeworld_packages, keyd, clone_repos, bashrc] #[github_client, clone_repos]
+    skip_tasks = []
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
