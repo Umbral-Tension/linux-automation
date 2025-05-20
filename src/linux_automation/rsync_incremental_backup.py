@@ -54,7 +54,9 @@ if __name__ == '__main__':
     # These MUST NOT end with a slash or rsync will copy only their contents rather than the directory AND its contents.
     src=['"/home/jeremy/jdata"',
          '"/home/jeremy/Desktop"',
-         '"/home/jeremy/jdata/jvault"',]
+         '"/home/jeremy/jdata/jvault"',
+         '"/var/lib/jellyfin"',
+         '"/etc/jellyfin"',]
     print("---------- backuping up:\n" + "\n".join(src) + '\n')
     # Directories to exclude 
     # note: given as rsync "filter rules". Don't understand why, but the dir to filter must be given as how it will appear in the Destination, not how it appears locally. I.E. jdata/git-repos instead of /home/jeremy/jdata/git-repos

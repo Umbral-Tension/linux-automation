@@ -266,7 +266,7 @@ if __name__ == '__main__':
     from jtools.shelldo import Shelldo
     shelldo = Shelldo(installerdir)
 
-     # Master list of available tasks (functions). 
+    # Master list of available tasks (functions). 
     all_tasks = [collect_input, simple_installs, install_repos, freeworld_packages, 
                  set_hostname, configure_ssh, github_client, clone_repos,
                  keyd, bashrc, place_symlinks, dconf, remove_home_dirs, cleanup
@@ -275,7 +275,7 @@ if __name__ == '__main__':
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
-    skip_tasks = []
+    skip_tasks = [install_repos, freeworld_packages]
     for t in tasks:
         if t not in skip_tasks:
             shelldo.set_action(t.__doc__)
