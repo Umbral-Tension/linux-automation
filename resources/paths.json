@@ -15,7 +15,7 @@
         "wayland_window_title": ""
     },
     "jipython": {
-        "exec_cmd": "ptyxis -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jipython.py",
+        "exec_cmd": "gnome-terminal -- ipython3 -i /home/jeremy/jdata/git-repos/linux-automation/src/linux_automation/jipython.py",
         "window_title": "",
         "wayland_window_title": ""
     },
@@ -105,9 +105,9 @@
         "wayland_window_title": "wm_class_gnome-terminal-server"
     },
     "terminal": {
-        "exec_cmd": "ptyxis",
-        "window_title": "",
-        "wayland_window_title": "wm_class_org.gnome.Ptyxis"
+        "exec_cmd": "gnome-terminal",
+        "window_title": "wm_class_gnome-terminal-server.Gnome-terminal",
+        "wayland_window_title": "wm_class_gnome-terminal-server"
     },
     "codium": {
         "exec_cmd": "codium",

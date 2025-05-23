@@ -198,9 +198,9 @@ def dconf():
     dconfdir = opath.join(appdir, "resources/configs/dconf", platform['name'])
     try:
         for x in os.scandir(opath.join(dconfdir, 'dirs')):
-            run(f'dconf load -f {x.name.replace("~~", "/")} < "{x.path}"', shell=True)
+            run(f'dconf load -f {x.name.replace("_---", "/")} < "{x.path}"', shell=True)
         for x in os.listdir(opath.join(dconfdir, 'keys')):
-            run(f'dconf load -f {x.name.replace("~~", "/")} < "{x.path}"', shell=True)
+            run(f'dconf load -f {x.name.replace("_---", "/")} < "{x.path}"', shell=True)
     except:
         print(traceback.format_exc())
         return False
@@ -253,6 +253,10 @@ if __name__ == '__main__':
     print('////////   linux-automation installer  //////////')
     print(f'Installing for: {platform["name"]}')
     
+    # while True:
+    #     a = input('interactive mode? (y/n)')
+    #     if a.casefold() == y:
+
     ### Bootstrap stuff to make jtools available
     if '--no-bootstrap' not in sys.argv:
         bootstrap()

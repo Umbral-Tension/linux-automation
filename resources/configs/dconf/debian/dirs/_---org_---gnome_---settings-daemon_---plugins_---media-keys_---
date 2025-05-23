@@ -1,0 +1,160 @@
+[/]
+
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom20/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom21/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom22/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom23/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom24/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom25/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom26/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom27/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom28/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom29/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom30/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom31/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom32/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom33/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom34/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom35/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom36/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom37/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom38/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom39/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom40/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom41/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom42/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom43/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom44/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom45/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom46/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom47/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom48/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom49/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom50/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom51/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom52/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom53/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom54/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom55/']
+  
+
+[custom-keybindings/custom20]
+binding='<Control>KP_0'
+command='jrouter --volume 0'
+name='volume 0'
+[custom-keybindings/custom21]
+binding='<Control>KP_1'
+command='jrouter --volume 10'
+name='volume 10'
+[custom-keybindings/custom22]
+binding='<Control>KP_2'
+command='jrouter --volume 20'
+name='volume 20'
+[custom-keybindings/custom23]
+binding='<Control>KP_3'
+command='jrouter --volume 30'
+name='volume 30'
+[custom-keybindings/custom24]
+binding='<Control>KP_4'
+command='jrouter --volume 40'
+name='volume 40'
+[custom-keybindings/custom25]
+binding='<Control>KP_5'
+command='jrouter --volume 50'
+name='volume 50'
+[custom-keybindings/custom26]
+binding='<Control>KP_6'
+command='jrouter --volume 60'
+name='volume 60'
+[custom-keybindings/custom27]
+binding='<Control>KP_7'
+command='jrouter --volume 70'
+name='volume 70'
+[custom-keybindings/custom28]
+binding='<Control>KP_8'
+command='jrouter --volume 80'
+name='volume 80'
+[custom-keybindings/custom29]
+binding='<Control>KP_9'
+command='jrouter --volume 100'
+name='volume 100'
+
+
+[custom-keybindings/custom30]
+binding='<Control><Alt>t'
+command='gnome-terminal --new-window'
+name='terminal'
+[custom-keybindings/custom31]
+binding='<Super>e'
+command='nemo'
+name='nemo'
+
+[custom-keybindings/custom32]
+binding='<Alt>Return'
+command='jrouter --open firefox'
+name='firefox'
+[custom-keybindings/custom33]
+binding='<Alt>1'
+command='rhythmbox'
+name='rythmbox'
+[custom-keybindings/custom34]
+binding='<Alt>2'
+command='jrouter --open obsidian'
+name='obsidian'
+[custom-keybindings/custom35]
+binding='<Alt>3'
+command='jrouter --open terminal'
+name='terminal'
+[custom-keybindings/custom36]
+binding='<Alt>4'
+command='jrouter --open jipython'
+name='ipython'
+[custom-keybindings/custom37]
+binding='<Alt>5'
+command='jrouter --open codium'
+name='codium'
+[custom-keybindings/custom38]
+binding='<Control><Alt>5'
+command='jrouter --open codium_linux-automation'
+name='codium_linux-automation'
+[custom-keybindings/custom39]
+binding='<Control><Shift><Alt>5'
+command='jrouter --open codium_experiments'
+name='codium_experiments'
+[custom-keybindings/custom40]
+binding='<Alt>9'
+command='jrouter --open mouseappmenu'
+name='mouseappmenu'
+
+
+
+[custom-keybindings/custom41]
+binding='<Alt>KP_Enter'
+command='jrouter --open firefox'
+name='firefox KP'
+[custom-keybindings/custom42]
+binding='<Alt>KP_1'
+command='rhythmbox'
+name='rythmbox KP'
+[custom-keybindings/custom43]
+binding='<Alt>KP_2'
+command='jrouter --open obsidian'
+name='obsidian KP'
+[custom-keybindings/custom44]
+binding='<Alt>KP_3'
+command='jrouter --open terminal'
+name='terminal KP'
+[custom-keybindings/custom45]
+binding='<Alt>KP_4'
+command='jrouter --open jipython'
+name='ipython KP'
+[custom-keybindings/custom46]
+binding='<Alt>KP_5'
+command='jrouter --open codium'
+name='codium KP'
+[custom-keybindings/custom47]
+binding='<Control><Alt>KP_5'
+command='jrouter --open codium_linux-automation'
+name='codium_linux-automation KP'
+[custom-keybindings/custom48]
+binding='<Control><Shift><Alt>KP_5'
+command='jrouter --open codium_experiments'
+name='codium_experiments KP'
+[custom-keybindings/custom49]
+binding='<Alt>KP_9'
+command='jrouter --open mouseappmenu'
+name='mouseappmenu KP'
+[custom-keybindings/custom55]
+binding='<Alt>0'
+command='jrouter --open rsfw'
+name='random reddits'
+
+
+[custom-keybindings/custom50]
+binding='<Control><Shift>KP_1'
+command='jrouter --tier 1'
+name='tier 1'
+[custom-keybindings/custom51]
+binding='<Control><Shift>KP_2'
+command='jrouter --tier 2'
+name='tier 2'
+[custom-keybindings/custom52]
+binding='<Control><Shift>KP_4'
+command='jrouter --vibe happy'
+name='happy'
+[custom-keybindings/custom53]
+binding='<Control><Shift>KP_5'
+command='jrouter --vibe sad'
+name='sad'
+[custom-keybindings/custom54]
+binding='<Control><Shift>KP_6'
+command='jrouter --vibe mindnumb'
+name='mindnumb'
+
+
+
