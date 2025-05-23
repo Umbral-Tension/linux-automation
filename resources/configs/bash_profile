@@ -12,3 +12,4 @@ fi
 #make jtools available 
 export PYTHONPATH=/home/jeremy/jdata/git-repos/python-jtools/src:/home/jeremy/jdata/git-repos/linux-automation/src/:"${PYTHONPATH}"
 
+export PATH=$PATH:"$HOME"/bin:

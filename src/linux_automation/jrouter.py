@@ -69,7 +69,7 @@ def launch(name, options=None):
         exec_cmd = lex(exec_cmd)
         if options:
             exec_cmd.extend(options)
-    print(f"jrouter: running command: {exec_cmd}")
+    print(f"jrouter: running command: {'--> ' + ' '.join(exec_cmd)}")
     subprocess.Popen(exec_cmd, text=True, )
 
 

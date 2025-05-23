@@ -55,7 +55,7 @@ def bootstrap():
         run(platform['update'], shell=True) # needs to be run shell=true due to presence of "&&" in command
         run(lex(install('git')))
         run(lex(install('pip')))
-        run(lex(f'pip install ipython PyQt5 pandas mutagen colorama fuzzywuzzy Levenshtein'))
+        run(lex(install('python3-pyqt5 python3-ipython python3-pandas python3-mutagen python3-colorama python3-fuzzywuzzy python3-Levenshtein')))
         if not opath.exists(f'{installerdir}/localjtools'):
             run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
     except: 
