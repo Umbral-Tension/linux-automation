@@ -40,7 +40,7 @@ if __name__ == '__main__':
     parser.add_argument('--default', help='run normally', action='store_true')
     parser.add_argument('--full', help='force full backup rather than incremental', action='store_true')
     parser.add_argument('--dry-run', action='store_true')
-    parser.add_argument('--path-to-backups', default="/run/media/jeremy/internal_6TB/rsync_backups")
+    parser.add_argument('--path-to-backups', default="/media/jeremy/internal_6TB/rsync_backups")
     args = parser.parse_args()
     if args.full and args.default:
         print("can't use both --full and --default")

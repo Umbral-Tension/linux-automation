@@ -11,7 +11,7 @@ from os.path import join as pjoin
 import subprocess, shlex
 from jtools import jconsole
 
-root_lossless = "/run/media/jeremy/internal_6TB/lossless_music/"
+root_lossless = "/media/jeremy/internal_6TB/lossless_music/"
 root_lossy = "/home/jeremy/jdata/audio/music/"
 
 os.makedirs(root_lossy, exist_ok=True)

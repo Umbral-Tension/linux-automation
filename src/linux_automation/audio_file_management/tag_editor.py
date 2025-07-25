@@ -119,7 +119,7 @@ def rename_file(mut, songpath):
         return
     try:
         oldname = opath.basename(songpath)
-        newname = f'{mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(songpath)[1]}'
+        newname = f'{mut["artist"][0]} - {mut["album"][0]} - {mut["tracknumber"][0]}. {mut["title"][0]}{opath.splitext(songpath)[1]}'
         # replace slashes with dashes so they're not interpreted as part of a path. 
         newname = newname.replace('/', '-').replace('\\', '-') 
         # remove meaningful characters to placate bitch ass filesystems 

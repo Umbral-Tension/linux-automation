@@ -47,7 +47,7 @@ name='volume 100'
 
 [custom-keybindings/custom30]
 binding='<Control><Alt>t'
-command='gnome-terminal --new-window'
+command='gnome-terminal --window'
 name='terminal'
 [custom-keybindings/custom31]
 binding='<Super>e'
