@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     
     # Build and run an rsync command to create a new backup. Send stdout and stderr to file.
-    rs_opts = ['--debug=FILTER', '--itemize-changes', '--human-readable', '--progress', '--archive', '--delete', '--partial', f'--log-file="{newbackup}/rsync_log"']
+    rs_opts = ['--debug=FILTER', '--human-readable', '--info=progress2', '--archive', '--delete', '--partial', f'--log-file="{newbackup}/rsync_log"']
     if not args.full: # don't do incremental if full option is given
         rs_opts.append(f'--link-dest="{current}"')
     if args.dry_run:
