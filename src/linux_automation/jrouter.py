@@ -78,8 +78,7 @@ def launch(name, options=None):
 # set system volume
 if args.volume is not None:
     if 0 <= args.volume <= 100:
-        os.system(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
-        print(f'pactl set-sink-volume @DEFAULT_SINK@ {args.volume}%')
+        os.system(f'amixer set Master {args.volume}%')
     else:
         raise ValueError
 elif args.open:

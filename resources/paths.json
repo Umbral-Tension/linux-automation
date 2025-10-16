@@ -10,7 +10,7 @@
         "wayland_window_title": ""
     },
     "audiobookbay": {
-        "exec_cmd": "http://audiobookbay.si/",
+        "exec_cmd": "https://audiobookbay.lu/",
         "window_title": "",
         "wayland_window_title": ""
     },

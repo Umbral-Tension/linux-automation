@@ -156,27 +156,39 @@ def bashrc():
 
 
 def place_symlinks():
-    """place symlinks to jrouter and other scripts in ~/bin and file manager configs"""
+    """place symlinks in relevant locations for jrouter, .desktop files, and other scripts"""
 
+    context_menu_scripts = opath.join(git_repos, "linux-automation/src/linux_automation")
+    local_share = opath.join(home, ".local/share")
     links = [
-        (f'{git_repos}/linux-automation/src/linux_automation/jrouter.py', '/home/jeremy/bin/jrouter'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/bin/jtag_editor'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/bin/open-with-puddletag'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/bin/string_replace'),
+        # ~/bin
+        (f'{git_repos}/linux-automation/src/linux_automation/jrouter.py',   f'{home}/bin/jrouter'),
+        (f'{context_menu_scripts}/jtag_editor',                             f'{home}/bin/jtag_editor'),
+        (f'{context_menu_scripts}/open-with-puddletag',                     f'{home}/bin/open-with-puddletag'),
+        (f'{context_menu_scripts}/string_replace',                          f'{home}/bin/string_replace'),
 
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nemo/scripts/jtag_editor'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nemo/scripts/open-with-puddletag'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nemo/scripts/string_replace'),
-
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/jtag_editor', '/home/jeremy/.local/share/nautilus/scripts/jtag_editor'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/open-with-puddletag', '/home/jeremy/.local/share/nautilus/scripts/open-with-puddletag'),
-        (f'{git_repos}/linux-automation/src/linux_automation/context_menu_scripts/string_replace', '/home/jeremy/.local/share/nautilus/scripts/string_replace'),
+        # nemo and nautilus context menu
+        (f'{context_menu_scripts}/jtag_editor',                 f'{local_share}/nemo/scripts/jtag_editor'),
+        (f'{context_menu_scripts}/open-with-puddletag',         f'{local_share}/nemo/scripts/open-with-puddletag'),
+        (f'{context_menu_scripts}/string_replace',              f'{local_share}/nemo/scripts/string_replace'),
+        (f'{context_menu_scripts}/jtag_editor',                 f'{local_share}/nautilus/scripts/jtag_editor'),
+        (f'{context_menu_scripts}/open-with-puddletag',         f'{local_share}/nautilus/scripts/open-with-puddletag'),
+        (f'{context_menu_scripts}/string_replace',              f'{local_share}/nautilus/scripts/string_replace'),
     ]
-    os.makedirs('/home/jeremy/bin', exist_ok=True)
-    os.makedirs('/home/jeremy/.local/share/nautilus/scripts', exist_ok=True)
-    os.makedirs('/home/jeremy/.local/share/nemo/scripts', exist_ok=True)
+    #AppImages
+    for dirpath, dirnames, filenames in os.walk(f"{home}/jdata/AppImages/"):
+        for file in filenames:
+            if file.casefold().endswith(".desktop"):
+                program_name = opath.basename(dirpath)
+                links.append((opath.join(dirpath, file), f"{local_share}/applications/{program_name}.desktop"))
+
+
+    os.makedirs(f'{home}/bin', exist_ok=True)
+    os.makedirs(f'{local_share}/nautilus/scripts', exist_ok=True)
+    os.makedirs(f'{local_share}/nemo/scripts', exist_ok=True)
+    os.makedirs(f'{local_share}/applications', exist_ok=True)
     try:
-        os.remove('/home/jeremy/bin/jrouter')
+        os.remove(f'{home}/bin/jrouter')
     except FileNotFoundError:
         pass
     
