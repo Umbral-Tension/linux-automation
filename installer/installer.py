@@ -271,23 +271,30 @@ if __name__ == '__main__':
 
     ### Bootstrap stuff to make jtools available
     if '--no-bootstrap' not in sys.argv:
-        bootstrap()
+        # bootstrap()
         # have to relaunch after bootstrap or the modules that were just installed aren't importable
         os.execl(sys.argv[0], sys.argv[0], '--no-bootstrap')
-
+    
 
     #### Begin the rest of the installation
     sys.path.append(f'{installerdir}/localjtools/src/')
     from jtools import jconsole as jc
     from jtools.shelldo import Shelldo
     shelldo = Shelldo(installerdir)
-
     # Master list of available tasks (functions). 
     all_tasks = [collect_input, simple_installs, install_repos, freeworld_packages, 
                  set_hostname, configure_ssh, github_client, clone_repos,
-                 keyd, bashrc, place_symlinks, dconf, remove_home_dirs, cleanup
+                 keyd, bashrc, place_symlinks, dconf, remove_home_dirs, cleanup,
                  ]
-    
+    # print list of available tasks
+    i = 0
+    for x in all_tasks:
+        print(f"{i}. {x.__name__}")
+        i += 1
+    exit()
+
+        
+
     # Tasks to be performed on this run. The order of these is important and should be changed with care.
     tasks = all_tasks
     # Tasks to skip on this run. Order is not important. 
