@@ -5,11 +5,10 @@ from mutagen.id3 import ID3, COMM
 import os
 import os.path as opath
 import sys
-import string
 from datetime import datetime
-from jtools.jconsole import *
+from jtools.jconsole import yellow, red, yes_no, exit_app
 from jtools import jstring
-
+import audiotags
 
 
 class ProblemFileType(Exception):

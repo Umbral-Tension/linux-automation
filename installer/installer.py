@@ -1,17 +1,15 @@
 #!/bin/python3
 """ Configure a fresh debian or redhat based linux installation with creature comforts"""
 
-import os, shutil, sys
+import os
+import shutil
+import sys
 import os.path as opath
-import shlex
 from shlex import split as lex
-import subprocess
-from subprocess import run, Popen, PIPE, STDOUT
+from subprocess import run
 import traceback
-from datetime import datetime
 import platform as osplatform
 import json
-import traceback
 
 # environment info 
 home = os.environ['HOME']
@@ -158,21 +156,21 @@ def bashrc():
 def place_symlinks():
     """place symlinks in relevant locations for jrouter, .desktop files, and other scripts"""
 
-    context_menu_scripts = opath.join(git_repos, "linux-automation/src/linux_automation")
+    context_menu_scripts = opath.join(git_repos, "linux-automation/src/linux_automation/context_menu_scripts")
     local_share = opath.join(home, ".local/share")
     links = [
         # ~/bin
         (f'{git_repos}/linux-automation/src/linux_automation/jrouter.py',   f'{home}/bin/jrouter'),
         (f'{context_menu_scripts}/jtag_editor',                             f'{home}/bin/jtag_editor'),
-        (f'{context_menu_scripts}/open-with-puddletag',                     f'{home}/bin/open-with-puddletag'),
+        (f'{context_menu_scripts}/open_with_puddletag',                     f'{home}/bin/open_with_puddletag'),
         (f'{context_menu_scripts}/string_replace',                          f'{home}/bin/string_replace'),
 
         # nemo and nautilus context menu
         (f'{context_menu_scripts}/jtag_editor',                 f'{local_share}/nemo/scripts/jtag_editor'),
-        (f'{context_menu_scripts}/open-with-puddletag',         f'{local_share}/nemo/scripts/open-with-puddletag'),
+        (f'{context_menu_scripts}/open_with_puddletag',         f'{local_share}/nemo/scripts/open_with_puddletag'),
         (f'{context_menu_scripts}/string_replace',              f'{local_share}/nemo/scripts/string_replace'),
         (f'{context_menu_scripts}/jtag_editor',                 f'{local_share}/nautilus/scripts/jtag_editor'),
-        (f'{context_menu_scripts}/open-with-puddletag',         f'{local_share}/nautilus/scripts/open-with-puddletag'),
+        (f'{context_menu_scripts}/open_with_puddletag',         f'{local_share}/nautilus/scripts/open_with_puddletag'),
         (f'{context_menu_scripts}/string_replace',              f'{local_share}/nautilus/scripts/string_replace'),
     ]
     #AppImages
