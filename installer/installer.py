@@ -53,7 +53,7 @@ def bootstrap():
         run(platform['update'], shell=True) # needs to be run shell=true due to presence of "&&" in command
         run(lex(install('git')))
         run(lex(install('pip')))
-        run(lex(install('python3-pyqt5 python3-ipython python3-pandas python3-mutagen python3-colorama python3-fuzzywuzzy python3-Levenshtein')))
+        run(lex(install('python3-pyqt5 python3-ipython python3-pandas python3-mutagen python3-colorama python3-fuzzywuzzy python3-levenshtein')))
         if not opath.exists(f'{installerdir}/localjtools'):
             run(lex(f'git clone https://github.com/umbral-tension/python-jtools {installerdir}/localjtools'))
     except: 
@@ -73,20 +73,20 @@ def collect_input():
 def simple_installs():
     """simple package installs (gcc, tree, qbittorrent...etc)"""
     cmds = [install(x) for x in platform["simple_installs"]]
-    outcome = shelldo.chain(cmds)
+    outcome = shelldo.run(cmds)
     return outcome
 
 
 def set_hostname():
     """set hostname"""
-    outcome = False if hostname is None else shelldo.chain([f'hostnamectl set-hostname {hostname}'])
+    outcome = False if hostname is None else shelldo.run([f'hostnamectl set-hostname {hostname}'])
     return outcome
 
 
 def configure_ssh():
     """generate ssh keys and configure sshd"""
     if not opath.exists(f'{home}/.ssh/id_ed25519'): 
-        outcome = shelldo.chain([f'ssh-keygen -N "" -t ed25519 -C "{user}@{hostname}" -f {home}/.ssh/id_ed25519'])
+        outcome = shelldo.run([f'ssh-keygen -N "" -t ed25519 -C "{user}@{hostname}" -f {home}/.ssh/id_ed25519'])
     else:
         outcome = True
     return outcome 
@@ -95,16 +95,16 @@ def configure_ssh():
 def github_client():
     """install Github client and add ssh keys to github"""
     if platform['pm'] == 'apt':
-        outcome = shelldo.chain(['sudo mkdir -p -m 755 /etc/apt/keyrings'])
+        outcome = shelldo.run(['sudo mkdir -p -m 755 /etc/apt/keyrings'])
         retcodes = run('wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null', shell=True).returncode
-        retcodes += shelldo.chain(['sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg'])
+        retcodes += shelldo.run(['sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg'])
         retcodes += run('echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list', shell=True).returncode
-        retcodes += shelldo.chain([       
+        retcodes += shelldo.run([       
             'sudo apt update',
             'sudo apt -y install gh',
         ])
     elif platform['pm'] == 'dnf':
-        outcome = shelldo.chain([install('gh')])
+        outcome = shelldo.run([install('gh')])
     if outcome:
         # can't use chain because we need to interact with this command alot. 
         retcodes = run(lex('gh auth login -p https -w -s admin:public_key')).returncode
@@ -117,21 +117,21 @@ def clone_repos():
     repos = ['python-jtools', 'linux-automation', 'Croon', 'old-code-archive',
             'experiments', 'project-euler', 'misc-db-files']
     clone_cmds = [f'git clone git@github.com:umbral-tension/{x} {git_repos}/{x}' for x in repos]
-    outcome = shelldo.chain(clone_cmds, ignore_exit_code=True)
+    outcome = shelldo.run(clone_cmds, ignore_exit_code=True)
     return outcome
 
 
 def keyd():
     """install and configure keyd"""
-    shelldo.chain([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
+    shelldo.run([f'git clone https://github.com/rvaiya/keyd {installerdir}/keyd'])
     os.chdir(f'{installerdir}/keyd')
-    outcome = shelldo.chain([
+    outcome = shelldo.run([
         'make',
         'sudo make install',
         'sudo systemctl enable keyd',
         'sudo systemctl restart keyd',
         ])
-    outcome = outcome and shelldo.chain([
+    outcome = outcome and shelldo.run([
         f'sudo cp {appdir}/resources/configs/my_keyd.conf /etc/keyd/default.conf',
         'sudo systemctl restart keyd',
     ])
@@ -232,14 +232,14 @@ def remove_home_dirs():
 def install_repos():
     """add some repositories: rpm fusion free and non-free """
     fedora_version = run(lex('rpm -E %fedora'), capture_output=True, text=True).stdout.strip()
-    outcome = shelldo.chain([
+    outcome = shelldo.run([
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm"',
         f'sudo dnf -y install "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm"'])
     return outcome
 
 def freeworld_packages():
     """install some non-included codecs/drivers: ffmpeg-free, gstreamer, multimedia codecs, mesa drivers"""
-    outcome = shelldo.chain([
+    outcome = shelldo.run([
         'sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing',
         'sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin',
         'sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld',
@@ -249,7 +249,7 @@ def freeworld_packages():
 
 def cleanup():
     """delete/uninstall unecessary remnants"""
-    outcome = shelldo.chain([
+    outcome = shelldo.run([
         f'rm -rf {installerdir}/keyd',
         f'rm -rf {installerdir}/localjtools',
         uninstall('gh')
@@ -269,7 +269,7 @@ if __name__ == '__main__':
 
     ### Bootstrap stuff to make jtools available
     if '--no-bootstrap' not in sys.argv:
-        # bootstrap()
+        bootstrap()
         # have to relaunch after bootstrap or the modules that were just installed aren't importable
         os.execl(sys.argv[0], sys.argv[0], '--no-bootstrap')
     
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     for x in all_tasks:
         print(f"{i}. {x.__name__}")
         i += 1
-    exit()
+    
 
         
 
