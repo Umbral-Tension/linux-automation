@@ -27,7 +27,7 @@
     "firefox": {
         "exec_cmd": "/usr/bin/firefox",
         "window_title": "wm_class_Navigator.firefox",
-        "wayland_window_title": "wm_class_org.mozilla.firefox"
+        "wayland_window_title": "wm_class_firefox-esr"
     },
     "github": {
         "exec_cmd": "https://github.com/Umbral-Tension?tab=repositories",
@@ -84,6 +84,11 @@
         "window_title": "wm_class_rhythmbox.Rhythmbox",
         "wayland_window_title": "wm_class_rhythmbox"
     },
+    "dopamine": {
+        "exec_cmd": "dopamine",
+        "window_title": "",
+        "wayland_window_title": "wm_class_dopamine"
+    },
     "reddit": {
         "exec_cmd": "http://reddit.com",
         "window_title": "",
@@ -107,12 +112,12 @@
     "terminal": {
         "exec_cmd": "gnome-terminal",
         "window_title": "wm_class_gnome-terminal-server.Gnome-terminal",
-        "wayland_window_title": "wm_class_gnome-terminal-server"
+        "wayland_window_title": "wm_class_org.gnome.Terminal"
     },
     "codium": {
         "exec_cmd": "codium",
         "window_title": "wm_class_vscodium.VSCodium",
-        "wayland_window_title": "wm_class_VSCodium"
+        "wayland_window_title": "wm_class_codium"
     },
     "codium_linux-automation": {
         "exec_cmd": "codium /home/jeremy/jdata/git-repos/linux-automation",

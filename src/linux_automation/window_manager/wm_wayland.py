@@ -8,7 +8,7 @@ operatoes on windows in the current workspace.
 
 import os
 import json
-import time
+import ast
 import subprocess
 import shlex
 from jtools.jconsole import test, ptest, zen
@@ -21,6 +21,8 @@ methods = {x: ['--method', f'org.gnome.Shell.Extensions.Windows.{x}'] for x in
             'Resize', 'MoveResize', 'Move',
             'Unmaximize', 'Unminimize', 'Activate', 'Close',]}
 
+
+
 basedir = os.path.dirname(__file__)
 with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
     paths = json.load(fp)
@@ -28,19 +30,25 @@ with open(os.path.join(basedir, '../../../resources/paths.json')) as fp:
 
 def win_list():
     """
-    Get info on all currently open windows
+    Get info on all currently open windows, returns a list of dictionaries
     """  
-    output = _run_gdbus(methods['List'])[2:-3]    
-    ls = json.loads(output)
-    if output:        
-        for x in range(len(ls)):
-            args = methods['GetTitle'] + [ls[x]['id']]
-            title = _run_gdbus(args)[2:-3]
-            ls[x]['title'] = title
-    return ls
+    winlist = _run_gdbus(methods["List"])[0] # extract json string, (first item in the tuple returned by gdbus call)
+    winlist = json.loads(winlist)
+    if winlist:        
+        for x in range(len(winlist)):
+            args = methods['GetTitle'] + [winlist[x]['id']]
+            title = _run_gdbus(args)[0] # extract title, (first item in tuple returned by gdbus call)
+            winlist[x]['title'] = title
+    return winlist
 
 def win_list_raw():
-    return _run_gdbus(methods['List'])    
+    """
+    get raw json string output of gdbus List call 
+    """
+    gdbus = shlex.split("gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows --method org.gnome.Shell.Extensions.Windows.List")
+    gdbuscall = subprocess.run(gdbus, text=True, capture_output=True)
+    return ast.literal_eval(gdbuscall.stdout)[0]
+
 
 def win_exists(title):
     """
@@ -156,26 +164,23 @@ def win_snap(title, position: str):
     pass
     
 
-# base gdbus call to the "Windows Calls" extension. Split into a list for the Popen function. 
-gdbus = shlex.split('gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows')
-def _run_gdbus(args):
-    args = [str(x) for x in args]
-    try:
-        with subprocess.Popen(gdbus + args, stdout=subprocess.PIPE) as p:
-            output = p.communicate()[0].decode()[:-1]  # Drop trailing newline
-    except FileNotFoundError:
-        return 1, 'ERROR: gdbus not available'
 
-    return output
+def _run_gdbus(args):
+    """ use gdbus to call a specific method of the Window Calls extension and return a tuple of its output"""
+    # base gdbus call to the "Windows Calls" extension. Split into a list for the Popen function. 
+    gdbus = shlex.split("gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows")
+    args = [str(x) for x in args]
+    gdbus = gdbus + args
+    gdbuscall = subprocess.run(gdbus, text=True, capture_output=True)
+    # python json module fails to parse gdbus output when a window with an apostrophe in its title exists, and perhaps there are other triggers too. 
+    # found this workaround at the Window Calls github issues: https://github.com/ickyicky/window-calls/issues/38#issuecomment-3659560491
+    # First use the ast module to evaluate the gdbus output string into a python object. It evals to a tuple continaing a string. 
+    # That string is then parasable by the json module. 
+    return ast.literal_eval(gdbuscall.stdout)
 
 
 if __name__ == '__main__':
 
-    # while True:
-    #     for x in ['n', 's', 'e', 'w', 'nw', 'ne', 'sw', 'se']:
-    #         win_snap('jdesk', x)
-    #         from time import sleep
-    #         sleep(2)
-    
-    
-    test(win_list())
+
+    print(win_list_raw())
+

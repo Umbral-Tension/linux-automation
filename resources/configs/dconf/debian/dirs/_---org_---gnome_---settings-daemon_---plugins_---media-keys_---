@@ -60,7 +60,7 @@ command='jrouter --open firefox'
 name='firefox'
 [custom-keybindings/custom33]
 binding='<Alt>1'
-command='rhythmbox'
+command='jrouter --open dopamine'
 name='rythmbox'
 [custom-keybindings/custom34]
 binding='<Alt>2'
@@ -99,7 +99,7 @@ command='jrouter --open firefox'
 name='firefox KP'
 [custom-keybindings/custom42]
 binding='<Alt>KP_1'
-command='rhythmbox'
+command='jrouter --open dopamine'
 name='rythmbox KP'
 [custom-keybindings/custom43]
 binding='<Alt>KP_2'

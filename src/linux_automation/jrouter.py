@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(prog='jrouter', description=__doc__)
 parser.add_argument('--interactive', '-i', action='store_true', help='start ipython jrouter and window_manager.py functions available i.e launch() and  wm.win_list() [This is for debugging or getting window IDs]')
 parser.add_argument('--volume', type=int, help='set system audio volume with pactl utility')
 parser.add_argument('--open', type=str, nargs='*', help='open or switch to an application')
+parser.add_argument('--winlist', action='store_true', help='pretty print a details of currently open windows')
 parser.add_argument('--tier', type=str, help='run the music classifier script with this value')
 parser.add_argument('--vibe', type=str, help='run the music classifier script with this value')
 args = parser.parse_args()
@@ -83,6 +84,8 @@ if args.volume is not None:
         raise ValueError
 elif args.open:
     launch(args.open[0], args.open[1:])
+elif args.winlist:
+    test(wm.win_list())
 elif args.tier:
     music_classifier.set_tier(args.tier)
 elif args.vibe:
